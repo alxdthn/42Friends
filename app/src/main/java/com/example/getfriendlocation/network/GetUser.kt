@@ -13,6 +13,8 @@ suspend fun getUser(activity: MainActivity, login: String, db: AppDatabase) : In
 
     val response: Array<User>?
 
+    if (login.isEmpty())
+        return 4
     if (db.make().getByLogin(login) != null) {
         Log.d("bestTAG", "user already exists")
         return 1
@@ -32,10 +34,9 @@ suspend fun getUser(activity: MainActivity, login: String, db: AppDatabase) : In
     } catch (e: Throwable) { return 3 }
     Log.d("bestTAG", "end FIND!")
     Log.d("bestTAG", "login: ${user.login} id: ${user.id}")
-    db.make().insert(UserLocationEntity(user.id, user.login, user.url))
-    val values = db.make().getAll()
+    db.make().insert(UserLocationEntity(user.id, user.login, user.url, end_at = "1"))
     activity.runOnUiThread {
-        (activity.myRecycler.adapter as ViewAdapter).updateData(values)
+        (activity.myRecycler.adapter as ViewAdapter).updateData(db.make().getAll())
     }
     return (0)
 }

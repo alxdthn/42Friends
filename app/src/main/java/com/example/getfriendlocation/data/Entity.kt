@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class UserLocationEntity(
 	@PrimaryKey
     @ColumnInfo(name = "user_id")
-	val user_id: Int,
+	val user_id: String,
     @ColumnInfo(name = "login")
     val login: String,
 	val url: String,

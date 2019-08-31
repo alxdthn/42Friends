@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Dao
 interface UsersDao {
-	@Query("SELECT * FROM UserLocationEntity ORDER BY login DESC")
+	@Query("SELECT * FROM UserLocationEntity ORDER BY end_at ASC")
 	fun getAll(): MutableList<UserLocationEntity>
 
 	@Query("SELECT * FROM UserLocationEntity WHERE user_id LIKE (:user_id)")

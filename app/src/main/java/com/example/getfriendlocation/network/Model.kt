@@ -15,7 +15,7 @@ data class TokenRequest(
 )
 
 data class User(
-    val id: Int,
+    val id: String,
     val login: String,
     val url: String
 )

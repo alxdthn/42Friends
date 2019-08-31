@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.getfriendlocation.data.AppDatabase
+import com.example.getfriendlocation.data.UserLocationEntity
 import com.example.getfriendlocation.network.RetrofitFactory
 import com.example.getfriendlocation.network.TokenRequest
 import com.example.getfriendlocation.network.updateLocations
 import com.example.getfriendlocation.view.AddUserView
+import com.example.getfriendlocation.view.UserInfoView
 import com.example.getfriendlocation.view.ViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -34,17 +37,30 @@ class MainActivity : AppCompatActivity() {
 
         addUser.setOnClickListener {
             Log.d("bestTAG", "click on add user")
-            AddUserView().show(this, db)
+            AddUserView(this).show(this, db)
         }
 
-        myRecycler.adapter = ViewAdapter(db.make().getAll())
+        myRecycler.adapter = ViewAdapter(db.make().getAll(), object : ViewAdapter.Callback {
+            override fun onItemClicked(item: UserLocationEntity) {
+                Log.d("bestTAG", "hold!")
+                UserInfoView(this@MainActivity).show(this@MainActivity, db, item)
+            }
+        })
 
         val swipeContainer: SwipeRefreshLayout = findViewById(R.id.refresh)
 
         swipeContainer.setOnRefreshListener {
             Log.d("bestTAG", "refresh!")
-            updateLocations(this, db)
-            swipeContainer.isRefreshing = false
+            updateLocations(this, db, swipeContainer)
         }
+        swipeContainer.setColorSchemeColors(
+            ContextCompat.getColor(this, R.color.colorPrimaryLight),
+            ContextCompat.getColor(this, R.color.colorPrimaryLight),
+            ContextCompat.getColor(this, R.color.colorPrimaryLight),
+            ContextCompat.getColor(this, R.color.colorPrimaryLight)
+        )
+        swipeContainer.setProgressBackgroundColorSchemeColor(
+            ContextCompat.getColor(this, R.color.colorPrimaryDark)
+        )
     }
 }
