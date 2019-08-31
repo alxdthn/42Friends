@@ -1,4 +1,4 @@
-package com.example.getfriendlocation.view
+package com.nalexand.friendlocation.view
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import com.example.getfriendlocation.MainActivity
-import com.example.getfriendlocation.R
-import com.example.getfriendlocation.data.AppDatabase
-import com.example.getfriendlocation.network.getUser
+import com.nalexand.friendlocation.MainActivity
+import com.nalexand.friendlocation.R
+import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.network.getUser
 import android.widget.Button
 import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
@@ -29,7 +29,8 @@ class 	AddUserView(activity: MainActivity) {
         findBtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val ret = getUser(activity, input.text.toString(), db)
+                    val ret =
+                        getUser(activity, input.text.toString(), db)
                     activity.runOnUiThread {
                         when (ret) {
                             0 -> {

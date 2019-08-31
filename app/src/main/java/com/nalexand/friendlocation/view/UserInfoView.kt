@@ -1,4 +1,4 @@
-package com.example.getfriendlocation.view
+package com.nalexand.friendlocation.view
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -7,10 +7,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.example.getfriendlocation.MainActivity
-import com.example.getfriendlocation.R
-import com.example.getfriendlocation.data.AppDatabase
-import com.example.getfriendlocation.data.UserLocationEntity
+import com.nalexand.friendlocation.MainActivity
+import com.nalexand.friendlocation.R
+import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.data.UserLocationEntity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class 	UserInfoView(activity: MainActivity) {

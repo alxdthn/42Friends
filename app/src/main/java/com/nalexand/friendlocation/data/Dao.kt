@@ -1,4 +1,4 @@
-package com.example.getfriendlocation.data
+package com.nalexand.friendlocation.data
 
 import androidx.room.*
 

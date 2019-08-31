@@ -1,10 +1,10 @@
-package com.example.getfriendlocation.network
+package com.nalexand.friendlocation.network
 
 import android.util.Log
-import com.example.getfriendlocation.MainActivity
-import com.example.getfriendlocation.data.AppDatabase
-import com.example.getfriendlocation.data.UserLocationEntity
-import com.example.getfriendlocation.view.ViewAdapter
+import com.nalexand.friendlocation.MainActivity
+import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.data.UserLocationEntity
+import com.nalexand.friendlocation.view.ViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 suspend fun getUser(activity: MainActivity, login: String, db: AppDatabase) : Int {
@@ -34,7 +34,14 @@ suspend fun getUser(activity: MainActivity, login: String, db: AppDatabase) : In
     } catch (e: Throwable) { return 3 }
     Log.d("bestTAG", "end FIND!")
     Log.d("bestTAG", "login: ${user.login} id: ${user.id}")
-    db.make().insert(UserLocationEntity(user.id, user.login, user.url, end_at = "1"))
+    db.make().insert(
+        UserLocationEntity(
+            user.id,
+            user.login,
+            user.url,
+            end_at = "1"
+        )
+    )
     activity.runOnUiThread {
         (activity.myRecycler.adapter as ViewAdapter).updateData(db.make().getAll())
     }

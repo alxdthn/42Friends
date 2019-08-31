@@ -1,4 +1,4 @@
-package com.example.getfriendlocation.network
+package com.nalexand.friendlocation.network
 
 import retrofit2.Response
 import retrofit2.http.*
@@ -7,7 +7,8 @@ interface RetrofitService {
 
     @POST("oauth/token")
     suspend fun getToken(
-        @Body requestBody: TokenRequest): Response<TokenResponse>
+        @Body requestBody: TokenRequest
+    ): Response<TokenResponse>
 
     @GET("/v2/users/?")
     suspend fun getUser(

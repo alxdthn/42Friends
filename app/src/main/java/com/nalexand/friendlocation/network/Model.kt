@@ -1,4 +1,4 @@
-package com.example.getfriendlocation.network
+package com.nalexand.friendlocation.network
 
 data class TokenResponse(
     val access_token: String,

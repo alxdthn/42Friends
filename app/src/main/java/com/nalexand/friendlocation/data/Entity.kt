@@ -1,4 +1,4 @@
-package com.example.getfriendlocation.data
+package com.nalexand.friendlocation.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -11,14 +11,7 @@ data class UserLocationEntity(
 	val user_id: String,
     @ColumnInfo(name = "login")
     val login: String,
-	val url: String,
-	val begin_at: String? = null,
-	val campus_id: Int = 0,
-	val end_at: String? = null,
-	val floor: String? = null,
 	val host: String? = null,
-	val id: Int = 0,
-	val post: String? = null,
-	val primary: Boolean = false,
-	val row: String? = null
+	val begin_at: String? = null,
+	val end_at: String? = null
 )

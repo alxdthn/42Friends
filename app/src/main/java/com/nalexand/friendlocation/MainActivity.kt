@@ -1,21 +1,24 @@
-package com.example.getfriendlocation
+package com.nalexand.friendlocation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.getfriendlocation.data.AppDatabase
-import com.example.getfriendlocation.data.UserLocationEntity
-import com.example.getfriendlocation.network.RetrofitFactory
-import com.example.getfriendlocation.network.TokenRequest
-import com.example.getfriendlocation.network.updateLocations
-import com.example.getfriendlocation.view.AddUserView
-import com.example.getfriendlocation.view.UserInfoView
-import com.example.getfriendlocation.view.ViewAdapter
+import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.data.UserLocationEntity
+import com.nalexand.friendlocation.network.RetrofitFactory
+import com.nalexand.friendlocation.network.TokenRequest
+import com.nalexand.friendlocation.network.updateLocations
+import com.nalexand.friendlocation.view.AddUserView
+import com.nalexand.friendlocation.view.UserInfoView
+import com.nalexand.friendlocation.view.ViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,18 +43,35 @@ class MainActivity : AppCompatActivity() {
             AddUserView(this).show(this, db)
         }
 
-        myRecycler.adapter = ViewAdapter(db.make().getAll(), object : ViewAdapter.Callback {
-            override fun onItemClicked(item: UserLocationEntity) {
-                Log.d("bestTAG", "hold!")
-                UserInfoView(this@MainActivity).show(this@MainActivity, db, item)
+        myRecycler.adapter = ViewAdapter(
+            db.make().getAll(),
+            object : ViewAdapter.Callback {
+                override fun onItemClicked(item: UserLocationEntity) {
+                    Log.d("bestTAG", "hold!")
+                    UserInfoView(this@MainActivity)
+                        .show(this@MainActivity, db, item)
+                }
             }
-        })
+        )
 
         val swipeContainer: SwipeRefreshLayout = findViewById(R.id.refresh)
 
         swipeContainer.setOnRefreshListener {
-            Log.d("bestTAG", "refresh!")
-            updateLocations(this, db, swipeContainer)
+            CoroutineScope(Dispatchers.IO).launch {
+                Log.d("bestTAG", "refresh!")
+                val ret = updateLocations(
+                    this@MainActivity,
+                    db,
+                    swipeContainer
+                )
+                runOnUiThread {
+                    swipeContainer.isRefreshing = false
+                    when (ret) {
+                        0 -> (myRecycler.adapter as ViewAdapter).updateData(db.make().getAll())
+                        1 -> Toast.makeText(this@MainActivity, "No internet connection", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
         swipeContainer.setColorSchemeColors(
             ContextCompat.getColor(this, R.color.colorPrimaryLight),

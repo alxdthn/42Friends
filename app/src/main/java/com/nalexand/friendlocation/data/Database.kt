@@ -1,4 +1,4 @@
-package com.example.getfriendlocation.data
+package com.nalexand.friendlocation.data
 
 import android.content.Context
 import android.util.Log
@@ -17,8 +17,10 @@ abstract class AppDatabase : RoomDatabase(){
 		@Volatile private var instance: AppDatabase? = null
 		private val LOCK = Any()
 
-		operator fun invoke(context: Context)= instance ?: synchronized(LOCK){
-			instance ?: buildDatabase(context).also { instance = it }
+		operator fun invoke(context: Context)= instance
+			?: synchronized(LOCK){
+			instance
+				?: buildDatabase(context).also { instance = it }
 		}
 
 		private fun buildDatabase(context: Context): AppDatabase {

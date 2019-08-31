@@ -1,4 +1,4 @@
-package com.example.getfriendlocation
+package com.nalexand.friendlocation
 
 import org.junit.Test
 

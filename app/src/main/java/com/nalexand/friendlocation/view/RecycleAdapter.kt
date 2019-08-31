@@ -1,4 +1,4 @@
-package com.example.getfriendlocation.view
+package com.nalexand.friendlocation.view
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,9 +9,9 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.getfriendlocation.R
-import com.example.getfriendlocation.R.color.colorPrimaryLight
-import com.example.getfriendlocation.data.UserLocationEntity
+import com.nalexand.friendlocation.R
+import com.nalexand.friendlocation.R.color.*
+import com.nalexand.friendlocation.data.UserLocationEntity
 
 class ViewAdapter(private var items: MutableList<UserLocationEntity>, val callback: Callback)
     : RecyclerView.Adapter<ViewAdapter.ViewHolder>() {
@@ -30,6 +30,7 @@ class ViewAdapter(private var items: MutableList<UserLocationEntity>, val callba
 
     fun updateData(new: MutableList<UserLocationEntity>){
         this.items = new
+
         notifyDataSetChanged()
     }
 
@@ -41,16 +42,24 @@ class ViewAdapter(private var items: MutableList<UserLocationEntity>, val callba
 
         fun bind(item: UserLocationEntity) {
             userLogin.text = item.login
+            Log.d("bestTAG", "bind data!")
             Log.d("bestTAG", "login ${item.login} status ${item.end_at}")
-            date.text = getDate(item.end_at)
+
             if (item.end_at == null) {
+                date.text = GetDate().beginAt(item.begin_at)
                 host.text = item.host
+                date.setTextColor(ContextCompat.getColor(itemView.context, colorPrimaryLight))
                 host.setTextColor(ContextCompat.getColor(itemView.context, colorPrimaryLight))
                 userLogin.setTextColor(ContextCompat.getColor(itemView.context, colorPrimaryLight))
                 view.setBackgroundDrawable(getDrawable(itemView.context, R.drawable.layout_border_light))
             }
             else {
+                date.text = GetDate().endAt(item.end_at)
                 host.text = "-"
+                date.setTextColor(ContextCompat.getColor(itemView.context, fullDark))
+                host.setTextColor(ContextCompat.getColor(itemView.context, Dark))
+                userLogin.setTextColor(ContextCompat.getColor(itemView.context, Dark))
+                view.setBackgroundDrawable(getDrawable(itemView.context, R.drawable.layout_border_dark))
             }
             itemView.setOnLongClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
