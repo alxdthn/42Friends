@@ -15,3 +15,12 @@ data class UserLocationEntity(
 	val begin_at: String? = null,
 	val end_at: String? = null
 )
+
+@Entity
+data class Token(
+	@PrimaryKey
+	val id: Int,
+	val value: String,
+	val type: String,
+	val createdAt: Long
+)

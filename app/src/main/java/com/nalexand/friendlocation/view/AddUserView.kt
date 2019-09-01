@@ -11,6 +11,7 @@ import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.data.AppDatabase
 import com.nalexand.friendlocation.network.getUser
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +36,7 @@ class 	AddUserView(activity: MainActivity) {
                         when (ret) {
                             0 -> {
                                 Toast.makeText(activity, "User added!", Toast.LENGTH_SHORT).show()
+                                activity.findViewById<TextView>(R.id.start).visibility = View.INVISIBLE
                                 dialog.dismiss()
                             }
                             1 -> Toast.makeText(activity, "User already exist!", Toast.LENGTH_SHORT).show()

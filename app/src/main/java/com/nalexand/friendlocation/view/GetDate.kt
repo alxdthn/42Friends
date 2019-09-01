@@ -1,5 +1,6 @@
 package com.nalexand.friendlocation.view
 
+import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,13 +25,11 @@ fun getEndAt(input : String?) : String {
 }
 
 fun getBeginAt(input: String?) : String {
-    val time = (Calendar.getInstance().timeInMillis
-            - getMilliFromDate(input)
-            - TimeZone.getDefault().rawOffset) / 1000
-    val seconds = time % 60
-    val minutes = (time / 60) % 60
-    val hours = (time / (60 * 60)) % 24
-    return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+    val time = Calendar.getInstance().timeInMillis - getMilliFromDate(input) - TimeZone.getDefault().rawOffset
+    val h = time / 3600000
+    val m = time / 60000 % 60
+    val s = time / 1000 % 60
+    return String.format("%02d:%02d:%02d", h, m, s)
 }
 
 class GetDate {

@@ -26,13 +26,17 @@ curl -X POST --data "grant_type=client_credentials&client_id=6d94ec75f2839e414dc
 
 1fc769ad277dae24f7f26b4876483085b6dddba188540c635bca413fcfac3dc8
 
-curl -g -H "Authorization: Bearer 1fc769ad277dae24f7f26b4876483085b6dddba188540c635bca413fcfac3dc8" "https://api.intra.42.fr/v2/locations/?&filter[user_id]=52424
+curl -g -H "Authorization: Bearer aef3256526588166bd3c056f458c8a4c67de09a7e1ebc92a45c0b29df7702555" "https://api.intra.42.fr/v2/locations/?&filter[user_id]=52424
 
 curl -g -H "Authorization: Bearer 1fc769ad277dae24f7f26b4876483085b6dddba188540c635bca413fcfac3dc8" "https://api.intra.42.fr/v2/users/?&filter[login]=ashari
 
 curl -g -H "Authorization: Bearer 1fc769ad277dae24f7f26b4876483085b6dddba188540c635bca413fcfac3dc8" "https://api.intra.42.fr/v2/users/ashari
 
 curl -g -H "Authorization: Bearer 1fc769ad277dae24f7f26b4876483085b6dddba188540c635bca413fcfac3dc8" "https://api.intra.42.fr/v2/locations/graph(/on/end_at(/by/day))?&filter[user_id]=52424
+
+curl -g -H "Authorization: Bearer aef3256526588166bd3c056f458c8a4c67de09a7e1ebc92a45c0b29df7702555" "https://api.intra.42.fr/v2/users/52424-52404/locations
+
+curl -g -H "Authorization: Bearer aef3256526588166bd3c056f458c8a4c67de09a7e1ebc92a45c0b29df7702555" "https://api.intra.42.fr/oauth/token/info
 
 nalexand=52424
 ashari=52404

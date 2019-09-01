@@ -3,7 +3,9 @@ package com.nalexand.friendlocation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -43,6 +45,8 @@ class MainActivity : AppCompatActivity() {
             AddUserView(this).show(this, db)
         }
 
+        if (db.make().getCount() == 0)
+            findViewById<TextView>(R.id.start).visibility = View.VISIBLE
         myRecycler.adapter = ViewAdapter(
             db.make().getAll(),
             object : ViewAdapter.Callback {

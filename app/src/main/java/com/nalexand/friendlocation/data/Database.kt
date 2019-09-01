@@ -7,11 +7,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-	entities = [UserLocationEntity::class],
+	entities = [UserLocationEntity::class, Token::class],
 	version = 1
 )
 abstract class AppDatabase : RoomDatabase(){
-	abstract fun make(): UsersDao
+	abstract fun make(): AppDao
 
 	companion object {
 		@Volatile private var instance: AppDatabase? = null

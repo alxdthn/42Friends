@@ -45,7 +45,7 @@ class ViewAdapter(private var items: MutableList<UserLocationEntity>, val callba
             Log.d("bestTAG", "bind data!")
             Log.d("bestTAG", "login ${item.login} status ${item.end_at}")
 
-            if (item.end_at == null) {
+            if (item.end_at == "a") {
                 date.text = GetDate().beginAt(item.begin_at)
                 host.text = item.host
                 date.setTextColor(ContextCompat.getColor(itemView.context, colorPrimaryLight))
@@ -54,7 +54,10 @@ class ViewAdapter(private var items: MutableList<UserLocationEntity>, val callba
                 view.setBackgroundDrawable(getDrawable(itemView.context, R.drawable.layout_border_light))
             }
             else {
-                date.text = GetDate().endAt(item.end_at)
+                if (item.end_at == "b")
+                    date.text = "update required"
+                else
+                    date.text = GetDate().endAt(item.end_at)
                 host.text = "-"
                 date.setTextColor(ContextCompat.getColor(itemView.context, fullDark))
                 host.setTextColor(ContextCompat.getColor(itemView.context, Dark))

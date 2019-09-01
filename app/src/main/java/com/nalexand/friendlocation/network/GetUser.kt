@@ -20,9 +20,9 @@ suspend fun getUser(activity: MainActivity, login: String, db: AppDatabase) : In
         return 1
     }
     try {
-        val token = activity.service.getToken(activity.requestBody).body()
+        val token = getToken(activity, db)
         response = activity.service.getUser(
-            "${token?.token_type} ${token?.access_token}", login
+            "${token?.type} ${token?.value}", login
         ).body()
         if (response == null) return 3
     } catch (e: Throwable) {
@@ -39,7 +39,7 @@ suspend fun getUser(activity: MainActivity, login: String, db: AppDatabase) : In
             user.id,
             user.login,
             user.url,
-            end_at = "1"
+            end_at = "b"
         )
     )
     activity.runOnUiThread {

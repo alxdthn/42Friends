@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.nalexand.friendlocation.MainActivity
@@ -27,6 +28,8 @@ class 	UserInfoView(activity: MainActivity) {
                 db.make().delete(item)
                 (activity.myRecycler.adapter as ViewAdapter).updateData(db.make().getAll())
                 Toast.makeText(activity, "User deleted", Toast.LENGTH_SHORT).show()
+                if (db.make().getCount() == 0)
+                    activity.findViewById<TextView>(R.id.start).visibility = View.VISIBLE
                 dialog.dismiss()
             }
         })
