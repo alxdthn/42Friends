@@ -7,8 +7,15 @@ interface RetrofitService {
 
     @POST("oauth/token")
     suspend fun getToken(
-        @Body requestBody: TokenRequest
+        @Body requestBody: TokenRequest?
     ): Response<TokenResponse>
+
+    @GET("/oauth/authorize")
+    suspend fun getUserKey(
+        @Query("client_id") client_id: String,
+        @Query("redirect_uri") redirect_uri: String,
+        @Query("response_type") response_type: String
+    )
 
     @GET("/v2/users/?")
     suspend fun getUser(

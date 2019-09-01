@@ -16,6 +16,9 @@ interface AppDao {
 	@Query("SELECT * FROM Token")
 	fun getToken(): Token
 
+	@Query("SELECT * FROM UserKey")
+	fun getKey(): UserKey
+
 	@Query("SELECT COUNT(login) FROM UserLocationEntity")
 	fun getCount() : Int
 
@@ -24,6 +27,9 @@ interface AppDao {
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	fun insertToken(token: Token)
+
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
+	fun insertKey(key: UserKey)
 
 	@Update
 	fun update(userEntity: UserLocationEntity)

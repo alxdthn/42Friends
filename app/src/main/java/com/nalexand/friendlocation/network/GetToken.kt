@@ -10,11 +10,11 @@ import java.util.*
 fun needNewToken(token : Token?) : Boolean {
     if (token == null)
         return true
-    val expires_in = token.createdAt - (Calendar.getInstance().timeInMillis - 7200000) / 1000
+    val expiresIn = token.createdAt - (Calendar.getInstance().timeInMillis - 7200000) / 1000
     Log.d("bestTAG", "current time:  ${Calendar.getInstance().timeInMillis}")
     Log.d("bestTAG", "token created: ${token.createdAt}")
-    Log.d("bestTAG", "expires in:    $expires_in")
-    if (expires_in < 60)
+    Log.d("bestTAG", "expires in:    $expiresIn")
+    if (expiresIn < 60)
         return true
     return false
 }
@@ -36,6 +36,5 @@ suspend fun getToken(activity: MainActivity, db : AppDatabase) : Token? {
         }
     }
     return token
-}git add .
-        git commit -m "";""
+}
 

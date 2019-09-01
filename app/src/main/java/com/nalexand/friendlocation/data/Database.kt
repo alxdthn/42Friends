@@ -7,8 +7,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-	entities = [UserLocationEntity::class, Token::class],
-	version = 1
+	entities = [UserLocationEntity::class, Token::class, UserKey::class],
+	version = 1,
+	exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase(){
 	abstract fun make(): AppDao

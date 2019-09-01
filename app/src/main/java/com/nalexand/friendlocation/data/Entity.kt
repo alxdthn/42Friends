@@ -24,3 +24,10 @@ data class Token(
 	val type: String,
 	val createdAt: Long
 )
+
+@Entity
+data class UserKey(
+	@PrimaryKey
+	val id: Int,
+	val value: String?
+)

@@ -9,9 +9,9 @@ data class TokenResponse(
 )
 
 data class TokenRequest(
-    val grant_type: String,
-    val client_id: String,
-    val client_secret: String
+    val grant_type : String = "client_credentials",
+    val client_id: String = "6d94ec75f2839e414dcba355566192b67ee05bc2d9a3da66aee8645343a4bffd",
+    val client_secret: String?
 )
 
 data class User(

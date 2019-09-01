@@ -1,5 +1,6 @@
 package com.nalexand.friendlocation
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,9 +11,11 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.data.UserKey
 import com.nalexand.friendlocation.data.UserLocationEntity
 import com.nalexand.friendlocation.network.RetrofitFactory
 import com.nalexand.friendlocation.network.TokenRequest
+import com.nalexand.friendlocation.network.getUserKey
 import com.nalexand.friendlocation.network.updateLocations
 import com.nalexand.friendlocation.view.AddUserView
 import com.nalexand.friendlocation.view.UserInfoView
@@ -24,21 +27,27 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    val service = RetrofitFactory.makeServiceForToken()
+    val service = RetrofitFactory.makeService()
+    var requestBody : TokenRequest? = null
+    val db: AppDatabase? = null
+    //de6ac060116057e0d3129a461d45ace116c3136da2b2e8778db39ab4fd6b53bd
 
-    val requestBody = TokenRequest(
-        "client_credentials",
-        "6d94ec75f2839e414dcba355566192b67ee05bc2d9a3da66aee8645343a4bffd",
-        "de6ac060116057e0d3129a461d45ace116c3136da2b2e8778db39ab4fd6b53bd"
-    )
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val key = data?.getStringExtra("result")
+        db?.make()?.insertKey(UserKey(1, key))
+        requestBody = TokenRequest(client_secret = key)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         Log.d("bestTAG", "starting!")
 
         val db = AppDatabase.invoke(this)
         val addUser = findViewById<Button>(R.id.addUser)
+        getUserKey(this, db)
 
         addUser.setOnClickListener {
             Log.d("bestTAG", "click on add user")
@@ -47,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         if (db.make().getCount() == 0)
             findViewById<TextView>(R.id.start).visibility = View.VISIBLE
+
         myRecycler.adapter = ViewAdapter(
             db.make().getAll(),
             object : ViewAdapter.Callback {
