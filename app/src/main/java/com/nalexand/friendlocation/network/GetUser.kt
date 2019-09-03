@@ -3,7 +3,7 @@ package com.nalexand.friendlocation.network
 import android.util.Log
 import com.nalexand.friendlocation.MainActivity
 import com.nalexand.friendlocation.data.AppDatabase
-import com.nalexand.friendlocation.data.UserLocationEntity
+import com.nalexand.friendlocation.data.UserEntity
 import com.nalexand.friendlocation.view.ViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -38,7 +38,7 @@ suspend fun getUser(activity: MainActivity, login: String, db: AppDatabase) : In
     Log.d("bestTAG", "end FIND!")
     Log.d("bestTAG", "login: ${user.login} id: ${user.id}")
     db.make().insert(
-        UserLocationEntity(
+        UserEntity(
             user.id,
             user.login,
             user.url,

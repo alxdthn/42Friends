@@ -2,10 +2,34 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="NoteLine">
+        <item name="android:gravity">center_vertical</item>
+        <item name="fontFamily">@font/oxygen</item>
+    </style>
+
+    <style name="BasicText">
+        <item name="fontFamily">@font/oxygen</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorPrimaryLight</item>
+    </style>
+
+    <style name="BasicButton">
+        <item name="fontFamily">@font/oxygen</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/colorPrimaryLight</item>
+        <item name="android:background">@color/transparency</item>
+    </style>
+
+    <style name="WindowHeader">
+        <item name="fontFamily">@font/oxygen</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/colorPrimaryLight</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
 
 </resources>

@@ -1,6 +1,5 @@
 package com.nalexand.friendlocation.view
 
-import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,7 +31,14 @@ fun getBeginAt(input: String?) : String {
     return String.format("%02d:%02d:%02d", h, m, s)
 }
 
+fun getNoteDate(input: Long) : String {
+    val formatter = SimpleDateFormat("HH:mm dd-MM-yyyy", Locale.getDefault())
+    return formatter.format(Date(input))
+}
+
+
 class GetDate {
     fun endAt(input : String?) = getEndAt(input)
     fun beginAt(input: String?) = getBeginAt(input)
+    fun noteDate(input: Long) = getNoteDate(input)
 }

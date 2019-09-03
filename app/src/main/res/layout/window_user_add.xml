@@ -2,33 +2,26 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/add_user_window"
-    android:background="@drawable/layout_fill_border_dark"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:padding="10dp" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <TextView style="@style/WindowHeader"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter login:"
-        android:textSize="20sp"
-        android:textColor="@color/colorPrimaryLight"/>
+        android:text="Enter login:" />
 
-    <EditText
+    <EditText android:theme="@style/BasicText"
         android:id="@+id/input_text"
         android:layout_width="match_parent"
-        android:textColor="@color/colorPrimaryLight"
         android:layout_height="wrap_content" >
     </EditText>
 
-    <Button
+    <Button style="@style/BasicButton"
         android:id="@+id/findBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/add_user_button"
-        android:textColor="@color/colorPrimaryLight"
-        android:textSize="24sp"
         android:text="ADD" />
 
 </LinearLayout>

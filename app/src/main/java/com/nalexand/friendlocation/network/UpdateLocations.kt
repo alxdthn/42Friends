@@ -3,7 +3,7 @@ package com.nalexand.friendlocation.network
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.nalexand.friendlocation.MainActivity
 import com.nalexand.friendlocation.data.AppDatabase
-import com.nalexand.friendlocation.data.UserLocationEntity
+import com.nalexand.friendlocation.data.UserEntity
 import kotlinx.coroutines.delay
 
 suspend fun updateLocations(activity: MainActivity, db: AppDatabase, swipe: SwipeRefreshLayout) : Int {
@@ -17,7 +17,7 @@ suspend fun updateLocations(activity: MainActivity, db: AppDatabase, swipe: Swip
             delay(500)
             if (response != null) {
                 db.make().update(
-                    UserLocationEntity(
+                    UserEntity(
                         response.user.id,
                         response.user.login,
                         response.host,

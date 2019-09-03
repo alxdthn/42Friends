@@ -37,4 +37,3 @@ suspend fun getToken(activity: MainActivity, db : AppDatabase) : Token? {
     }
     return token
 }
-

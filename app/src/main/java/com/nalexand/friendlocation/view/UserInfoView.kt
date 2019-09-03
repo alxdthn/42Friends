@@ -11,29 +11,24 @@ import androidx.appcompat.app.AlertDialog
 import com.nalexand.friendlocation.MainActivity
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.data.AppDatabase
-import com.nalexand.friendlocation.data.UserLocationEntity
+import com.nalexand.friendlocation.data.UserEntity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class 	UserInfoView(activity: MainActivity) {
+fun 	startRemoveUserView(activity: MainActivity, db: AppDatabase, item: UserEntity) {
 
-    private val alertBuilder = AlertDialog.Builder(activity)
-    private val dialogView = LayoutInflater.from(activity).inflate(R.layout.user_info_window, null)
-    private val dialog = alertBuilder.setView(dialogView).create()
-    private val delBtn = dialogView.findViewById<Button>(R.id.delUserBtn)
+    val alertBuilder = AlertDialog.Builder(activity)
+    val dialogView = LayoutInflater.from(activity).inflate(R.layout.window_user_remove, null)
+    val dialog = alertBuilder.setView(dialogView).create()
+    val delBtn = dialogView.findViewById<Button>(R.id.delUserBtn)
 
-    fun show(activity: MainActivity, db: AppDatabase, item: UserLocationEntity) {
-
-        delBtn.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                db.make().delete(item)
-                (activity.myRecycler.adapter as ViewAdapter).updateData(db.make().getAll())
-                Toast.makeText(activity, "User deleted", Toast.LENGTH_SHORT).show()
-                if (db.make().getCount() == 0)
-                    activity.findViewById<TextView>(R.id.start).visibility = View.VISIBLE
-                dialog.dismiss()
-            }
-        })
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
+    delBtn.setOnClickListener {
+        db.make().delete(item)
+        (activity.myRecycler.adapter as ViewAdapter).updateData(db.make().getAll())
+        Toast.makeText(activity, "User deleted", Toast.LENGTH_SHORT).show()
+        if (db.make().getCount() == 0)
+            activity.findViewById<TextView>(R.id.start).visibility = View.VISIBLE
+        dialog.dismiss()
     }
+    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.show()
 }

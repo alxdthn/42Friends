@@ -1,9 +1,12 @@
 package com.nalexand.friendlocation.view
 
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -11,13 +14,77 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.R.color.*
-import com.nalexand.friendlocation.data.UserLocationEntity
+import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.data.Note
+import com.nalexand.friendlocation.data.UserEntity
 
-class ViewAdapter(private var items: MutableList<UserLocationEntity>, val callback: Callback)
+fun bindNotes(itemView : View, notes : MutableList<Note>, color : Int) {
+    val note1 = itemView.findViewById<TextView>(R.id.note1)
+    val note2 = itemView.findViewById<TextView>(R.id.note2)
+    val note3 = itemView.findViewById<TextView>(R.id.note3)
+    val notesImageView = itemView.findViewById<ImageView>(R.id.notesImageView)
+    val notesLinearLayout = itemView.findViewById<LinearLayout>(R.id.notesLinearLayout)
+
+    if (notes.isNotEmpty()) {
+        notesImageView.visibility = View.INVISIBLE
+        notesLinearLayout.visibility = View.VISIBLE
+        note1.text = notes[0].header
+        note1.setTextColor(color)
+        if (notes.size > 1) {
+            note2.text = notes[1].header
+            note2.setTextColor(color)
+
+        }
+        if (notes.size > 2) {
+            note3.text = notes[2].header
+            note3.setTextColor(color)
+        }
+    }
+    else {
+        notesImageView.visibility = View.VISIBLE
+        notesLinearLayout.visibility = View.INVISIBLE
+    }
+}
+
+fun setView(itemView: View, item: UserEntity, notes : MutableList<Note>) {
+    val userLogin = itemView.findViewById<TextView>(R.id.userLogin)
+    val host = itemView.findViewById<TextView>(R.id.host)
+    val date = itemView.findViewById<TextView>(R.id.date)
+    val view = itemView.findViewById<ConstraintLayout>(R.id.recycle_view_item)
+    val notesImageView = itemView.findViewById<ImageView>(R.id.notesImageView)
+    val color : Int
+    val background : Drawable?
+
+    if (item.end_at == "a") {
+        color = ContextCompat.getColor(itemView.context, colorPrimaryLight)
+        background = getDrawable(itemView.context, R.drawable.layout_border_light)
+        date.setTextColor(color)
+        date.text = GetDate().beginAt(item.begin_at)
+        host.text = item.host
+        notesImageView.setImageResource(R.drawable.ic_bookmark_border_light)
+    }
+    else {
+        color = ContextCompat.getColor(itemView.context, Dark)
+        background = getDrawable(itemView.context, R.drawable.layout_border_dark)
+        date.setTextColor(ContextCompat.getColor(itemView.context, fullDark))
+        if (item.end_at == "b")
+            date.text = "update required"
+        else
+            date.text = GetDate().endAt(item.end_at)
+        host.text = "-"
+    }
+    userLogin.text = item.login
+    host.setTextColor(color)
+    userLogin.setTextColor(color)
+    view.setBackgroundDrawable(background)
+    bindNotes(itemView, notes, color)
+}
+
+class ViewAdapter(private var items: MutableList<UserEntity>, private val db : AppDatabase, val callback: Callback)
     : RecyclerView.Adapter<ViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recycle_view_item, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recycle_user_item, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -25,57 +92,41 @@ class ViewAdapter(private var items: MutableList<UserLocationEntity>, val callba
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], db)
     }
 
-    fun updateData(new: MutableList<UserLocationEntity>){
+    fun updateData(new: MutableList<UserEntity>){
         this.items = new
 
         notifyDataSetChanged()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val userLogin = itemView.findViewById<TextView>(R.id.userLogin)
-        private val host = itemView.findViewById<TextView>(R.id.host)
-        private val date = itemView.findViewById<TextView>(R.id.date)
-        private val view = itemView.findViewById<ConstraintLayout>(R.id.recycle_view_item)
+        private val notesView = itemView.findViewById<ConstraintLayout>(R.id.notes)
 
-        fun bind(item: UserLocationEntity) {
-            userLogin.text = item.login
+        fun bind(item: UserEntity, db: AppDatabase) {
+
             Log.d("bestTAG", "bind data!")
             Log.d("bestTAG", "login ${item.login} status ${item.end_at}")
 
-            if (item.end_at == "a") {
-                date.text = GetDate().beginAt(item.begin_at)
-                host.text = item.host
-                date.setTextColor(ContextCompat.getColor(itemView.context, colorPrimaryLight))
-                host.setTextColor(ContextCompat.getColor(itemView.context, colorPrimaryLight))
-                userLogin.setTextColor(ContextCompat.getColor(itemView.context, colorPrimaryLight))
-                view.setBackgroundDrawable(getDrawable(itemView.context, R.drawable.layout_border_light))
-            }
-            else {
-                if (item.end_at == "b")
-                    date.text = "update required"
-                else
-                    date.text = GetDate().endAt(item.end_at)
-                host.text = "-"
-                date.setTextColor(ContextCompat.getColor(itemView.context, fullDark))
-                host.setTextColor(ContextCompat.getColor(itemView.context, Dark))
-                userLogin.setTextColor(ContextCompat.getColor(itemView.context, Dark))
-                view.setBackgroundDrawable(getDrawable(itemView.context, R.drawable.layout_border_dark))
-            }
+            setView(itemView, item, db.make().getNotes(item.user_id))
+
             itemView.setOnLongClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    callback.onItemClicked(items[adapterPosition])
+                    callback.onItemLongClicked(items[adapterPosition])
                     return@setOnLongClickListener true
                 }
                 return@setOnLongClickListener false
+            }
+            notesView.setOnClickListener {
+                callback.onNotesClicked(items[adapterPosition])
             }
         }
     }
 
     interface Callback {
-        fun onItemClicked(item: UserLocationEntity)
+        fun onItemLongClicked(item: UserEntity)
+        fun onNotesClicked(item: UserEntity)
     }
 
 }

@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-	entities = [UserLocationEntity::class, Token::class, UserKey::class],
+	entities = [UserEntity::class, Token::class, Note::class],
 	version = 1,
 	exportSchema = false
 )

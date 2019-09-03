@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/recycle_view_item"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginLeft="5dp"
+	android:layout_marginTop="5dp"
+	android:layout_marginRight="5dp">
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:id="@+id/itemLinearLayout"
+		android:layout_height="match_parent">
+
+
+		<TextView
+			android:id="@+id/noteHeader"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="30dp"
+			android:gravity="center_horizontal|center_vertical"
+			android:fontFamily="@font/oxygen"
+			android:textSize="20sp"
+			android:textColor="@color/colorPrimaryLight"
+			android:text="Header"/>
+
+		<TextView
+			android:id="@+id/noteContent"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="30dp"
+			android:paddingLeft="5dp"
+			android:fontFamily="@font/oxygen"
+			android:textSize="20sp"
+			android:textColor="@color/colorPrimaryLight"
+			android:text="note"/>
+
+		<TextView
+			android:id="@+id/noteDate"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="10dp"
+			android:gravity="center_horizontal|center_vertical"
+			android:fontFamily="@font/oxygen"
+			android:textSize="15sp"
+			android:textColor="@color/colorPrimaryLight"
+			android:text="date"/>
+
+	</LinearLayout>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="2dp"
+		android:background="@drawable/layout_note_separator_light"
+		app:layout_constraintTop_toBottomOf="@id/itemLinearLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,8 @@
         android:layout_width="100dp"
         android:layout_height="70dp"
         android:layout_gravity="bottom|end"
-        android:background="@drawable/add_user_button"
+        android:background="@color/transparency"
+        android:fontFamily="@font/oxygen"
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
         android:text="Add User"
@@ -50,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/recycle_view_item">
+            tools:listitem="@layout/recycle_user_item">
 
         </androidx.recyclerview.widget.RecyclerView>
 

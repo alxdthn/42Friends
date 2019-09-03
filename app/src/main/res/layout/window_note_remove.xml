@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/user_info_window"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:padding="10dp" >
+
+	<TextView style="@style/WindowHeader"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Remove note?" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<Button style="@style/BasicButton"
+			android:id="@+id/cancelDelNoteBtn"
+			android:layout_weight="50"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:text="NO!" />
+		<Button style="@style/BasicButton"
+			android:id="@+id/delNoteBtn"
+			android:layout_weight="50"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:text="YES!" />
+	</LinearLayout>
+
+
+</LinearLayout>
