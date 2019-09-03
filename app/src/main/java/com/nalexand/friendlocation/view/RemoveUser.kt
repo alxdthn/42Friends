@@ -22,6 +22,7 @@ fun 	startRemoveUserView(activity: MainActivity, db: AppDatabase, item: UserEnti
     val delBtn = dialogView.findViewById<Button>(R.id.delUserBtn)
 
     delBtn.setOnClickListener {
+        db.make().delteAllNotes(db.make().getNotes(item.user_id))
         db.make().delete(item)
         (activity.myRecycler.adapter as ViewAdapter).updateData(db.make().getAll())
         Toast.makeText(activity, "User deleted", Toast.LENGTH_SHORT).show()

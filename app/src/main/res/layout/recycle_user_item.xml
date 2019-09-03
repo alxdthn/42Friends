@@ -64,6 +64,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="30">
+            <View
+                android:id="@+id/breaker"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimaryLight">
+            </View>
 
             <ImageView
                 android:layout_margin="15dp"
@@ -77,7 +84,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:visibility="invisible"
                 android:id="@+id/notesLinearLayout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -87,26 +93,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
+                <TextView style="@style/NoteLine"
                     android:id="@+id/note1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="33"
-                    android:theme="@style/NoteLine" />
+                    android:text="note1"/>
 
-                <TextView
+                <TextView style="@style/NoteLine"
                     android:id="@+id/note2"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="33"
-                    android:theme="@style/NoteLine" />
+                    android:text="note2"/>
 
-                <TextView
+                <TextView style="@style/NoteLine"
                     android:id="@+id/note3"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="33"
-                    android:theme="@style/NoteLine" />
+                    android:text="note3"/>
 
             </LinearLayout>
 

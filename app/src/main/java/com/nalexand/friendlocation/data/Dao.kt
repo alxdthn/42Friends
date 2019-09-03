@@ -37,6 +37,9 @@ interface AppDao {
 	@Delete
 	fun deleteNote(note: Note)
 
+	@Delete
+	fun delteAllNotes(notes: MutableList<Note>)
+
 	@Update
 	fun update(userEntity: UserEntity)
 
