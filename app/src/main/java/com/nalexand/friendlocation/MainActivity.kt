@@ -14,6 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.nalexand.friendlocation.data.AppDatabase
 import com.nalexand.friendlocation.data.UserEntity
 import com.nalexand.friendlocation.network.RetrofitFactory
+import com.nalexand.friendlocation.network.RetrofitService
 import com.nalexand.friendlocation.network.TokenRequest
 import com.nalexand.friendlocation.network.updateLocations
 import com.nalexand.friendlocation.view.*
@@ -21,35 +22,41 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
-    val service = RetrofitFactory.makeService()
-    var requestBody = TokenRequest()
+    lateinit var service : RetrofitService
+    lateinit var requestBody : TokenRequest
+    lateinit var db : AppDatabase
+    lateinit var addUser : Button
+    lateinit var startView : TextView
+    lateinit var swipeContainer : SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.d("bestTAG", "starting!")
+        db = AppDatabase.invoke(this)
+        service = RetrofitFactory.makeService()
+        requestBody = TokenRequest()
 
-        val db = AppDatabase.invoke(this)
-        val addUser = findViewById<Button>(R.id.addUser)
-
+        addUser = findViewById(R.id.addUser)
         addUser.setOnClickListener {
             Log.d("bestTAG", "click on add user")
-            startAddUserView(this, db)
+            startAddUserView(this)
         }
 
+        startView = findViewById(R.id.start)
         if (db.make().getCount() == 0)
-            findViewById<TextView>(R.id.start).visibility = View.VISIBLE
+            startView.visibility = View.VISIBLE
 
         myRecycler.adapter = ViewAdapter(
             db.make().getAll(), db,
             object : ViewAdapter.Callback {
                 override fun onItemLongClicked(item: UserEntity) {
                     Log.d("bestTAG", "hold!")
-                    startRemoveUserView(this@MainActivity, db, item)
+                    startRemoveUserView(this@MainActivity, item)
                 }
                 override fun onNotesClicked(item: UserEntity) {
                     Log.d("bestTAG", "notes")
@@ -58,14 +65,11 @@ class MainActivity : AppCompatActivity() {
             }
         )
 
-        val swipeContainer: SwipeRefreshLayout = findViewById(R.id.refresh)
-
+        swipeContainer = findViewById(R.id.refresh)
         swipeContainer.setOnRefreshListener {
             CoroutineScope(Dispatchers.IO).launch {
                 Log.d("bestTAG", "refresh!")
-                val ret = updateLocations(
-                    this@MainActivity, db, swipeContainer
-                )
+                val ret = updateLocations(this@MainActivity)
                 runOnUiThread {
                     swipeContainer.isRefreshing = false
                     when (ret) {

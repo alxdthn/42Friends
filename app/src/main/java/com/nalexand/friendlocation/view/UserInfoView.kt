@@ -14,7 +14,7 @@ import com.nalexand.friendlocation.data.AppDatabase
 import com.nalexand.friendlocation.data.UserEntity
 import kotlinx.android.synthetic.main.activity_main.*
 
-fun 	startRemoveUserView(activity: MainActivity, db: AppDatabase, item: UserEntity) {
+fun 	startRemoveUserView(activity: MainActivity, item: UserEntity) {
 
     val alertBuilder = AlertDialog.Builder(activity)
     val dialogView = LayoutInflater.from(activity).inflate(R.layout.window_user_remove, null)
@@ -22,10 +22,10 @@ fun 	startRemoveUserView(activity: MainActivity, db: AppDatabase, item: UserEnti
     val delBtn = dialogView.findViewById<Button>(R.id.delUserBtn)
 
     delBtn.setOnClickListener {
-        db.make().delete(item)
-        (activity.myRecycler.adapter as ViewAdapter).updateData(db.make().getAll())
+        activity.db.make().delete(item)
+        (activity.myRecycler.adapter as ViewAdapter).updateData(activity.db.make().getAll())
         Toast.makeText(activity, "User deleted", Toast.LENGTH_SHORT).show()
-        if (db.make().getCount() == 0)
+        if (activity.db.make().getCount() == 0)
             activity.findViewById<TextView>(R.id.start).visibility = View.VISIBLE
         dialog.dismiss()
     }

@@ -17,7 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-fun startAddUserView(activity: MainActivity, db: AppDatabase) {
+fun startAddUserView(activity: MainActivity) {
 
     val alertBuilder = AlertDialog.Builder(activity)
     val dialogView = LayoutInflater.from(activity).inflate(R.layout.window_user_add, null)
@@ -28,7 +28,7 @@ fun startAddUserView(activity: MainActivity, db: AppDatabase) {
     findBtn.setOnClickListener {
         CoroutineScope(Dispatchers.IO).launch {
             val ret =
-                getUser(activity, input.text.toString(), db)
+                getUser(activity, input.text.toString(), activity.db)
             activity.runOnUiThread {
                 when (ret) {
                     0 -> {

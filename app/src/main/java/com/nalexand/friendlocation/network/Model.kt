@@ -21,14 +21,11 @@ data class User(
 )
 
 data class UserLocation(
-    val begin_at: String?,
-    val campus_id: Int,
     val end_at: String?,
-    val floor: String?,
-    val host: String?,
     val id: Int,
-    val post: String?,
+    val begin_at: String?,
     val primary: Boolean,
-    val row: String?,
+    val host: String?,
+    val campus_id: Int,
     val user: User
 )

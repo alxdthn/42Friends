@@ -10,22 +10,16 @@ interface RetrofitService {
         @Body requestBody: TokenRequest?
     ): Response<TokenResponse>
 
-    @GET("/oauth/authorize")
-    suspend fun getUserKey(
-        @Query("client_id") client_id: String,
-        @Query("redirect_uri") redirect_uri: String,
-        @Query("response_type") response_type: String
-    )
-
     @GET("/v2/users/?")
     suspend fun getUser(
         @Header("Authorization") auth: String?,
         @Query("filter[login]", encoded = true) login: String): Response<Array<User>>
 
-    @GET("/v2/users/{user_id}/locations")
+    @GET("/v2/users/locations&filter[end]=false")
     suspend fun getUserLocation(
         @Header("Authorization") auth: String?,
-        @Path("user_id") user_id: String): Response<Array<UserLocation>>
+        @Query("filter[user_id]") user_id: String,
+        @Query("filter[end]") end: String): Response<Array<UserLocation>>
 }
 
 /*
