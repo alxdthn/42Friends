@@ -1,31 +1,12 @@
-package com.nalexand.friendlocation.network
+package com.nalexand.friendlocationv2.network
 
 import retrofit2.Response
 import retrofit2.http.*
 
 interface RetrofitService {
-
-    @POST("oauth/token")
-    suspend fun getToken(
-        @Body requestBody: TokenRequest?
-    ): Response<TokenResponse>
-
-    @GET("/oauth/authorize")
-    suspend fun getUserKey(
-        @Query("client_id") client_id: String,
-        @Query("redirect_uri") redirect_uri: String,
-        @Query("response_type") response_type: String
-    )
-
-    @GET("/v2/users/?")
-    suspend fun getUser(
-        @Header("Authorization") auth: String?,
-        @Query("filter[login]", encoded = true) login: String): Response<Array<User>>
-
-    @GET("/v2/users/{user_id}/locations")
-    suspend fun getUserLocation(
-        @Header("Authorization") auth: String?,
-        @Path("user_id") user_id: String): Response<Array<UserLocation>>
+    @GET("locations")
+    suspend fun getUsers(
+        @Query("?") query: String): Response<Array<User>>
 }
 
 /*
@@ -43,9 +24,7 @@ curl -g -H "Authorization: Bearer 1fc769ad277dae24f7f26b4876483085b6dddba188540c
 
 curl -g -H "Authorization: Bearer aef3256526588166bd3c056f458c8a4c67de09a7e1ebc92a45c0b29df7702555" "https://api.intra.42.fr/v2/users/52424-52404/locations
 
-curl -g -H "Authorization: Bearer aef3256526588166bd3c056f458c8a4c67de09a7e1ebc92a45c0b29df7702555" "https://api.intra.42.fr/oauth/token/info
-
-nalexand=52424
-ashari=52404
+curl -g -H "Authorization: Bearer 982f70714993f38d7ffe0dae2f40bd6ff27d3d623f754b7bcbeba41a79f4e5c6" "https://api.intra.42.fr/oauth/token/info
+curl -g -H "Authorization: Bearer 982f70714993f38d7ffe0dae2f40bd6ff27d3d623f754b7bcbeba41a79f4e5c6" "https://api.intra.42.fr/v2/locations/graph/on/begin_at/by/day"
 
  */

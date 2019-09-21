@@ -1,11 +1,11 @@
-package com.nalexand.friendlocation
+package com.nalexand.friendlocationv2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.nalexand.friendlocation.data.AppDatabase
-import com.nalexand.friendlocation.data.Note
-import com.nalexand.friendlocation.view.*
+import com.nalexand.friendlocationv2.data.AppDatabase
+import com.nalexand.friendlocationv2.data.Note
+import com.nalexand.friendlocationv2.view.*
 import kotlinx.android.synthetic.main.activity_notes.*
 
 class NotesActivity : AppCompatActivity() {

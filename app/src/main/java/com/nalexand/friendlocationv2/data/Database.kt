@@ -1,4 +1,4 @@
-package com.nalexand.friendlocation.data
+package com.nalexand.friendlocationv2.data
 
 import android.content.Context
 import android.util.Log
@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-	entities = [UserEntity::class, Token::class, Note::class],
+	entities = [UserEntity::class, Note::class],
 	version = 1,
 	exportSchema = false
 )
@@ -28,7 +28,7 @@ abstract class AppDatabase : RoomDatabase(){
 			Log.d("bestTAG", "building db")
 			return Room.databaseBuilder(context,
 					AppDatabase::class.java,
-					"todo-list.db")
+					"friendlocation.db")
 					.allowMainThreadQueries().build()
 		}
 	}

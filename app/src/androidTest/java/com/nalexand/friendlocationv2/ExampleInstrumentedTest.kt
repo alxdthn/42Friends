@@ -1,4 +1,4 @@
-package com.nalexand.friendlocation
+package com.nalexand.friendlocationv2
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

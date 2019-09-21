@@ -1,4 +1,4 @@
-package com.nalexand.friendlocation.view
+package com.nalexand.friendlocationv2.view
 
 import java.text.ParseException
 import java.text.SimpleDateFormat

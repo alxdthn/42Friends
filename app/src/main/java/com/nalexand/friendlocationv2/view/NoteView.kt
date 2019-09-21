@@ -1,9 +1,9 @@
-package com.nalexand.friendlocation.view
+package com.nalexand.friendlocationv2.view
 
 import android.content.Intent
 
-import com.nalexand.friendlocation.MainActivity
-import com.nalexand.friendlocation.NotesActivity
+import com.nalexand.friendlocationv2.MainActivity
+import com.nalexand.friendlocationv2.NotesActivity
 
 fun startNoteActivity(activity: MainActivity, userId: String) {
 

@@ -1,4 +1,4 @@
-package com.nalexand.friendlocation.data
+package com.nalexand.friendlocationv2.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -14,16 +14,6 @@ data class UserEntity(
 	val host: String? = null,
 	val begin_at: String? = null,
 	val end_at: String? = null
-//	val notes: MutableList<String>? = null
-)
-
-@Entity
-data class Token(
-	@PrimaryKey
-	val id: Int,
-	val value: String,
-	val type: String,
-	val createdAt: Long
 )
 
 @Entity

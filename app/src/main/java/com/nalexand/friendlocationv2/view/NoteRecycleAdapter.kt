@@ -1,12 +1,12 @@
-package com.nalexand.friendlocation.view
+package com.nalexand.friendlocationv2.view
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.nalexand.friendlocation.R
-import com.nalexand.friendlocation.data.Note
+import com.nalexand.friendlocationv2.R
+import com.nalexand.friendlocationv2.data.Note
 
 class NoteRecycleAdapter(private var items: MutableList<Note>, val callback: Callback)
     : RecyclerView.Adapter<NoteRecycleAdapter.ViewHolder>() {

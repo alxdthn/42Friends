@@ -1,4 +1,4 @@
-package com.nalexand.friendlocation.data
+package com.nalexand.friendlocationv2.data
 
 import androidx.room.*
 
@@ -13,20 +13,17 @@ interface AppDao {
 	@Query("SELECT * FROM UserEntity WHERE login LIKE :login")
 	fun getByLogin(login: String): UserEntity
 
-	@Query("SELECT * FROM Token")
-	fun getToken(): Token
-
 	@Query("SELECT COUNT(login) FROM UserEntity")
 	fun getCount() : Int
 
 	@Query("SELECT * FROM Note WHERE user_id LIKE (:user_id) ORDER BY Date ASC")
 	fun getNotes(user_id: String) : MutableList<Note>
 
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	fun insert(userEntity: UserEntity)
+	@Query("SELECT login FROM UserEntity")
+	fun getAllLogins() : Array<String>
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	fun insertToken(token: Token)
+	fun insert(userEntity: UserEntity)
 
 	@Insert
 	fun insertNote(note: Note)
@@ -38,7 +35,7 @@ interface AppDao {
 	fun deleteNote(note: Note)
 
 	@Delete
-	fun delteAllNotes(notes: MutableList<Note>)
+	fun deleteAllNotes(notes: MutableList<Note>)
 
 	@Update
 	fun update(userEntity: UserEntity)

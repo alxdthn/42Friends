@@ -1,4 +1,4 @@
-package com.nalexand.friendlocation
+package com.nalexand.friendlocationv2
 
 import android.app.Activity
 import android.content.Intent
@@ -11,12 +11,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.nalexand.friendlocation.data.AppDatabase
-import com.nalexand.friendlocation.data.UserEntity
-import com.nalexand.friendlocation.network.RetrofitFactory
-import com.nalexand.friendlocation.network.TokenRequest
-import com.nalexand.friendlocation.network.updateLocations
-import com.nalexand.friendlocation.view.*
+import com.nalexand.friendlocationv2.data.AppDatabase
+import com.nalexand.friendlocationv2.data.UserEntity
+import com.nalexand.friendlocationv2.network.RetrofitFactory
+import com.nalexand.friendlocationv2.network.RetrofitService
+import com.nalexand.friendlocationv2.network.updateLocations
+import com.nalexand.friendlocationv2.view.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,25 +24,24 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    val service = RetrofitFactory.makeService()
-    var requestBody = TokenRequest()
+    lateinit var server : RetrofitService
+    lateinit var db : AppDatabase
+    lateinit var addUser : Button
+    lateinit var startBackground : TextView
+    lateinit var swipeContainer : SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.d("bestTAG", "starting!")
+        server = RetrofitFactory.makeService()
+        db = AppDatabase.invoke(this)
 
-        val db = AppDatabase.invoke(this)
-        val addUser = findViewById<Button>(R.id.addUser)
-
-        addUser.setOnClickListener {
-            Log.d("bestTAG", "click on add user")
-            startAddUserView(this, db)
-        }
-
+        swipeContainer = findViewById(R.id.refresh)
+        addUser = findViewById(R.id.addUser)
+        startBackground = findViewById(R.id.start)
         if (db.make().getCount() == 0)
-            findViewById<TextView>(R.id.start).visibility = View.VISIBLE
+            startBackground.visibility = View.VISIBLE
 
         myRecycler.adapter = ViewAdapter(
             db.make().getAll(), db,
@@ -58,14 +57,15 @@ class MainActivity : AppCompatActivity() {
             }
         )
 
-        val swipeContainer: SwipeRefreshLayout = findViewById(R.id.refresh)
+        addUser.setOnClickListener {
+            Log.d("bestTAG", "click on add user")
+            startAddUserView(this, db)
+        }
 
         swipeContainer.setOnRefreshListener {
             CoroutineScope(Dispatchers.IO).launch {
                 Log.d("bestTAG", "refresh!")
-                val ret = updateLocations(
-                    this@MainActivity, db, swipeContainer
-                )
+                val ret = updateLocations(this@MainActivity, db)
                 runOnUiThread {
                     swipeContainer.isRefreshing = false
                     when (ret) {
@@ -75,12 +75,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
         swipeContainer.setColorSchemeColors(
             ContextCompat.getColor(this, R.color.colorPrimaryLight),
             ContextCompat.getColor(this, R.color.colorPrimaryLight),
             ContextCompat.getColor(this, R.color.colorPrimaryLight),
             ContextCompat.getColor(this, R.color.colorPrimaryLight)
         )
+
         swipeContainer.setProgressBackgroundColorSchemeColor(
             ContextCompat.getColor(this, R.color.colorPrimaryDark)
         )
