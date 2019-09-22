@@ -42,7 +42,7 @@ suspend fun getUser(activity: MainActivity, login: String, db: AppDatabase) : In
             user.id,
             user.login,
             user.url,
-            end_at = "b"
+            end_at = "m"
         )
     )
     activity.runOnUiThread {

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Enter login:" />
 
-    <EditText android:theme="@style/BasicText"
+    <EditText style="@style/BasicText"
         android:id="@+id/input_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >

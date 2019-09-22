@@ -25,6 +25,14 @@ fun bindNotes(itemView : View, notes : MutableList<Note>, color : Int) {
     val notesImageView = itemView.findViewById<ImageView>(R.id.notesImageView)
     val notesLinearLayout = itemView.findViewById<LinearLayout>(R.id.notesLinearLayout)
 
+
+    note1.text = ""
+    note2.text = ""
+    note3.text = ""
+
+    notesImageView.visibility = View.VISIBLE
+    notesLinearLayout.visibility = View.INVISIBLE
+
     if (notes.isNotEmpty()) {
         notesImageView.visibility = View.INVISIBLE
         notesLinearLayout.visibility = View.VISIBLE
@@ -40,10 +48,6 @@ fun bindNotes(itemView : View, notes : MutableList<Note>, color : Int) {
             note3.setTextColor(color)
         }
     }
-    else {
-        notesImageView.visibility = View.VISIBLE
-        notesLinearLayout.visibility = View.INVISIBLE
-    }
 }
 
 fun setView(itemView: View, item: UserEntity, notes : MutableList<Note>) {
@@ -52,6 +56,7 @@ fun setView(itemView: View, item: UserEntity, notes : MutableList<Note>) {
     val date = itemView.findViewById<TextView>(R.id.date)
     val view = itemView.findViewById<ConstraintLayout>(R.id.recycle_view_item)
     val notesImageView = itemView.findViewById<ImageView>(R.id.notesImageView)
+    val breaker = itemView.findViewById<View>(R.id.breaker)
     val color : Int
     val background : Drawable?
 
@@ -62,16 +67,16 @@ fun setView(itemView: View, item: UserEntity, notes : MutableList<Note>) {
         date.text = GetDate().beginAt(item.begin_at)
         host.text = item.host
         notesImageView.setImageResource(R.drawable.ic_bookmark_border_light)
+        breaker.setBackgroundColor(color)
     }
     else {
         color = ContextCompat.getColor(itemView.context, Dark)
         background = getDrawable(itemView.context, R.drawable.layout_border_dark)
         date.setTextColor(ContextCompat.getColor(itemView.context, fullDark))
-        if (item.end_at == "b")
-            date.text = "update required"
-        else
-            date.text = GetDate().endAt(item.end_at)
+        date.text = ""
         host.text = "-"
+        notesImageView.setImageResource(R.drawable.ic_bookmark_border_dark)
+        breaker.setBackgroundColor(color)
     }
     userLogin.text = item.login
     host.setTextColor(color)

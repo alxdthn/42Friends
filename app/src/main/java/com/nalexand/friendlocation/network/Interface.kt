@@ -15,13 +15,13 @@ interface RetrofitService {
         @Header("Authorization") auth: String?,
         @Query("filter[login]", encoded = true) login: String): Response<Array<User>>
 
-    @GET("/v2/users/locations&filter[end]=false")
+    @GET("/v2/locations")
     suspend fun getUserLocation(
         @Header("Authorization") auth: String?,
-        @Query("filter[user_id]") user_id: String,
-        @Query("filter[end]") end: String): Response<Array<UserLocation>>
+        @Query("filter[user_id]", encoded = true) user_id: String,
+        @Query("filter[end]", encoded = true) end: String): Response<Array<UserLocation>>
 }
-
+//https://api.intra.42.fr/v2/users/locations?filter[user_id]=52424,43705,52889,46919,52404,61124,52898,50348,52848,50381&filter[end]=false
 /*
 curl -X POST --data "grant_type=client_credentials&client_id=6d94ec75f2839e414dcba355566192b67ee05bc2d9a3da66aee8645343a4bffd&client_secret=de6ac060116057e0d3129a461d45ace116c3136da2b2e8778db39ab4fd6b53bd" https://api.intra.42.fr/oauth/token
 

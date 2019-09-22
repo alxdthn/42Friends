@@ -8,13 +8,14 @@
     </style>
 
     <style name="NoteLine">
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="fontFamily">@font/oxygen</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
     <style name="BasicText">
         <item name="fontFamily">@font/oxygen</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorPrimaryLight</item>
     </style>
 
