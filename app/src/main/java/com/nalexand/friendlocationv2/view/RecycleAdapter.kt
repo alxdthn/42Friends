@@ -1,4 +1,4 @@
-package com.nalexand.friendlocationv2.view
+package com.nalexand.friendlocation.view
 
 import android.graphics.drawable.Drawable
 import android.util.Log
@@ -12,11 +12,11 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.nalexand.friendlocationv2.R
-import com.nalexand.friendlocationv2.R.color.*
-import com.nalexand.friendlocationv2.data.AppDatabase
-import com.nalexand.friendlocationv2.data.Note
-import com.nalexand.friendlocationv2.data.UserEntity
+import com.nalexand.friendlocation.R
+import com.nalexand.friendlocation.R.color.*
+import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.data.Note
+import com.nalexand.friendlocation.data.UserEntity
 
 fun bindNotes(itemView : View, notes : MutableList<Note>, color : Int) {
     val note1 = itemView.findViewById<TextView>(R.id.note1)
@@ -73,7 +73,7 @@ fun setView(itemView: View, item: UserEntity, notes : MutableList<Note>) {
         color = ContextCompat.getColor(itemView.context, Dark)
         background = getDrawable(itemView.context, R.drawable.layout_border_dark)
         date.setTextColor(ContextCompat.getColor(itemView.context, fullDark))
-        date.text = GetDate().endAt(item.end_at)
+        date.text = ""
         host.text = "-"
         notesImageView.setImageResource(R.drawable.ic_bookmark_border_dark)
         breaker.setBackgroundColor(color)

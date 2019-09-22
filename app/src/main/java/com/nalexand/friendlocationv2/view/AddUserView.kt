@@ -1,4 +1,4 @@
-package com.nalexand.friendlocationv2.view
+package com.nalexand.friendlocation.view
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import com.nalexand.friendlocationv2.MainActivity
-import com.nalexand.friendlocationv2.R
-import com.nalexand.friendlocationv2.data.AppDatabase
-import com.nalexand.friendlocationv2.network.getUser
+import com.nalexand.friendlocation.MainActivity
+import com.nalexand.friendlocation.R
+import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.network.getUser
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -17,7 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-fun startAddUserView(activity: MainActivity, db: AppDatabase) {
+fun startAddUserView(activity: MainActivity) {
 
     val alertBuilder = AlertDialog.Builder(activity)
     val dialogView = LayoutInflater.from(activity).inflate(R.layout.window_user_add, null)
@@ -27,7 +27,8 @@ fun startAddUserView(activity: MainActivity, db: AppDatabase) {
 
     findBtn.setOnClickListener {
         CoroutineScope(Dispatchers.IO).launch {
-            val ret = getUser(activity, input.text.toString(), db)
+            val ret =
+                getUser(activity, input.text.toString(), activity.db)
             activity.runOnUiThread {
                 when (ret) {
                     0 -> {
