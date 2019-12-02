@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.nalexand.friendlocation.R
-import com.nalexand.friendlocation.data.Note
-
+/*
 class NoteRecycleAdapter(private var items: MutableList<Note>, val callback: Callback)
     : RecyclerView.Adapter<NoteRecycleAdapter.ViewHolder>() {
 
@@ -82,3 +81,5 @@ class NoteRecycleAdapter(private var items: MutableList<Note>, val callback: Cal
     }
 
 }
+
+ */

@@ -8,13 +8,11 @@ import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.nalexand.friendlocation.NotesActivity
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.data.AppDatabase
-import com.nalexand.friendlocation.data.Note
 import kotlinx.android.synthetic.main.fragment_notes.*
 import java.util.*
-
+/*
 fun startEditNoteView(activity : NotesActivity, db : AppDatabase, note : Note) {
     val alertBuilder = AlertDialog.Builder(activity)
     val dialogView = LayoutInflater.from(activity).inflate(R.layout.window_note_edit, null)
@@ -56,3 +54,4 @@ fun startEditNoteView(activity : NotesActivity, db : AppDatabase, note : Note) {
     dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     dialog.show()
 }
+*/

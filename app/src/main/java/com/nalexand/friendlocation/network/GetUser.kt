@@ -1,12 +1,6 @@
 package com.nalexand.friendlocation.network
 
-import android.util.Log
-import com.nalexand.friendlocation.MainActivity
-import com.nalexand.friendlocation.data.AppDatabase
-import com.nalexand.friendlocation.data.UserEntity
-import com.nalexand.friendlocation.view.ViewAdapter
-import kotlinx.android.synthetic.main.activity_main.*
-
+/*
 suspend fun getUser(activity: MainActivity, login: String, db: AppDatabase) : Int {
 
     Log.d("bestTAG", "fun \"getUser:\"")
@@ -50,3 +44,5 @@ suspend fun getUser(activity: MainActivity, login: String, db: AppDatabase) : In
     }
     return (0)
 }
+ */
+

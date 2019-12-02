@@ -1,7 +1,7 @@
 package com.nalexand.friendlocation.di.component
 
 import android.app.Application
-import com.nalexand.friendlocation.MainActivity
+import com.nalexand.friendlocation.main.MainActivity
 import com.nalexand.friendlocation.di.modules.IntraServiceModule
 import com.nalexand.friendlocation.di.modules.NetworkModule
 import com.nalexand.friendlocation.di.modules.StorageModule

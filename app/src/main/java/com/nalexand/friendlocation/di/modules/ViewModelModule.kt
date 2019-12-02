@@ -31,5 +31,5 @@ abstract class ViewModelModule {
 	@Binds
 	@IntoMap
 	@ViewModelKey(NotesViewModel::class)
-	internal abstract fun bindAddMemberViewModel(viewModel: NotesViewModel): ViewModel
+	internal abstract fun bindAddNotesViewModel(viewModel: NotesViewModel): ViewModel
 }

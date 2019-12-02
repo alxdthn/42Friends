@@ -1,8 +1,7 @@
 package com.nalexand.friendlocation.network
 
-import android.util.Log
-import com.nalexand.friendlocation.MainActivity
-import com.nalexand.friendlocation.data.UserEntity
+/*
+
 
 suspend fun updateLocations(activity: MainActivity) : Int {
     try {
@@ -48,3 +47,4 @@ suspend fun updateLocations(activity: MainActivity) : Int {
     } catch (e: Throwable) { return 1 }
     return 0
 }
+ */

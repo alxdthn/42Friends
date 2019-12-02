@@ -15,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.R.color.*
 import com.nalexand.friendlocation.data.AppDatabase
-import com.nalexand.friendlocation.data.Note
-import com.nalexand.friendlocation.data.UserEntity
-
+/*
 fun bindNotes(itemView : View, notes : MutableList<Note>, color : Int) {
     val note1 = itemView.findViewById<TextView>(R.id.note1)
     val note2 = itemView.findViewById<TextView>(R.id.note2)
@@ -135,3 +133,4 @@ class ViewAdapter(private var items: MutableList<UserEntity>, private val db : A
     }
 
 }
+*/

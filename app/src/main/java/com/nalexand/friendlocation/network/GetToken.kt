@@ -1,12 +1,6 @@
 package com.nalexand.friendlocation.network
 
-import android.util.Log
-import com.nalexand.friendlocation.MainActivity
-import com.nalexand.friendlocation.data.AppDatabase
-import com.nalexand.friendlocation.data.Token
-import kotlinx.coroutines.delay
-import java.util.*
-
+/*
 fun needNewToken(token : Token?) : Boolean {
     if (token == null)
         return true
@@ -37,3 +31,4 @@ suspend fun getToken(activity: MainActivity, db : AppDatabase) : Token? {
     }
     return token
 }
+ */

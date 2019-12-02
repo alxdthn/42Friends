@@ -6,9 +6,11 @@ import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.nalexand.friendlocation.model.entity.MemberEntity
+import com.nalexand.friendlocation.model.entity.NoteEntity
 
 @Database(
-	entities = [UserEntity::class, Token::class, Note::class],
+	entities = [MemberEntity::class, NoteEntity::class],
 	version = 1,
 	exportSchema = false
 )

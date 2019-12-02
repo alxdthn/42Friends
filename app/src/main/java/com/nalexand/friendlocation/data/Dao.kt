@@ -1,45 +1,41 @@
 package com.nalexand.friendlocation.data
 
 import androidx.room.*
+import com.nalexand.friendlocation.model.entity.MemberEntity
+import com.nalexand.friendlocation.model.entity.NoteEntity
 
 @Dao
 interface AppDao {
-	@Query("SELECT * FROM UserEntity ORDER BY end_at ASC")
-	fun getAll(): MutableList<UserEntity>
+	@Query("SELECT * FROM MemberEntity ORDER BY end_at ASC")
+	fun getAll(): MutableList<MemberEntity>
 
-	@Query("SELECT * FROM UserEntity WHERE user_id LIKE (:user_id)")
-	fun getById(user_id: Long): UserEntity
+	@Query("SELECT * FROM MemberEntity WHERE user_id LIKE (:user_id)")
+	fun getById(user_id: Long): MemberEntity
 
-	@Query("SELECT * FROM UserEntity WHERE login LIKE :login")
-	fun getByLogin(login: String): UserEntity
+	@Query("SELECT * FROM MemberEntity WHERE login LIKE :login")
+	fun getByLogin(login: String): MemberEntity
 
-	@Query("SELECT * FROM Token")
-	fun getToken(): Token
-
-	@Query("SELECT COUNT(login) FROM UserEntity")
+	@Query("SELECT COUNT(login) FROM memberEntity")
 	fun getCount() : Int
 
-	@Query("SELECT * FROM Note WHERE user_id LIKE (:user_id) ORDER BY Date ASC")
-	fun getNotes(user_id: String) : MutableList<Note>
+	@Query("SELECT * FROM NoteEntity WHERE user_id LIKE (:user_id) ORDER BY Date ASC")
+	fun getNotes(user_id: String) : MutableList<NoteEntity>
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	fun insert(userEntity: UserEntity)
-
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	fun insertToken(token: Token)
+	fun insert(memberEntity: MemberEntity)
 
 	@Insert
-	fun insertNote(note: Note)
+	fun insertNote(note: NoteEntity)
 
 	@Update
-	fun updateNote(note: Note)
+	fun updateNote(note: NoteEntity)
 
 	@Delete
-	fun deleteNote(note: Note)
+	fun deleteNote(note: NoteEntity)
 
 	@Update
-	fun update(userEntity: UserEntity)
+	fun update(memberEntity: MemberEntity)
 
 	@Delete
-	fun delete(userEntity: UserEntity)
+	fun delete(memberEntity: MemberEntity)
 }
