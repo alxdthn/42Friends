@@ -12,8 +12,8 @@ class NoteRecycleAdapter(private var items: MutableList<Note>, val callback: Cal
     : RecyclerView.Adapter<NoteRecycleAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return if (viewType == R.layout.recycle_note_item) {
-            ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recycle_note_item, parent, false))
+        return if (viewType == R.layout.recycler_note_item) {
+            ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recycler_note_item, parent, false))
         }
         else {
             ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.add_note_button, parent, false))
@@ -21,7 +21,7 @@ class NoteRecycleAdapter(private var items: MutableList<Note>, val callback: Cal
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == items.size) R.layout.add_note_button else R.layout.recycle_note_item
+        return if (position == items.size) R.layout.add_note_button else R.layout.recycler_note_item
     }
 
     override fun getItemCount(): Int {

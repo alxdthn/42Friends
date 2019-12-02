@@ -6,13 +6,13 @@ import android.util.Log
 import com.nalexand.friendlocation.data.AppDatabase
 import com.nalexand.friendlocation.data.Note
 import com.nalexand.friendlocation.view.*
-import kotlinx.android.synthetic.main.activity_notes.*
+import kotlinx.android.synthetic.main.fragment_notes.*
 
 class NotesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notes)
+        setContentView(R.layout.fragment_notes)
 
         val db = AppDatabase.invoke(this)
         val userId = intent.getStringExtra("user_id")

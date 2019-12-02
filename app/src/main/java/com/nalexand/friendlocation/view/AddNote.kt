@@ -12,7 +12,7 @@ import com.nalexand.friendlocation.NotesActivity
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.data.AppDatabase
 import com.nalexand.friendlocation.data.Note
-import kotlinx.android.synthetic.main.activity_notes.*
+import kotlinx.android.synthetic.main.fragment_notes.*
 import java.util.*
 
 fun startAddNoteView(activity: NotesActivity, db : AppDatabase, userId : String) {

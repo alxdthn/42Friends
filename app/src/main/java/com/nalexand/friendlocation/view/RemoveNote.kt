@@ -11,7 +11,7 @@ import com.nalexand.friendlocation.NotesActivity
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.data.AppDatabase
 import com.nalexand.friendlocation.data.Note
-import kotlinx.android.synthetic.main.activity_notes.*
+import kotlinx.android.synthetic.main.fragment_notes.*
 
 fun 	startRemoveNoteView(activity: NotesActivity, db: AppDatabase, note: Note) {
 
