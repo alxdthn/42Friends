@@ -1,14 +1,14 @@
-package com.nalexand.friendlocation.model.local
+package com.nalexand.friendlocation.model.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Member(
+data class UserEntity(
 	@PrimaryKey
-	@ColumnInfo(name = "user_id")
-	val user_id: String,
+	@ColumnInfo(name = "id")
+	val id: String,
 	@ColumnInfo(name = "login")
 	val login: String,
 	val host: String? = null,

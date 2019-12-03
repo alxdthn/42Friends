@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.nalexand.friendlocation.di.ViewModelFactory
 import com.nalexand.friendlocation.di.key.ViewModelKey
-import com.nalexand.friendlocation.ui.add_member.AddMemberViewModel
+import com.nalexand.friendlocation.ui.add_member.AddUserViewModel
 import com.nalexand.friendlocation.ui.home.HomeViewModel
 import com.nalexand.friendlocation.ui.notes.NotesViewModel
 import dagger.Binds
@@ -25,11 +25,11 @@ abstract class ViewModelModule {
 
 	@Binds
 	@IntoMap
-	@ViewModelKey(AddMemberViewModel::class)
-	internal abstract fun bindAddMemberViewModel(viewModel: AddMemberViewModel): ViewModel
+	@ViewModelKey(AddUserViewModel::class)
+	internal abstract fun bindAddUserViewModel(viewModel: AddUserViewModel): ViewModel
 
 	@Binds
 	@IntoMap
 	@ViewModelKey(NotesViewModel::class)
-	internal abstract fun bindAddNotesViewModel(viewModel: NotesViewModel): ViewModel
+	internal abstract fun bindNotesViewModel(viewModel: NotesViewModel): ViewModel
 }

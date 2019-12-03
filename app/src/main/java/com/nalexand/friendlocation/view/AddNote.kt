@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.nalexand.friendlocation.R
-import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.repository.data.AppDatabase
 import kotlinx.android.synthetic.main.fragment_notes.*
 import java.util.*
 /*

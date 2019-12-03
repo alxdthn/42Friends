@@ -1,11 +1,8 @@
 package com.nalexand.friendlocation.di.component
 
 import android.app.Application
+import com.nalexand.friendlocation.di.modules.*
 import com.nalexand.friendlocation.main.MainActivity
-import com.nalexand.friendlocation.di.modules.IntraServiceModule
-import com.nalexand.friendlocation.di.modules.NetworkModule
-import com.nalexand.friendlocation.di.modules.StorageModule
-import com.nalexand.friendlocation.di.modules.ViewModelModule
 import com.nalexand.friendlocation.ui.add_member.AddMemberFragment
 import com.nalexand.friendlocation.ui.home.HomeFragment
 import com.nalexand.friendlocation.ui.notes.NotesFragment
@@ -19,7 +16,8 @@ import javax.inject.Singleton
         StorageModule::class,
         ViewModelModule::class,
         NetworkModule::class,
-        IntraServiceModule::class
+        IntraServiceModule::class,
+        DataBaseModule::class
     ]
 )
 interface AppComponent {

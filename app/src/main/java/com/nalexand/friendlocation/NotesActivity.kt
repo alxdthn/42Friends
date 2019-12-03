@@ -3,7 +3,7 @@ package com.nalexand.friendlocation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.repository.data.AppDatabase
 import com.nalexand.friendlocation.view.*
 import kotlinx.android.synthetic.main.fragment_notes.*
 

@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.nalexand.friendlocation.R
-import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.repository.data.AppDatabase
 import kotlinx.android.synthetic.main.fragment_notes.*
 /*
 fun 	startRemoveNoteView(activity: NotesActivity, db: AppDatabase, note: Note) {

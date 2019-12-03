@@ -1,7 +1,6 @@
-package com.nalexand.friendlocation.repository
+package com.nalexand.friendlocation.repository.app
 
 import android.content.Context
-import android.media.session.MediaSession
 import com.nalexand.friendlocation.model.local.Token
 import com.nalexand.friendlocation.utils.Constants.INTERNAL_PREFS
 

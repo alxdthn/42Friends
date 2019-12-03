@@ -1,8 +1,7 @@
 package com.nalexand.friendlocation.network
 
-import com.nalexand.friendlocation.repository.AppPreferences
+import com.nalexand.friendlocation.repository.app.AppPreferences
 import com.nalexand.friendlocation.utils.Constants.CLIENT_ID
-import com.nalexand.friendlocation.utils.Constants.TOKEN_PREF_KEY
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -14,9 +13,9 @@ class IntraInterceptor @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val newRequest = originalRequest.newBuilder()
-        val token = preferences.getString(TOKEN_PREF_KEY)
+        val token = preferences.getToken()
         val url = originalRequest.url().newBuilder()
-            .addQueryParameter("token", token)
+            .addQueryParameter("token", token.value)
             .addQueryParameter("key", CLIENT_ID)
             .build()
 

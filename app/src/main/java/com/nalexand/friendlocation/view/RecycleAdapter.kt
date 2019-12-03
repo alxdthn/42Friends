@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.R.color.*
-import com.nalexand.friendlocation.data.AppDatabase
+import com.nalexand.friendlocation.repository.data.AppDatabase
 /*
 fun bindNotes(itemView : View, notes : MutableList<Note>, color : Int) {
     val note1 = itemView.findViewById<TextView>(R.id.note1)
