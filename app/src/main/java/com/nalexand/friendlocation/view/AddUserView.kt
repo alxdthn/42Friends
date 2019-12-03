@@ -4,7 +4,7 @@ package com.nalexand.friendlocation.view
 fun startAddUserView(activity: MainActivity) {
 
     val alertBuilder = AlertDialog.Builder(activity)
-    val dialogView = LayoutInflater.from(activity).inflate(R.layout.window_user_add, null)
+    val dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_user_add, null)
     val input = dialogView.findViewById<EditText>(R.id.input_text)
     val findBtn = dialogView.findViewById<Button>(R.id.findBtn)
     val dialog = alertBuilder.setView(dialogView).create()

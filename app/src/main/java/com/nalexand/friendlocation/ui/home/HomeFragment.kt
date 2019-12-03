@@ -1,12 +1,35 @@
 package com.nalexand.friendlocation.ui.home
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.viewModels
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseFragment
+import com.nalexand.friendlocation.utils.DialogListener
+import kotlinx.android.synthetic.main.app_bar_main.*
 
-class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home) {
+class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
+	View.OnClickListener, DialogListener {
 
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		fabAddUser.setOnClickListener(this)
+	}
 
+	override fun onClick(v: View?) {
+		when (v?.id) {
+			R.id.fabAddUser -> showAddUserDialog()
+		}
+	}
+
+	private fun showAddUserDialog() {
+
+	}
+
+	override fun onDialogAnswer(answer: Any?) {
+		when (answer) {
+
+		}
+	}
 }
 
 /*

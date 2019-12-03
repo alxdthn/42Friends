@@ -3,7 +3,7 @@ package com.nalexand.friendlocation.di.component
 import android.app.Application
 import com.nalexand.friendlocation.di.modules.*
 import com.nalexand.friendlocation.main.MainActivity
-import com.nalexand.friendlocation.ui.add_member.AddMemberFragment
+import com.nalexand.friendlocation.ui.add_user.AddUserDialog
 import com.nalexand.friendlocation.ui.home.HomeFragment
 import com.nalexand.friendlocation.ui.notes.NotesFragment
 import dagger.BindsInstance
@@ -26,9 +26,9 @@ interface AppComponent {
 
     fun inject(homeFragment: HomeFragment)
 
-    fun inject(addMemberFragment: AddMemberFragment)
-
     fun inject(notesFragment: NotesFragment)
+
+    fun inject(AddUserDialog: AddUserDialog)
 
     @Component.Builder
     interface Builder {

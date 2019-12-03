@@ -14,14 +14,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.nalexand.friendlocation.R
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
 	private lateinit var appBarConfiguration: AppBarConfiguration
 
+	@Inject
+	lateinit var commonViewModel: CommonViewModel
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
+		inject()
 		setToolbar()
 		setFab()
 		setNavigation()
@@ -43,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun setFab() {
-		val fab: FloatingActionButton = findViewById(R.id.fab)
+		val fab: FloatingActionButton = findViewById(R.id.fabAddUser)
 		fab.setOnClickListener { view ->
 			Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 				.setAction("Action", null).show()
@@ -64,5 +69,10 @@ class MainActivity : AppCompatActivity() {
 		)
 		setupActionBarWithNavController(navController, appBarConfiguration)
 		navView.setupWithNavController(navController)
+	}
+
+	private fun inject() {
+		val injector = (application as App).getAppComponent()
+		injector.inject(this)
 	}
 }

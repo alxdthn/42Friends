@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.nalexand.friendlocation.di.ViewModelFactory
 import com.nalexand.friendlocation.di.key.ViewModelKey
-import com.nalexand.friendlocation.ui.add_member.AddUserViewModel
+import com.nalexand.friendlocation.ui.add_user.AddUserViewModel
 import com.nalexand.friendlocation.ui.home.HomeViewModel
 import com.nalexand.friendlocation.ui.notes.NotesViewModel
 import dagger.Binds

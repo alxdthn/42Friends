@@ -5,14 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import com.nalexand.friendlocation.di.ViewModelUtil
 import com.nalexand.friendlocation.main.MainActivity
 import com.nalexand.friendlocation.main.App
-import com.nalexand.friendlocation.ui.add_member.AddMemberFragment
 import com.nalexand.friendlocation.ui.home.HomeFragment
 import com.nalexand.friendlocation.ui.notes.NotesFragment
 import javax.inject.Inject
@@ -46,7 +42,6 @@ abstract class BaseFragment<VM : BaseViewModel>(private val layout: Int) : Fragm
 		when (this) {
 			is HomeFragment -> injector.inject(this)
 			is NotesFragment -> injector.inject(this)
-			is AddMemberFragment -> injector.inject(this)
 		}
 	}
 }

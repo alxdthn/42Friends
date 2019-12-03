@@ -13,13 +13,13 @@
         android:text="Enter login:" />
 
     <EditText style="@style/BasicText"
-        android:id="@+id/input_text"
+        android:id="@+id/edxAddUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </EditText>
 
     <Button style="@style/BasicButton"
-        android:id="@+id/findBtn"
+        android:id="@+id/btnAddUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="ADD" />
