@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
+import com.nalexand.friendlocation.di.ViewModelUtil
 import com.nalexand.friendlocation.main.MainActivity
 import com.nalexand.friendlocation.main.App
 import com.nalexand.friendlocation.ui.add_member.AddMemberFragment
@@ -13,30 +17,36 @@ import com.nalexand.friendlocation.ui.home.HomeFragment
 import com.nalexand.friendlocation.ui.notes.NotesFragment
 import javax.inject.Inject
 
-abstract class BaseFragment(private val layout: Int) : Fragment() {
+abstract class BaseFragment<VM : BaseViewModel>(private val layout: Int) : Fragment() {
 
-    @Inject
-    lateinit var viewMoldelFactory: ViewModelProvider.Factory
+	@Inject
+	protected lateinit var viewModel: VM
 
-    lateinit var mainActivity: MainActivity
+	lateinit var mainActivity: MainActivity
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        mainActivity = activity as MainActivity
-        inject()
-        return inflater.inflate(layout, container, false)
-    }
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View? {
+		mainActivity = activity as MainActivity
+		inject()
+		return inflater.inflate(layout, container, false)
+	}
 
-    private fun inject() {
-        val injector = (mainActivity.application as App).getAppComponent()
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		val viewModelFactory = ViewModelUtil.createFor(viewModel)
+		ViewModelProviders.of(this, viewModelFactory).get(viewModel.javaClass)
+		viewModel.onViewCreated()
+	}
 
-        when (this) {
-            is HomeFragment -> injector.inject(this)
-            is NotesFragment -> injector.inject(this)
-            is AddMemberFragment -> injector.inject(this)
-        }
-    }
+	private fun inject() {
+		val injector = (mainActivity.application as App).getAppComponent()
+
+		when (this) {
+			is HomeFragment -> injector.inject(this)
+			is NotesFragment -> injector.inject(this)
+			is AddMemberFragment -> injector.inject(this)
+		}
+	}
 }

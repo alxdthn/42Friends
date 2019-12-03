@@ -4,9 +4,8 @@ import androidx.fragment.app.viewModels
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseFragment
 
-class HomeFragment : BaseFragment(R.layout.fragment_home) {
+class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home) {
 
-	private val homeViewModel by viewModels<HomeViewModel> { viewMoldelFactory }
 
 }
 

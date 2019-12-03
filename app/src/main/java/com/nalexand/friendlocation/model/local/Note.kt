@@ -1,11 +1,11 @@
-package com.nalexand.friendlocation.model.entity
+package com.nalexand.friendlocation.model.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class NoteEntity(
+data class Note(
 	@PrimaryKey(autoGenerate = true)
 	val id: Int = 0,
 	@ColumnInfo(name = "user_id")
