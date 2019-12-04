@@ -2,7 +2,9 @@ package com.nalexand.friendlocation.repository.app
 
 import android.content.Context
 import com.nalexand.friendlocation.model.local.Token
+import com.nalexand.friendlocation.model.response.TokenResponse
 import com.nalexand.friendlocation.utils.Constants.INTERNAL_PREFS
+import java.lang.IllegalArgumentException
 
 class AppPreferences(
     private val appContext: Context
@@ -17,6 +19,14 @@ class AppPreferences(
         val value = getString(TOKEN_VALUE_PREF_KEY)
         val expiration = getLong(TOKEN_EXPIRATION_PREF_KEY)
         return Token(value, expiration)
+    }
+
+    fun saveToken(token: TokenResponse) {
+        putString(TOKEN_VALUE_PREF_KEY, token.access_token)
+    }
+
+    fun clearToken() {
+        remove(TOKEN_VALUE_PREF_KEY)
     }
 
     private fun getLong(key: String): Long {

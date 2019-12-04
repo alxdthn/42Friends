@@ -9,23 +9,24 @@ import com.nalexand.friendlocation.utils.Constants.GRAND_TYPE
 import io.reactivex.Single
 import retrofit2.http.*
 
-interface IntraService {
+interface IntraUserService {
 
     @POST("oauth/token")
-    fun getToken(
+    fun refreshToken(
         @Query("grant_type") grantType: String = GRAND_TYPE,
         @Query("client_id") clientId: String = CLIENT_ID,
         @Query("client_secret") clientSecret: String = CLIENT_SECRET
-    ): Single<TokenResponse>
+    ): TokenResponse
 
     @GET("/v2/users/?")
     fun getUser(
-        @Header("Authorization") auth: String?,
-        @Query("filter[login]", encoded = true) login: String): Single<Array<UserResponse>>
+        @Query("filter[login]", encoded = true) login: String
+    ): Single<Array<UserResponse>>
 
     @GET("/v2/locations")
     fun getUserLocation(
         @Header("Authorization") auth: String?,
         @Query("filter[user_id]", encoded = true) user_id: String,
-        @Query("filter[end]", encoded = true) end: String): Single<Array<LocationResponse>>
+        @Query("filter[end]", encoded = true) end: String
+    ): Single<Array<LocationResponse>>
 }

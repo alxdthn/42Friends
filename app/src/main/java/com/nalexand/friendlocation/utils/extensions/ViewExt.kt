@@ -2,10 +2,10 @@ package com.nalexand.friendlocation.utils.extensions
 
 import android.content.Context
 import android.os.Handler
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.google.android.material.snackbar.Snackbar
 
 fun View.showKeyboard() {
 	Handler().post {
@@ -64,4 +64,13 @@ infix fun View.dpf(value: Float): Float {
 	return TypedValue.applyDimension(
 		TypedValue.COMPLEX_UNIT_DIP, value, resources.displayMetrics
 	)
+}
+
+fun View.showSnackbar(text: String) {
+	Snackbar.make(this, text, Snackbar.LENGTH_SHORT).show()
+}
+
+fun View.showSnackbar(resId: Int) {
+	val text = resources.getString(resId)
+	Snackbar.make(this, text, Snackbar.LENGTH_SHORT).show()
 }

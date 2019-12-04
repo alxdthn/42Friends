@@ -13,9 +13,9 @@ interface UserDao : BaseDao<UserEntity> {
 	fun getAll(): Flowable<List<UserEntity>>
 
 	@Query("SELECT * FROM UserEntity WHERE id LIKE (:id)")
-	fun getById(id: String): Single<UserEntity>
+	fun getById(id: String): UserEntity?
 
 	@Query("SELECT * FROM UserEntity WHERE login LIKE :login")
-	fun getByLogin(login: String): Single<UserEntity>
+	fun getByLogin(login: String): UserEntity?
 
 }

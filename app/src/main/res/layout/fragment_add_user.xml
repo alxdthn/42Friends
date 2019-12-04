@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/clAddUserContent"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/main_background"
+	android:padding="10dp">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:layout_editor_absoluteX="10dp">
+
+		<TextView
+			android:id="@+id/txvAddUser"
+			style="@style/WindowHeader"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/enter_username" />
+
+		<EditText
+			android:id="@+id/edxAddUser"
+			style="@style/BasicText"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+
+		<ProgressBar
+			android:id="@+id/pbAddUser"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:visibility="gone" />
+
+		<Button
+			android:id="@+id/btnAddUser"
+			style="@style/BasicButton"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/add" />
+	</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

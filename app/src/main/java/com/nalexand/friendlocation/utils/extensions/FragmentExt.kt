@@ -12,6 +12,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.view.menu.MenuPopupHelper
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.nalexand.friendlocation.R
 
 fun Fragment.getOrientation(): Int {
@@ -59,4 +60,12 @@ fun Fragment.hideKeyboard() {
 	Handler().post {
 		imm.hideSoftInputFromWindow(token, 0)
 	}
+}
+
+fun Fragment.showSnackbar(view: View, text: String) {
+	Snackbar.make(view, text, Snackbar.LENGTH_SHORT).show()
+}
+
+fun Fragment.showSnackbar(view: View, resId: Int) {
+	Snackbar.make(view, getString(resId), Snackbar.LENGTH_SHORT).show()
 }

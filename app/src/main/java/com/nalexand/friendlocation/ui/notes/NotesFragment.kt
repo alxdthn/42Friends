@@ -3,4 +3,9 @@ package com.nalexand.friendlocation.ui.notes
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseFragment
 
-class NotesFragment : BaseFragment<NotesViewModel>(R.layout.fragment_notes)
+class NotesFragment : BaseFragment<NotesViewModel>(R.layout.fragment_notes) {
+
+	override fun initializeObservers() {
+
+	}
+}

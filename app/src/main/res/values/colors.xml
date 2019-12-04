@@ -7,4 +7,5 @@
     <color name="Dark">#9E000000</color>
     <color name="fullDark">#000000</color>
     <color name="transparency">#00000000</color>
+    <color name="alpha50">#80000000</color>
 </resources>

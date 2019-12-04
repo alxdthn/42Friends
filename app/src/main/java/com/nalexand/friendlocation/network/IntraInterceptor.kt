@@ -14,12 +14,8 @@ class IntraInterceptor @Inject constructor(
         val originalRequest = chain.request()
         val newRequest = originalRequest.newBuilder()
         val token = preferences.getToken()
-        val url = originalRequest.url().newBuilder()
-            .addQueryParameter("token", token.value)
-            .addQueryParameter("key", CLIENT_ID)
-            .build()
 
-        newRequest.url(url)
+        newRequest.addHeader("Authorization", "Bearer ${token.value}")
         return chain.proceed(newRequest.build())
     }
 }

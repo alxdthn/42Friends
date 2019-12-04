@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
 		setContentView(R.layout.activity_main)
 		inject()
 		setToolbar()
-		setFab()
 		setNavigation()
 	}
 
@@ -47,14 +46,6 @@ class MainActivity : AppCompatActivity() {
 		setSupportActionBar(toolbar)
 	}
 
-	private fun setFab() {
-		val fab: FloatingActionButton = findViewById(R.id.fabAddUser)
-		fab.setOnClickListener { view ->
-			Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-				.setAction("Action", null).show()
-		}
-	}
-
 	private fun setNavigation() {
 		val drawerLayout: DrawerLayout = findViewById(R.id.dlMainDrawer)
 		val navView: NavigationView = findViewById(R.id.nvMainNavView)
@@ -63,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 		appBarConfiguration = AppBarConfiguration(
 			setOf(
 				R.id.nav_home,
-				R.id.nav_add_member,
+				R.id.nav_add_user,
 				R.id.nav_notes
 			), drawerLayout
 		)
