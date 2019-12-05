@@ -26,6 +26,8 @@ abstract class BaseFragment<VM : BaseViewModel>(private val layout: Int) : Fragm
 
 	abstract fun initializeObservers()
 
+	abstract fun initializeUi()
+
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
@@ -33,13 +35,14 @@ abstract class BaseFragment<VM : BaseViewModel>(private val layout: Int) : Fragm
 	): View? {
 		mainActivity = activity as MainActivity
 		inject()
-		initializeObservers()
 		return inflater.inflate(layout, container, false)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		val viewModelFactory = ViewModelUtil.createFor(viewModel)
 		ViewModelProviders.of(this, viewModelFactory).get(viewModel.javaClass)
+		initializeUi()
+		initializeObservers()
 		viewModel.onViewCreated()
 	}
 

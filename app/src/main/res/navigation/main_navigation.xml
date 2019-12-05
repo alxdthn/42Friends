@@ -14,7 +14,7 @@
 			android:id="@+id/action_nav_home_to_nav_add_user"
 			app:destination="@id/nav_add_user"
 			app:enterAnim="@anim/enter_vert_ttb"
-			app:exitAnim="@anim/exit_vert_ttb"
+			app:exitAnim="@anim/empty"
 			app:popEnterAnim="@anim/pop_enter_vert_ttb"
 			app:popExitAnim="@anim/pop_exit_vert_ttb" />
 		<action

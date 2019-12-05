@@ -4,29 +4,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nalexand.friendlocation.base.BaseViewModel
 import com.nalexand.friendlocation.model.local.User
-import com.nalexand.friendlocation.model.local.Token
 import com.nalexand.friendlocation.repository.IntraRepository
+import com.nalexand.friendlocation.utils.extensions.subscribe
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
 	private val repository: IntraRepository
-): BaseViewModel() {
+) : BaseViewModel() {
 
-	private val _members = MutableLiveData<List<User>>()
-	val members: LiveData<List<User>> = _members
+	private val _users = MutableLiveData<List<User>>()
+	val users: LiveData<List<User>> = _users
 
 	override fun onViewCreated() {
 		repository.getAllUsersFromDatabase()
-			.subscribe { _members.value = it }
+			.subscribe { _users.value = it }
 			.addTo(composite)
 		updateLocations()
 	}
 
 	private fun updateLocations() {
-	}
-
-	private fun checkTokenExpiration(token: Token): Boolean {
-		return true
 	}
 }

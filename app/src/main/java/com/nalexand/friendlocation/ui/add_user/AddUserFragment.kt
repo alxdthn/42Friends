@@ -1,6 +1,5 @@
 package com.nalexand.friendlocation.ui.add_user
 
-import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -12,12 +11,20 @@ import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.ERROR_
 import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.SUCCESS
 import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.USER_EXISTS
 import com.nalexand.friendlocation.utils.extensions.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_add_user.*
-
 
 class AddUserFragment : BaseFragment<AddUserViewModel>(R.layout.fragment_add_user),
 	View.OnClickListener {
+
+	override fun initializeUi() {
+		mainActivity.softInputAdjustResize()
+		btnAddUser.setOnClickListener(this)
+		txvAddUser.setOnClickListener(this)
+		edxAddUser.apply {
+			addTextChangedListener(viewModel)
+			requestFocus()
+		}
+	}
 
 	override fun initializeObservers() {
 		subscribe(viewModel.onHandleInput) { answerCode ->
@@ -42,17 +49,6 @@ class AddUserFragment : BaseFragment<AddUserViewModel>(R.layout.fragment_add_use
 		observeState(viewModel.onLoading) { onLoading ->
 			btnAddUser goneIf onLoading
 			pbAddUser hereIf onLoading
-		}
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		mainActivity.softInputAdjustResize()
-		btnAddUser.setOnClickListener(this)
-		txvAddUser.setOnClickListener(this)
-		edxAddUser.apply {
-			addTextChangedListener(viewModel)
-			requestFocus()
 		}
 	}
 

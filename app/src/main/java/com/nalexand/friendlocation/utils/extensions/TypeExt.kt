@@ -1,6 +1,7 @@
 package com.nalexand.friendlocation.utils.extensions
 
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.nalexand.friendlocation.base.BaseFragment
 import com.nalexand.friendlocation.base.BaseViewModel
@@ -9,7 +10,7 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.PublishSubject
 import java.lang.IllegalArgumentException
 
-/*
+
 inline fun <T, K> T.observe(data: T.() -> LiveData<K>, crossinline block: T.(K) -> Unit) {
 	try {
 		data().observe(this as LifecycleOwner, Observer { block(it) })
@@ -17,7 +18,15 @@ inline fun <T, K> T.observe(data: T.() -> LiveData<K>, crossinline block: T.(K) 
 		e.printStackTrace()
 	}
 }
-*/
+
+inline fun <T, K> T.observe(data: LiveData<K>, crossinline block: T.(K) -> Unit) {
+	try {
+		data.observe(this as LifecycleOwner, Observer { block(it) })
+	} catch (e: Throwable) {
+		e.printStackTrace()
+	}
+}
+
 
 inline fun <T> T.observeState(state: T.() -> LocalState, crossinline block: T.(Boolean) -> Unit) {
 	state().observe(this as LifecycleOwner, Observer { block(it) })

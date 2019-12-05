@@ -8,9 +8,15 @@
     <color name="fullDark">#000000</color>
     <color name="transparency">#00000000</color>
     <color name="alpha15">#26000000</color>
+
     <color name="black70">#1E1E1E</color>
     <color name="black60">#282828</color>
     <color name="black50">#323232</color>
     <color name="black40">#3C3C3C</color>
     <color name="black30">#464646</color>
+    <color name="black20">#505050</color>
+
+    <color name="white100">#FFFFFF</color>
+    <color name="white90">#F5F5F5</color>
+    <color name="white80">#EBEBEB</color>
 </resources>

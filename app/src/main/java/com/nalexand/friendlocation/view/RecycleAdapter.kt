@@ -87,7 +87,7 @@ class ViewAdapter(private var items: MutableList<UserEntity>, private val db : A
     : RecyclerView.Adapter<ViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recycler_member_item, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recycler_user_item, parent, false))
     }
 
     override fun getItemCount(): Int {

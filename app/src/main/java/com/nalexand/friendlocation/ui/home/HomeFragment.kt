@@ -1,22 +1,77 @@
 package com.nalexand.friendlocation.ui.home
 
-import android.os.Bundle
+import android.animation.ObjectAnimator
 import android.view.View
-import androidx.navigation.findNavController
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseFragment
+import com.nalexand.friendlocation.ui.home.adapter.UserAdapter
+import com.nalexand.friendlocation.ui.home.adapter.UserItemsHandler
+import com.nalexand.friendlocation.utils.extensions.observe
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
 	View.OnClickListener {
 
-	override fun initializeObservers() {
+	lateinit var itemsHandler: UserItemsHandler
 
+	override fun initializeUi() {
+		itemsHandler = UserItemsHandler(this)
+		rvUsers.adapter = itemsHandler.adapter
+		fabAddUser.setOnClickListener(this)
 	}
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		fabAddUser.setOnClickListener(this)
+	override fun initializeObservers() {
+		observe(viewModel.users) { users ->
+			itemsHandler render users
+		}
+	}
+
+	override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
+		if (nextAnim != 0) {
+			val anim = AnimationUtils.loadAnimation(context, nextAnim)
+			anim.setAnimationListener(
+				HomeAnimationListener(
+					enter,
+					activity?.findViewById(R.id.rvUsers)
+				)
+			)
+			return anim
+		}
+		return null
+	}
+
+	class HomeAnimationListener(private val enter: Boolean, private val rv: RecyclerView?) :
+		Animation.AnimationListener {
+		override fun onAnimationRepeat(animation: Animation?) {
+
+		}
+
+		override fun onAnimationEnd(animation: Animation?) {
+
+		}
+
+		override fun onAnimationStart(animation: Animation?) {
+			if (!enter && rv != null) {
+				val size = rv.adapter?.itemCount ?: 0
+				for (pos in 0..size) {
+					val holder = rv.findViewHolderForAdapterPosition(pos)
+					if (holder is UserAdapter.ViewHolder) {
+						translateX(holder.itemView)
+					}
+				}
+			}
+		}
+
+		private fun translateX(view: View) {
+			ObjectAnimator.ofFloat(view, "translationX", view.width.toFloat()).apply {
+				duration = 500
+				start()
+			}
+		}
 	}
 
 	override fun onClick(v: View?) {
