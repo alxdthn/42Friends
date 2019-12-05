@@ -1,6 +1,7 @@
 <resources>
 	<string name="app_name">42Friends</string>
 	<string name="menu_home">Home</string>
+	<string name="menu_add_user">Add user</string>
 	<string name="navigation_drawer_open">Open navigation drawer</string>
 	<string name="navigation_drawer_close">Close navigation drawer</string>
 	<string name="nav_header_title">Android Studio</string>
@@ -12,4 +13,5 @@
 	<string name="user_exists">User exists</string>
 	<string name="cant_find_user">Can\'t find user</string>
 	<string name="network_error">Network error</string>
+	<string name="user_added">Success!</string>
 </resources>

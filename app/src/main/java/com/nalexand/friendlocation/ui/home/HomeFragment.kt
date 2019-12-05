@@ -3,6 +3,7 @@ package com.nalexand.friendlocation.ui.home
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -20,12 +21,12 @@ class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
 
 	override fun onClick(v: View?) {
 		when (v?.id) {
-			R.id.fabAddUser -> showAddUserFragment()
+			R.id.fabAddUser -> navigateToAddNewUser()
 		}
 	}
 
-	private fun showAddUserFragment() {
-		view?.findNavController()?.navigate(R.id.action_nav_home_to_nav_add_user)
+	private fun navigateToAddNewUser() {
+		findNavController().navigate(R.id.action_nav_home_to_nav_add_user)
 	}
 }
 

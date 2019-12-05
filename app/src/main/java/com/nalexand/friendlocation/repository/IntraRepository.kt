@@ -6,6 +6,7 @@ import com.nalexand.friendlocation.model.entity.UserEntity
 import com.nalexand.friendlocation.model.local.User
 import com.nalexand.friendlocation.model.response.UserResponse
 import com.nalexand.friendlocation.network.service.IntraUserService
+import com.nalexand.friendlocation.repository.data.dao.NoteDao
 import com.nalexand.friendlocation.repository.data.dao.UserDao
 import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.ERROR_USER
 import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.SUCCESS
@@ -32,10 +33,9 @@ class IntraRepository @Inject constructor(
 	fun findUserInApi(login: String): Single<Int> {
 		return prepareSingle(service.getUser(login))
 			.map {
-				Log.d("bestTAG", "${it.size}")
 				return@map if (it.isEmpty()) ERROR_USER
 				else {
-				//	userDao.insert(mapper.map(it[0]))
+					userDao.insert(mapper.map(it[0]))
 					SUCCESS
 				}
 			}

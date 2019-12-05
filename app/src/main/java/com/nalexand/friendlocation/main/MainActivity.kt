@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -20,10 +21,11 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-	private lateinit var appBarConfiguration: AppBarConfiguration
 
 	@Inject
 	lateinit var commonViewModel: CommonViewModel
+
+	private lateinit var appBarConfiguration: AppBarConfiguration
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -54,32 +56,14 @@ class MainActivity : AppCompatActivity() {
 		val navController = findNavController(R.id.nvHostFragment)
 
 		appBarConfiguration = AppBarConfiguration(
-			setOf(
-				R.id.nav_home,
-				R.id.nav_add_user,
-				R.id.nav_notes
-			), drawerLayout
+			setOf(R.id.nav_home), drawerLayout
 		)
 		setupActionBarWithNavController(navController, appBarConfiguration)
 		navView.setupWithNavController(navController)
 	}
 
-	fun showAddUserFragment() {
-		beginTransaction()
-			.add(R.id.nvHostFragment, AddUserFragment())
-			.addToBackStack(ADD_USER_FRAGMENT)
-			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-			.commit()
-	}
-
 	private fun inject() {
 		val injector = (application as App).getAppComponent()
 		injector.inject(this)
-	}
-
-	private fun beginTransaction() = supportFragmentManager.beginTransaction()
-
-	companion object {
-		const val ADD_USER_FRAGMENT = "add_user_fragment"
 	}
 }

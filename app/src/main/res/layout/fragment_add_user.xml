@@ -40,7 +40,7 @@
 		<EditText
 			android:id="@+id/edxAddUser"
 			style="@style/BasicText"
-			android:textSize="25sp"
+			android:textSize="20sp"
 			tools:text="nalexand"
 			android:gravity="center"
 			android:layout_width="match_parent"
@@ -55,7 +55,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/cvAddUserHeader"
+		app:layout_constraintTop_toBottomOf="@+id/cvAddUserInput"
 		tools:layout_editor_absoluteX="10dp">
 
 		<ProgressBar
