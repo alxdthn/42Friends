@@ -8,10 +8,8 @@ import android.view.inputmethod.InputMethodManager
 import com.google.android.material.snackbar.Snackbar
 
 fun View.showKeyboard() {
-	Handler().post {
-		val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-		imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-	}
+	val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+	imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }
 
 infix fun View.invisibleIf(invisible: Boolean) {
@@ -54,7 +52,7 @@ fun View.invisible() {
 	visibility = View.INVISIBLE
 }
 
-fun View.dp(value: Float): Int {
+infix fun View.dp(value: Float): Int {
 	return TypedValue.applyDimension(
 		TypedValue.COMPLEX_UNIT_DIP, value, resources.displayMetrics
 	).toInt()

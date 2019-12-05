@@ -5,29 +5,58 @@
 	android:id="@+id/clAddUserContent"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@drawable/main_background"
-	android:padding="10dp">
+	android:background="@color/black30">
 
-	<LinearLayout
+	<androidx.cardview.widget.CardView
+		android:id="@+id/cvAddUserHeader"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		tools:layout_editor_absoluteX="10dp">
+		android:translationY="@dimen/add_user_header_translationY"
+		android:layout_height="@dimen/add_user_header_height"
+		app:cardElevation="4dp"
+		tools:translationY="0dp"
+		app:cardBackgroundColor="@color/black50"
+		app:layout_constraintTop_toTopOf="parent">
 
 		<TextView
 			android:id="@+id/txvAddUser"
 			style="@style/WindowHeader"
+			android:paddingBottom="16dp"
+			android:layout_gravity="bottom"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/enter_username" />
+	</androidx.cardview.widget.CardView>
+
+	<androidx.cardview.widget.CardView
+		android:id="@+id/cvAddUserInput"
+		android:layout_width="match_parent"
+		app:cardElevation="2dp"
+		android:layout_height="@dimen/add_user_input_height"
+		android:translationY="@dimen/add_user_input_translationY"
+		tools:translationY="0dp"
+		app:cardBackgroundColor="@color/black40"
+		app:layout_constraintTop_toBottomOf="@+id/cvAddUserHeader">
 
 		<EditText
 			android:id="@+id/edxAddUser"
 			style="@style/BasicText"
+			android:textSize="25sp"
+			tools:text="nalexand"
+			android:gravity="center"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content" />
+			android:layout_height="wrap_content"
+			android:paddingTop="0dp"
+			android:layout_gravity="bottom"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp" />
+	</androidx.cardview.widget.CardView>
+
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/cvAddUserHeader"
+		tools:layout_editor_absoluteX="10dp">
 
 		<ProgressBar
 			android:id="@+id/pbAddUser"
@@ -41,5 +70,5 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/add" />
-	</LinearLayout>
+	</FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

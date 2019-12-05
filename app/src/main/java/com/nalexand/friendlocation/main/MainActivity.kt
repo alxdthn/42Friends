@@ -5,6 +5,7 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -14,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.nalexand.friendlocation.R
+import com.nalexand.friendlocation.ui.add_user.AddUserFragment
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -62,8 +64,22 @@ class MainActivity : AppCompatActivity() {
 		navView.setupWithNavController(navController)
 	}
 
+	fun showAddUserFragment() {
+		beginTransaction()
+			.add(R.id.nvHostFragment, AddUserFragment())
+			.addToBackStack(ADD_USER_FRAGMENT)
+			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+			.commit()
+	}
+
 	private fun inject() {
 		val injector = (application as App).getAppComponent()
 		injector.inject(this)
+	}
+
+	private fun beginTransaction() = supportFragmentManager.beginTransaction()
+
+	companion object {
+		const val ADD_USER_FRAGMENT = "add_user_fragment"
 	}
 }

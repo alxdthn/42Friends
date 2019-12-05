@@ -1,5 +1,6 @@
 package com.nalexand.friendlocation.repository
 
+import android.util.Log
 import com.nalexand.friendlocation.base.BaseRepository
 import com.nalexand.friendlocation.model.entity.UserEntity
 import com.nalexand.friendlocation.model.local.User
@@ -31,9 +32,10 @@ class IntraRepository @Inject constructor(
 	fun findUserInApi(login: String): Single<Int> {
 		return prepareSingle(service.getUser(login))
 			.map {
+				Log.d("bestTAG", "${it.size}")
 				return@map if (it.isEmpty()) ERROR_USER
 				else {
-					userDao.insert(mapper.map(it[0]))
+				//	userDao.insert(mapper.map(it[0]))
 					SUCCESS
 				}
 			}

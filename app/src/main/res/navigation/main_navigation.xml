@@ -9,14 +9,14 @@
 		android:id="@+id/nav_home"
 		android:name="com.nalexand.friendlocation.ui.home.HomeFragment"
 		android:label="@string/menu_home"
-		tools:layout="@layout/fragment_home" >
+		tools:layout="@layout/fragment_home">
 		<action
 			android:id="@+id/action_nav_home_to_nav_add_user"
 			app:destination="@id/nav_add_user"
-			app:enterAnim="@anim/enter"
-			app:exitAnim="@anim/exit"
-			app:popEnterAnim="@anim/pop_enter"
-			app:popExitAnim="@anim/pop_exit"/>
+			app:enterAnim="@anim/enter_vert_ttb"
+			app:exitAnim="@anim/exit_vert_ttb"
+			app:popEnterAnim="@anim/pop_enter_vert_ttb"
+			app:popExitAnim="@anim/pop_exit_vert_ttb" />
 		<action
 			android:id="@+id/action_nav_home_to_nav_notes"
 			app:destination="@id/nav_notes"
@@ -30,7 +30,7 @@
 		android:id="@+id/nav_add_user"
 		android:name="com.nalexand.friendlocation.ui.add_user.AddUserFragment"
 		android:label="@string/menu_home"
-		tools:layout="@layout/fragment_add_user" />
+		tools:layout="@layout/fragment_add_user"/>
 
 	<fragment
 		android:id="@+id/nav_notes"

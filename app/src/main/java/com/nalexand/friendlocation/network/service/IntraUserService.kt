@@ -11,16 +11,9 @@ import retrofit2.http.*
 
 interface IntraUserService {
 
-    @POST("oauth/token")
-    fun refreshToken(
-        @Query("grant_type") grantType: String = GRAND_TYPE,
-        @Query("client_id") clientId: String = CLIENT_ID,
-        @Query("client_secret") clientSecret: String = CLIENT_SECRET
-    ): TokenResponse
-
-    @GET("/v2/users/?")
+    @GET("/v2/users")
     fun getUser(
-        @Query("filter[login]", encoded = true) login: String
+        @Query("filter[login]") login: String
     ): Single<Array<UserResponse>>
 
     @GET("/v2/locations")
