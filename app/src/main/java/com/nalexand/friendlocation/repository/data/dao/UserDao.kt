@@ -10,7 +10,7 @@ import io.reactivex.Single
 interface UserDao : BaseDao<UserEntity> {
 
 	@Query("SELECT * FROM UserEntity ORDER BY end_at ASC")
-	fun getAll(): Flowable<List<UserEntity>>
+	fun getAll(): List<UserEntity>
 
 	@Query("SELECT * FROM UserEntity WHERE id LIKE (:id)")
 	fun getById(id: String): UserEntity?

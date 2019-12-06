@@ -11,6 +11,13 @@
 		android:label="@string/menu_home"
 		tools:layout="@layout/fragment_home">
 		<action
+			android:id="@+id/action_nav_home_to_nav_add_user"
+			app:destination="@id/nav_add_user"
+			app:enterAnim="@anim/empty"
+			app:exitAnim="@anim/empty"
+			app:popEnterAnim="@anim/pop_enter_vert_ttb"
+			app:popExitAnim="@anim/pop_exit_vert_ttb" />
+		<action
 			android:id="@+id/action_nav_home_to_nav_notes"
 			app:destination="@id/nav_notes"
 			app:enterAnim="@anim/nav_default_enter_anim"

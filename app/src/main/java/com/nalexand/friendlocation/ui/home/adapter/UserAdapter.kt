@@ -12,7 +12,7 @@ import com.nalexand.friendlocation.model.recycler.UserItem
 import kotlinx.android.synthetic.main.recycler_user_item.view.*
 
 @Suppress("UNCHECKED_CAST")
-class UserAdapter(private val width: Float) : BaseAdapter() {
+class UserAdapter : BaseAdapter() {
 
 	lateinit var itemsHandler: UserItemsHandler
 
@@ -34,8 +34,6 @@ class UserAdapter(private val width: Float) : BaseAdapter() {
 			holder.apply {
 				bindTo(item, itemsHandler::onItemClick)
 				bindView(getItems().size, position)
-				itemView.translationX =
-					if (position % 2 == 0) -width else width
 			}
 		}
 	}

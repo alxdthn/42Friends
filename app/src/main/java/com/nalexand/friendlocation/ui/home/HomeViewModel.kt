@@ -17,9 +17,7 @@ class HomeViewModel @Inject constructor(
 	val users: LiveData<List<User>> = _users
 
 	override fun onViewCreated() {
-		repository.getAllUsersFromDatabase()
-			.subscribe { _users.value = it }
-			.addTo(composite)
+		_users.value = repository.getAllUsersFromDatabase()
 		updateLocations()
 	}
 

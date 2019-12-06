@@ -19,9 +19,8 @@ class IntraRepository @Inject constructor(
 
 	private val mapper = DataMapper()
 
-	fun getAllUsersFromDatabase(): Flowable<List<User>> {
-		return prepareFlowable(userDao.getAll())
-			.map { mapper.map(it) }
+	fun getAllUsersFromDatabase(): List<User> {
+		return mapper.map(userDao.getAll())
 	}
 
 	fun getUserByLogin(login: String): User? {
