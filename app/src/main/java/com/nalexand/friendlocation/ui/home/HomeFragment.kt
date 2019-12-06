@@ -1,17 +1,29 @@
 package com.nalexand.friendlocation.ui.home
 
-import android.animation.ObjectAnimator
+import android.graphics.Point
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseFragment
 import com.nalexand.friendlocation.ui.home.adapter.UserAdapter
 import com.nalexand.friendlocation.ui.home.adapter.UserItemsHandler
+import com.nalexand.friendlocation.utils.AppAnimator.HIDE
+import com.nalexand.friendlocation.utils.AppAnimator.SHOW
 import com.nalexand.friendlocation.utils.extensions.observe
+import io.reactivex.Completable
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
+import io.reactivex.subjects.CompletableSubject
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.math.BigInteger
+import java.util.concurrent.TimeUnit
 
 class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
 	View.OnClickListener {
@@ -19,7 +31,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
 	lateinit var itemsHandler: UserItemsHandler
 
 	override fun initializeUi() {
-		itemsHandler = UserItemsHandler(this)
+		val display = activity?.windowManager?.defaultDisplay
+		val point = Point()
+		display?.getSize(point)
+
+		itemsHandler = UserItemsHandler(this, UserAdapter(point.x.toFloat()))
 		rvUsers.adapter = itemsHandler.adapter
 		fabAddUser.setOnClickListener(this)
 	}
@@ -30,50 +46,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
 		}
 	}
 
-	override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
-		if (nextAnim != 0) {
-			val anim = AnimationUtils.loadAnimation(context, nextAnim)
-			anim.setAnimationListener(
-				HomeAnimationListener(
-					enter,
-					activity?.findViewById(R.id.rvUsers)
-				)
-			)
-			return anim
-		}
-		return null
-	}
-
-	class HomeAnimationListener(private val enter: Boolean, private val rv: RecyclerView?) :
-		Animation.AnimationListener {
-		override fun onAnimationRepeat(animation: Animation?) {
-
-		}
-
-		override fun onAnimationEnd(animation: Animation?) {
-
-		}
-
-		override fun onAnimationStart(animation: Animation?) {
-			if (!enter && rv != null) {
-				val size = rv.adapter?.itemCount ?: 0
-				for (pos in 0..size) {
-					val holder = rv.findViewHolderForAdapterPosition(pos)
-					if (holder is UserAdapter.ViewHolder) {
-						translateX(holder.itemView)
-					}
-				}
-			}
-		}
-
-		private fun translateX(view: View) {
-			ObjectAnimator.ofFloat(view, "translationX", view.width.toFloat()).apply {
-				duration = 500
-				start()
-			}
-		}
-	}
-
 	override fun onClick(v: View?) {
 		when (v?.id) {
 			R.id.fabAddUser -> navigateToAddNewUser()
@@ -81,10 +53,71 @@ class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
 	}
 
 	private fun navigateToAddNewUser() {
-		findNavController().navigate(R.id.action_nav_home_to_nav_add_user)
+		val viewsForAnimation = prepareViews(rvUsers)
+		animate(viewsForAnimation, SHOW) {
+			findNavController().navigate(R.id.nav_add_user)
+		}
 	}
+
+	private fun animate(viewsForAnimation: List<AnimationParams>, type: Int, onComplete: () -> Unit) {
+		val interval = Observable.interval(1000, TimeUnit.MILLISECONDS)
+		val viewsObservable = Observable.fromIterable(viewsForAnimation)
+
+		Observable.zip(interval, viewsObservable,
+			BiFunction<Long, AnimationParams, Disposable> { _, params ->
+				params.run {
+					view.translateX(duration, dir, type).subscribe()
+				}
+			})
+			.subscribeOn(AndroidSchedulers.mainThread())
+			.observeOn(AndroidSchedulers.mainThread())
+			.doFinally(onComplete)
+			.subscribe()
+	}
+
+	private fun prepareViews(recycler: RecyclerView): List<AnimationParams> {
+		val viewsForAnimation = mutableListOf<AnimationParams>()
+		val size = recycler.adapter?.itemCount ?: 0
+
+		for (pos in 0..size) {
+			val holder = recycler.findViewHolderForAdapterPosition(pos)
+			if (holder is UserAdapter.ViewHolder) {
+				val even = pos % 2 == 0
+				val params = AnimationParams(
+					view = holder.itemView,
+					duration = (500 - pos * 10).toLong(),
+					dir = if (even) -1 else 1
+				)
+				viewsForAnimation.add(params)
+			}
+		}
+		return viewsForAnimation
+	}
+
+	class AnimationParams(
+		val view: View,
+		val duration: Long,
+		val dir: Int
+	)
 }
 
+
+fun View.translateX(duration: Long, dir: Int, type: Int): Completable {
+	val animationSubject = CompletableSubject.create()
+	val toXDelta = if (type == HIDE) {
+		if (dir == -1) -width.toFloat() else width.toFloat()
+	} else {
+		0f
+	}
+	return animationSubject.doOnSubscribe {
+		ViewCompat.animate(this)
+			.setDuration(duration)
+			.translationX(toXDelta)
+			.withEndAction {
+				animationSubject.onComplete()
+			}
+	}
+}
 /*
     lateinit var service : RetrofitService
     lateinit var requestBody : TokenRequest

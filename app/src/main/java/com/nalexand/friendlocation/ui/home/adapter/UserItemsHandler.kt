@@ -1,6 +1,7 @@
 package com.nalexand.friendlocation.ui.home.adapter
 
 import android.view.View
+import com.nalexand.friendlocation.base.BaseAdapter
 import com.nalexand.friendlocation.base.BaseItemsHandler
 import com.nalexand.friendlocation.model.local.User
 import com.nalexand.friendlocation.model.recycler.Item
@@ -9,8 +10,8 @@ import com.nalexand.friendlocation.ui.home.HomeFragment
 import com.nalexand.friendlocation.utils.AppDiffUtil
 
 @Suppress("UNCHECKED_CAST")
-class UserItemsHandler(main: HomeFragment) :
-	BaseItemsHandler(main.composite, DiffCallback(), UserAdapter()) {
+class UserItemsHandler(main: HomeFragment, adapter: BaseAdapter) :
+	BaseItemsHandler(main.composite, DiffCallback(), adapter) {
 
 	init {
 		(adapter as UserAdapter).itemsHandler = this

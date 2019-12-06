@@ -18,5 +18,4 @@ abstract class BaseRepository {
 			.subscribeOn(Schedulers.io())
 			.observeOn(Schedulers.io())
 	}
-
 }

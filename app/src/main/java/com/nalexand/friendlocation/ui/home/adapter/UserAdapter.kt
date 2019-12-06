@@ -1,6 +1,5 @@
 package com.nalexand.friendlocation.ui.home.adapter
 
-import android.animation.ObjectAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +12,11 @@ import com.nalexand.friendlocation.model.recycler.UserItem
 import kotlinx.android.synthetic.main.recycler_user_item.view.*
 
 @Suppress("UNCHECKED_CAST")
-class UserAdapter : BaseAdapter() {
+class UserAdapter(private val width: Float) : BaseAdapter() {
 
 	lateinit var itemsHandler: UserItemsHandler
 
 	override fun getItems() = itemsHandler.items as List<UserItem>
-
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 		return ViewHolder(
@@ -36,6 +34,8 @@ class UserAdapter : BaseAdapter() {
 			holder.apply {
 				bindTo(item, itemsHandler::onItemClick)
 				bindView(getItems().size, position)
+				itemView.translationX =
+					if (position % 2 == 0) -width else width
 			}
 		}
 	}
