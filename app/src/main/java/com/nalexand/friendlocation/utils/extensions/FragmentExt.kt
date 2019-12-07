@@ -2,6 +2,7 @@ package com.nalexand.friendlocation.utils.extensions
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Point
 import android.os.Handler
 import android.util.TypedValue
 import android.view.MenuInflater
@@ -68,4 +69,11 @@ fun Fragment.showSnackbar(view: View, text: String) {
 
 fun Fragment.showSnackbar(view: View, resId: Int) {
 	Snackbar.make(view, getString(resId), Snackbar.LENGTH_SHORT).show()
+}
+
+fun Fragment.getWidth(): Float {
+	val point = Point()
+	val display = requireActivity().windowManager.defaultDisplay
+	display?.getSize(point)
+	return point.x.toFloat()
 }

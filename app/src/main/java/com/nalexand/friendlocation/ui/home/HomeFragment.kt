@@ -1,38 +1,27 @@
 package com.nalexand.friendlocation.ui.home
 
-import android.animation.ObjectAnimator
-import android.graphics.Point
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.Log
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import androidx.core.animation.doOnEnd
-import androidx.core.view.ViewCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseFragment
 import com.nalexand.friendlocation.ui.home.adapter.UserAdapter
 import com.nalexand.friendlocation.ui.home.adapter.UserItemsHandler
-import com.nalexand.friendlocation.utils.AppAnimator.HIDE
-import com.nalexand.friendlocation.utils.AppAnimator.SHOW
+import com.nalexand.friendlocation.utils.animator.AnimParams
+import com.nalexand.friendlocation.utils.animator.AnimType.HIDE_LEFT
+import com.nalexand.friendlocation.utils.animator.AnimType.HIDE_RIGHT
+import com.nalexand.friendlocation.utils.animator.translatePos
+import com.nalexand.friendlocation.utils.extensions.itemCount
 import com.nalexand.friendlocation.utils.extensions.observe
-import com.nalexand.friendlocation.utils.extensions.showKeyboard
-import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
-import io.reactivex.subjects.CompletableSubject
-import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_add_user.*
-import kotlinx.android.synthetic.main.fragment_add_user.view.*
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.math.BigInteger
 import java.util.concurrent.TimeUnit
+
 
 class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
 	View.OnClickListener {
@@ -55,56 +44,56 @@ class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
 
 	override fun onClick(v: View?) {
 		when (v?.id) {
-			R.id.fabAddUser -> navigateToAddNewUser()
+			R.id.fabAddUser -> {
+				prepareAnimForNavigateToAddNewUser {
+					findNavController().navigate(R.id.action_nav_home_to_nav_add_user)
+				}
+			}
 		}
 	}
 
-	private fun navigateToAddNewUser() {
-		fabAddUser.translateX(300, 1, HIDE, getWidth()).mergeWith {
-			val size = rvUsers.adapter?.itemCount ?: 0
+	private fun prepareAnimForNavigateToAddNewUser(onAnimationComplete: () -> Unit) {
+		fabAddUser.translatePos(300, HIDE_RIGHT).mergeWith {
+			val size = rvUsers.itemCount()
 			if (size > 0) {
-				val viewsForAnimation = prepareViews(rvUsers, size)
-				animate(viewsForAnimation, HIDE) {
-					rvUsers.recycledViewPool.clear()
-					findNavController().navigate(R.id.action_nav_home_to_nav_add_user)
-				}
+				animate(prepareParams(rvUsers, size), onAnimationComplete)
 			} else {
-				findNavController().navigate(R.id.action_nav_home_to_nav_add_user)
+				onAnimationComplete()
 			}
 		}.subscribe()
 	}
 
-	private fun animate(viewsForAnimation: List<AnimationParams>, type: Int, onComplete: () -> Unit) {
+	private fun animate(viewsForAnimation: List<AnimParams>, onComplete: () -> Unit) {
 		val interval = Observable.interval(100, TimeUnit.MILLISECONDS)
 		val viewsObservable = Observable.fromIterable(viewsForAnimation)
-		val width = getWidth()
 
 		Observable.zip(interval, viewsObservable,
-			BiFunction<Long, AnimationParams, Disposable> { _, params ->
+			BiFunction<Long, AnimParams, Disposable> { _, params ->
 				params.run {
-					view.translateX(duration, dir, type, width)
+					view.translatePos(duration, type)
 						.doOnComplete {
 							if (last) onComplete()
 						}
+						.subscribeOn(AndroidSchedulers.mainThread())
 						.subscribe()
 				}
 			})
-			.subscribeOn(AndroidSchedulers.mainThread())
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe()
+			.subscribe {
+				Log.d("bestTAG", "animEnd")
+			}.addTo(composite)
 	}
 
-	private fun prepareViews(recycler: RecyclerView, size: Int): List<AnimationParams> {
-		val viewsForAnimation = mutableListOf<AnimationParams>()
+	private fun prepareParams(recycler: RecyclerView, size: Int): List<AnimParams> {
+		val viewsForAnimation = mutableListOf<AnimParams>()
 
 		for (pos in 0..size) {
 			val holder = recycler.findViewHolderForAdapterPosition(pos)
 			if (holder is UserAdapter.ViewHolder) {
 				val even = pos % 2 == 0
-				val params = AnimationParams(
+				val params = AnimParams(
 					view = holder.itemView,
 					duration = (500 - pos * 20).toLong(),
-					dir = if (even) -1 else 1
+					type = if (even) HIDE_LEFT else HIDE_RIGHT
 				)
 				viewsForAnimation.add(params)
 			}
@@ -112,62 +101,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
 		viewsForAnimation.last().last = true
 		return viewsForAnimation
 	}
-
-	data class AnimationParams(
-		val view: View,
-		val duration: Long,
-		val dir: Int,
-		var last: Boolean = false
-	)
 }
 
-fun Fragment.getWidth(): Float {
-	val point = Point()
-	val display = requireActivity().windowManager.defaultDisplay
-	display?.getSize(point)
-	return point.x.toFloat()
-}
-
-fun View.translatePos(duration: Long, windWidth: Float, dir: Int, type: Int): Completable {
-	val animationSubject = CompletableSubject.create()
-	val toXDelta = if (type == HIDE) {
-		if (dir == -1) x - windWidth else windWidth - x
-	} else {
-		0f
-	}
-
-	return animationSubject.doOnSubscribe {
-		ViewCompat.animate(this)
-			.setDuration(duration)
-			.translationX(toXDelta)
-			.withEndAction {
-				animationSubject.onComplete()
-			}
-	}
-}
-
-fun View.translateY(duration: Long, ) {
-	ObjectAnimator.ofFloat(view, "translationY", toDeltaY).apply {
-		this.duration = duration
-		doOnEnd {
-			if (view.id == R.id.cvAddUserInput) {
-				view.edxAddUser.showKeyboard()
-			}
-		}
-		start()
-	}
-}
-
-object AnimType {
-	const val HIDE_LEFT = 1
-	const val HIDE_RIGHT = 2
-	const val SHOW_LEFT = 3
-	const val SHOW_RIGHT = 4
-	const val HIDE_TOP = 5
-	const val HIDE_BOTTOM = 6
-	const val SHOW_TOP = 7
-	const val SHOW_BOTTOM = 8
-}
 /*
     lateinit var service : RetrofitService
     lateinit var requestBody : TokenRequest
