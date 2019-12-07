@@ -69,11 +69,7 @@ class AddUserFragment : BaseFragment<AddUserViewModel>(R.layout.fragment_add_use
 			val anim = AnimationUtils.loadAnimation(context, nextAnim)
 
 			anim.setAnimationListener(
-				AddUserAnimationListener(
-					enter,
-					cvAddUserHeader,
-					cvAddUserInput
-				)
+				AddUserAnimationListener(enter, clAddUserContent)
 			)
 			return anim
 		} else {

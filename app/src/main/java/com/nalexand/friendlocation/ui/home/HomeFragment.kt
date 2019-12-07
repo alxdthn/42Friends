@@ -35,9 +35,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
 	}
 
 	override fun initializeObservers() {
-		Log.d("bestTAG", "init obs")
 		observe(viewModel.users) { users ->
-			Log.d("bestTAG", users.joinToString { it.login })
 			itemsHandler render users
 		}
 	}
@@ -78,9 +76,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(R.layout.fragment_home),
 						.subscribe()
 				}
 			})
-			.subscribe {
-				Log.d("bestTAG", "animEnd")
-			}.addTo(composite)
+			.subscribe().addTo(composite)
 	}
 
 	private fun prepareParams(recycler: RecyclerView, size: Int): List<AnimParams> {

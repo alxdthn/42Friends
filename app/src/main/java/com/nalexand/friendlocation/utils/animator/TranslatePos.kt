@@ -16,7 +16,7 @@ import java.lang.IllegalArgumentException
 
 fun View.translatePos(duration: Long, type: Int): Completable {
 
-	val throwable = IllegalArgumentException("Unknown type")
+	val throwable = IllegalArgumentException("INVALID TYPE")
 	val animationSubject = CompletableSubject.create()
 	val metrics = context.resources.displayMetrics
 	val winWidth = metrics.widthPixels

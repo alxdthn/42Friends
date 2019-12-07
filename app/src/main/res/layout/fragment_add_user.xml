@@ -10,65 +10,67 @@
 	<androidx.cardview.widget.CardView
 		android:id="@+id/cvAddUserHeader"
 		android:layout_width="match_parent"
-		android:translationY="@dimen/add_user_header_translationY"
 		android:layout_height="@dimen/add_user_header_height"
-		app:cardElevation="4dp"
-		tools:translationY="0dp"
+		android:translationY="@dimen/add_user_header_translationY"
 		app:cardBackgroundColor="@color/black50"
-		app:layout_constraintTop_toTopOf="parent">
+		app:cardElevation="4dp"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:translationY="0dp">
 
 		<TextView
 			android:id="@+id/txvAddUser"
 			style="@style/WindowHeader"
-			android:paddingBottom="16dp"
-			android:layout_gravity="bottom"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_gravity="bottom"
+			android:paddingBottom="16dp"
 			android:text="@string/enter_username" />
 	</androidx.cardview.widget.CardView>
 
 	<androidx.cardview.widget.CardView
 		android:id="@+id/cvAddUserInput"
 		android:layout_width="match_parent"
-		app:cardElevation="2dp"
 		android:layout_height="@dimen/add_user_input_height"
 		android:translationY="@dimen/add_user_input_translationY"
-		tools:translationY="0dp"
 		app:cardBackgroundColor="@color/black40"
-		app:layout_constraintTop_toBottomOf="@+id/cvAddUserHeader">
+		app:cardElevation="2dp"
+		app:layout_constraintTop_toBottomOf="@+id/cvAddUserHeader"
+		tools:translationY="0dp">
 
 		<EditText
 			android:id="@+id/edxAddUser"
 			style="@style/BasicText"
-			android:textSize="20sp"
-			tools:text="nalexand"
-			android:gravity="center"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:paddingTop="0dp"
 			android:layout_gravity="bottom"
 			android:layout_marginLeft="16dp"
-			android:layout_marginRight="16dp" />
+			android:layout_marginRight="16dp"
+			android:gravity="center"
+			android:paddingTop="0dp"
+			android:textSize="20sp"
+			tools:text="nalexand" />
 	</androidx.cardview.widget.CardView>
 
 	<FrameLayout
+		android:id="@+id/flAddUserButton"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		app:layout_constraintBottom_toBottomOf="parent"
+		android:layout_height="@dimen/add_user_button_height"
+		android:layout_marginTop="@dimen/add_user_input_button_margin"
+		android:translationY="@dimen/add_user_button_translationY"
 		app:layout_constraintTop_toBottomOf="@+id/cvAddUserInput"
-		tools:layout_editor_absoluteX="10dp">
+		tools:translationY="0dp">
 
 		<ProgressBar
 			android:id="@+id/pbAddUser"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="match_parent"
 			android:visibility="gone" />
 
 		<Button
 			android:id="@+id/btnAddUser"
 			style="@style/BasicButton"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="match_parent"
 			android:text="@string/add" />
 	</FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
