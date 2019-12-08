@@ -43,7 +43,7 @@ abstract class BaseFragment<VM : BaseViewModel>(private val layout: Int) : Fragm
 		ViewModelProviders.of(this, viewModelFactory).get(viewModel.javaClass)
 		initializeUi()
 		initializeObservers()
-		viewModel.onViewCreated()
+		viewModel.init()
 	}
 
 	private fun inject() {

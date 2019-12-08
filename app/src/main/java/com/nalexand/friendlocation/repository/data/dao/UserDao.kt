@@ -9,7 +9,7 @@ import io.reactivex.Single
 @Dao
 interface UserDao : BaseDao<UserEntity> {
 
-	@Query("SELECT * FROM UserEntity ORDER BY end_at ASC")
+	@Query("SELECT * FROM UserEntity")
 	fun getAll(): List<UserEntity>
 
 	@Query("SELECT * FROM UserEntity WHERE id LIKE (:id)")

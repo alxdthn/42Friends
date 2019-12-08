@@ -17,9 +17,14 @@ interface IntraUserService {
     ): Single<Array<UserResponse>>
 
     @GET("/v2/locations")
-    fun getUserLocation(
-        @Header("Authorization") auth: String?,
-        @Query("filter[user_id]", encoded = true) user_id: String,
-        @Query("filter[end]", encoded = true) end: String
+    fun getUserActiveLocation(
+        @Query("filter[user_id]") user_id: String,
+        @Query("filter[end]") end: String = "false"
+    ): Single<Array<LocationResponse>>
+
+    @GET("/v2/locations")
+    fun getUserLastLocation(
+        @Query("filter[user_id]") user_id: String,
+        @Query("per_page") per_page: Int = 1
     ): Single<Array<LocationResponse>>
 }

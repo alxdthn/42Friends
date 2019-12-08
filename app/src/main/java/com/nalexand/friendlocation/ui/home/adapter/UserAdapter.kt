@@ -31,10 +31,7 @@ class UserAdapter : BaseAdapter() {
 	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 		if (holder is ViewHolder) {
 			val item = getItems()[position]
-			holder.apply {
-				bindTo(item, itemsHandler::onItemClick)
-				bindView(getItems().size, position)
-			}
+			holder.bindTo(item, itemsHandler::onItemClick)
 		}
 	}
 
@@ -48,29 +45,12 @@ class UserAdapter : BaseAdapter() {
 	}
 
 	class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-		fun bindTo(item: UserItem, onClick: (Item, View) -> Unit) {
-			bindLogin(item.name)
-			bindHost(item.host)
-			itemView.setOnClickListener { view ->
-				onClick(item, view)
-			}
+		fun bindTo(userItem: UserItem, onClick: (Item, View) -> Unit) {
+			UserBinder.bindTo(itemView, userItem, onClick)
 		}
 
 		fun bindTo(payloads: MutableList<Any?>) {
-
-		}
-
-		fun bindView(size: Int, position: Int) {
-			val view = (itemView as CardView)
-			view.cardElevation = (size - position).toFloat() * 3f
-		}
-
-		private fun bindLogin(login: String) {
-			itemView.txvUserLogin.text = login
-		}
-
-		private fun bindHost(host: String) {
-			itemView.txvUserHost.text = host
+			UserBinder.bindTo(itemView, payloads)
 		}
 	}
 }

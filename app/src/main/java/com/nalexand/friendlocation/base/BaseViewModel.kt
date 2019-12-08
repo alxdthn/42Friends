@@ -9,7 +9,14 @@ abstract class BaseViewModel : ViewModel() {
 
 	val composite = CompositeDisposable()
 
-	abstract fun onViewCreated()
+	abstract fun initStartData()
+
+	fun init() {
+		if (!ready) {
+			initStartData()
+			ready = true
+		}
+	}
 
 	override fun onCleared() {
 		super.onCleared()

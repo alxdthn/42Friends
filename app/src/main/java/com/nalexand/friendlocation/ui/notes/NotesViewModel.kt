@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class NotesViewModel @Inject constructor(): BaseViewModel() {
 
-	override fun onViewCreated() {
+	override fun initStartData() {
 
 	}
 }

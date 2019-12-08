@@ -1,20 +1,26 @@
 package com.nalexand.friendlocation.ui.add_user
 
+import android.view.KeyEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseFragment
+import com.nalexand.friendlocation.model.recycler.UserItem
 import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.ERROR_INPUT
 import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.ERROR_NETWORK
 import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.ERROR_USER
 import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.SUCCESS
 import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.USER_EXISTS
+import com.nalexand.friendlocation.ui.home.adapter.UserBinder
+import com.nalexand.friendlocation.ui.home.adapter.UserBinder.getParams
 import com.nalexand.friendlocation.utils.extensions.*
 import kotlinx.android.synthetic.main.fragment_add_user.*
 
 class AddUserFragment : BaseFragment<AddUserViewModel>(R.layout.fragment_add_user),
-	View.OnClickListener {
+	View.OnClickListener, TextView.OnEditorActionListener {
 
 	override fun initializeUi() {
 		mainActivity.softInputAdjustResize()
@@ -22,11 +28,18 @@ class AddUserFragment : BaseFragment<AddUserViewModel>(R.layout.fragment_add_use
 		txvAddUser.setOnClickListener(this)
 		edxAddUser.apply {
 			addTextChangedListener(viewModel)
+			setOnEditorActionListener(this@AddUserFragment)
 			requestFocus()
 		}
 	}
 
 	override fun initializeObservers() {
+		observe(viewModel.newUser) { user ->
+			rvAddUserRotateView.bindAndStart { view ->
+				val params = getParams(user.host)
+				UserBinder.bindTo(view, UserItem().render(user, params))
+			}
+		}
 		subscribe(viewModel.onHandleInput) { answerCode ->
 			when (answerCode) {
 				ERROR_USER -> {
@@ -42,6 +55,7 @@ class AddUserFragment : BaseFragment<AddUserViewModel>(R.layout.fragment_add_use
 					showSnackbar(clAddUserContent, R.string.network_error)
 				}
 				SUCCESS -> {
+					edxAddUser.setText("")
 					showSnackbar(clAddUserContent, R.string.user_added)
 				}
 			}
@@ -56,6 +70,15 @@ class AddUserFragment : BaseFragment<AddUserViewModel>(R.layout.fragment_add_use
 		when (v?.id) {
 			R.id.btnAddUser -> viewModel.handleInput()
 			R.id.txvAddUser -> viewModel.removeToken()
+		}
+	}
+
+	override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+		return if (actionId == EditorInfo.IME_ACTION_DONE) {
+			viewModel.handleInput()
+			true
+		} else {
+			false
 		}
 	}
 

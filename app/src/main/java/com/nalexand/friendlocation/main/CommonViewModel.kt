@@ -10,5 +10,7 @@ class CommonViewModel @Inject constructor(): BaseViewModel() {
 	private val _sharedData = MutableLiveData<Any?>()
 	val sharedData: LiveData<Any?> = _sharedData
 
-	override fun onViewCreated() {  }
+	override fun initStartData() {
+		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	}
 }

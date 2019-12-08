@@ -22,9 +22,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-			tools:listitem="@layout/recycler_user_item">
-
-		</androidx.recyclerview.widget.RecyclerView>
+			tools:listitem="@layout/recycler_user_item" />
 	</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton

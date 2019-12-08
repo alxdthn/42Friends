@@ -1,18 +1,24 @@
 package com.nalexand.friendlocation.model.recycler
 
 import com.nalexand.friendlocation.model.local.User
+import com.nalexand.friendlocation.ui.home.adapter.UserItemsHandler
+import java.util.*
 
 class UserItem(
 	id: String = "",
 	name: String = "",
-	var host: String = "?"
+	var host: String = "?",
+	var color: Int = 0,
+	var shadow: Float = 0f
 ) : Item(id, name) {
 
-	infix fun render(user: User): UserItem {
+	fun render(user: User, params: Params): UserItem {
 		return this.apply {
 			id = user.id
-			name = user.login
-			host = user.host ?: "?"
+			name = user.login.toUpperCase(Locale.ENGLISH)
+			host = user.host?.toUpperCase(Locale.ENGLISH) ?: "?"
+			color = params.color
+			shadow = params.shadow
 		}
 	}
 
@@ -22,4 +28,9 @@ class UserItem(
 				&& name == other.name
 				&& host == other.host
 	}
+
+	data class Params(
+		val color: Int,
+		val shadow: Float
+	)
 }

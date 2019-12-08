@@ -1,8 +1,11 @@
 package com.nalexand.friendlocation.main
 
 import android.app.Application
+import androidx.core.content.ContextCompat
+import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.di.component.AppComponent
 import com.nalexand.friendlocation.di.component.DaggerAppComponent
+import com.nalexand.friendlocation.ui.home.adapter.UserBinder
 
 class App : Application() {
 
@@ -10,6 +13,12 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        UserBinder.init(
+            ContextCompat.getColor(applicationContext, R.color.enabled_color),
+            ContextCompat.getColor(applicationContext, R.color.disabled_color),
+            10f
+        )
 
         appComponent = DaggerAppComponent
             .builder()

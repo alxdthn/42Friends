@@ -2,10 +2,8 @@
 <resources>
     <color name="colorPrimaryDark">@color/black70</color>
     <color name="colorPrimary">@color/black60</color>
-    <color name="colorAccent">#FFFFFF</color>
+    <color name="colorAccent">@color/white100</color>
     <color name="colorPrimaryLight">#FFFFFF</color>
-    <color name="Dark">#9E000000</color>
-    <color name="fullDark">#000000</color>
     <color name="transparency">#00000000</color>
     <color name="alpha15">#26000000</color>
 
@@ -19,4 +17,14 @@
     <color name="white100">#FFFFFF</color>
     <color name="white90">#F5F5F5</color>
     <color name="white80">#EBEBEB</color>
+    <color name="white70">#E1E1E1</color>
+    <color name="white60">#D7D7D7</color>
+    <color name="white50">#CDCDCD</color>
+    <color name="white40">#C3C3C3</color>
+    <color name="white30">#B9B9B9</color>
+    <color name="white20">#AFAFAF</color>
+    <color name="white10">#A5A5A5</color>
+
+    <color name="enabled_color">@color/white90</color>
+    <color name="disabled_color">@color/black50</color>
 </resources>

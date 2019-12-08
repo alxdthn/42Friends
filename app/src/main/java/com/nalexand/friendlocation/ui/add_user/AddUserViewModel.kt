@@ -3,8 +3,12 @@ package com.nalexand.friendlocation.ui.add_user
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.nalexand.friendlocation.base.BaseViewModel
+import com.nalexand.friendlocation.errors.UserNotFound
 import com.nalexand.friendlocation.model.local.LocalState
+import com.nalexand.friendlocation.model.local.User
 import com.nalexand.friendlocation.repository.IntraRepository
 import com.nalexand.friendlocation.repository.app.AppPreferences
 import io.reactivex.rxkotlin.addTo
@@ -24,6 +28,9 @@ class AddUserViewModel @Inject constructor(
 
 	val onLoading = LocalState()
 
+	private val _newUser = MutableLiveData<User>()
+	val newUser: LiveData<User> = _newUser
+
 	companion object {
 		const val ERROR_USER = 1
 		const val SUCCESS = 3
@@ -34,7 +41,7 @@ class AddUserViewModel @Inject constructor(
 
 	fun handleInput() {
 		when {
-			input.isNullOrEmpty() -> {
+			input.isNullOrBlank() -> {
 				Log.d("bestTAG", "ERROR_INPUT")
 				onHandleInput.onNext(ERROR_INPUT)
 			}
@@ -54,14 +61,17 @@ class AddUserViewModel @Inject constructor(
 
 	private fun addUser() {
 		onLoading.start()
-		Log.d("bestTAG", "start find user: $input")
 		repository.findUserInApi(input.toString())
-			.subscribe ({
+			.subscribe ({ userResult ->
 				onLoading.cancel()
-				onHandleInput.onNext(it)
+				onHandleInput.onNext(SUCCESS)
+				_newUser.postValue(userResult)
 			}) { error ->
 				onLoading.cancel()
-				onHandleInput.onNext(ERROR_NETWORK)
+				when (error) {
+					is UserNotFound -> onHandleInput.onNext(ERROR_USER)
+					else -> onHandleInput.onNext(ERROR_NETWORK)
+				}
 				Log.d("bestTAG", "ERROR: $error ${error.message}")
 			}.addTo(composite)
 	}
@@ -70,7 +80,7 @@ class AddUserViewModel @Inject constructor(
 		prefs.clearToken()
 	}
 
-	override fun onViewCreated() {}
+	override fun initStartData() {}
 
 	override fun afterTextChanged(s: Editable?) {}
 
