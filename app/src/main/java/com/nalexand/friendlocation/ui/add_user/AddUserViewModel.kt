@@ -11,7 +11,9 @@ import com.nalexand.friendlocation.model.local.LocalState
 import com.nalexand.friendlocation.model.local.User
 import com.nalexand.friendlocation.repository.IntraRepository
 import com.nalexand.friendlocation.repository.app.AppPreferences
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 import java.net.UnknownHostException
@@ -62,10 +64,12 @@ class AddUserViewModel @Inject constructor(
 	private fun addUser() {
 		onLoading.start()
 		repository.findUserInApi(input.toString())
+			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe ({ userResult ->
+				Log.d("bestTAG", "update ui: ${Thread.currentThread().name}")
 				onLoading.cancel()
 				onHandleInput.onNext(SUCCESS)
-				_newUser.postValue(userResult)
+				_newUser.value = userResult
 			}) { error ->
 				onLoading.cancel()
 				when (error) {

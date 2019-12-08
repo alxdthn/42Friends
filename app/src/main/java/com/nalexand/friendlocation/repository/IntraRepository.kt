@@ -10,6 +10,8 @@ import com.nalexand.friendlocation.model.response.UserResponse
 import com.nalexand.friendlocation.network.service.IntraUserService
 import com.nalexand.friendlocation.repository.data.dao.UserDao
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class IntraRepository @Inject constructor(
@@ -20,16 +22,27 @@ class IntraRepository @Inject constructor(
 	private val mapper = DataMapper(userDao)
 
 	fun updateLocations(): Single<List<User>> {
-		val users = getAllUsersFromDatabase()
+		val users = userDao.getAll()
 
 		return if (users.isNullOrEmpty()) {
 			Single.create { emptyList<User>() }
 		} else {
 			val query = users.joinToString(",") { it.id }
 			service.getUserActiveLocation(query)
-				.map {
-					Log.d("bestTAG", "123")
-					mapper.map(it)
+				.map { locations ->
+					users.forEach { user ->
+						val location = locations.find { it.user.id == user.id }
+
+						if (location != null) {
+							user.begin_at = location.begin_at
+							user.end_at = null
+							user.host = location.host
+						} else {
+							user.begin_at = null
+							user.host = null
+						}
+						userDao.update(user)
+					}
 					getAllUsersFromDatabase()
 				}
 		}
@@ -44,15 +57,14 @@ class IntraRepository @Inject constructor(
 	}
 
 	fun findUserInApi(login: String): Single<User> {
-		return prepareSingle(service.getUser(login))
+		return service.getUser(login)
+			.subscribeOn(Schedulers.io())
 			.map {
-				if (it.isEmpty()) {
-					throw UserNotFound()
-				}
-				it[0]
+				if (it.isEmpty()) throw UserNotFound()
+				it.first()
 			}
 			.flatMap { userResponse ->
-				prepareSingle(service.getUserLastLocation(userResponse.id))
+				service.getUserLastLocation(userResponse.id)
 			}
 			.map {
 				mapper.map(it)
