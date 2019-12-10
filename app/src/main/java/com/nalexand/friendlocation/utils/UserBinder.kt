@@ -3,7 +3,7 @@ package com.nalexand.friendlocation.utils
 import android.view.View
 import com.nalexand.friendlocation.model.recycler.Item
 import com.nalexand.friendlocation.model.recycler.UserItem
-import kotlinx.android.synthetic.main.recycler_user_item.view.*
+import kotlinx.android.synthetic.main.user_item.view.*
 
 object UserBinder {
 

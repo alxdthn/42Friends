@@ -41,13 +41,16 @@ class HomeViewModel @Inject constructor(
 		repository.updateLocations()
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe({ users ->
-				Log.d("bestTAG", users.joinToString { it.login })
 				refreshing.cancelIfActive()
 				_users.value = users
 			}) { error ->
 				refreshing.cancelIfActive()
 				errors.onNext(ERROR_NETWORK)
 				Log.d("bestTAG", error.message.toString())
-			}.addTo(composite)
+			}.addTo(getComposite())
+	}
+
+	fun onNavigateToUserDetails(userId: String) {
+		commonViewModel.sharedData = userId
 	}
 }

@@ -21,4 +21,7 @@ object AnimType {
 	const val SCALE_X = 1
 	const val SCALE_Y = 2
 	const val SCALE_XY = 3
+
+	const val POS_X = 4
+	const val POS_Y = 5
 }

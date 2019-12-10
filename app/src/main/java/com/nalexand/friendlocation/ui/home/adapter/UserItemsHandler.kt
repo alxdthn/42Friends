@@ -12,7 +12,7 @@ import com.nalexand.friendlocation.utils.AppDiffUtil
 
 @Suppress("UNCHECKED_CAST")
 class UserItemsHandler(main: HomeFragment) :
-	BaseItemsHandler(main.composite, DiffCallback(), UserAdapter()) {
+	BaseItemsHandler(main.getComposite(), DiffCallback(), UserAdapter()) {
 
 	private val onClick: (Item, View) -> Unit = main::onUserClick
 

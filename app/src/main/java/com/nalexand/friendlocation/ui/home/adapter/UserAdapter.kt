@@ -21,7 +21,7 @@ class UserAdapter : BaseAdapter() {
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 		return ViewHolder(
 			LayoutInflater.from(parent.context).inflate(
-				R.layout.recycler_user_item,
+				R.layout.user_item,
 				parent,
 				false
 			)

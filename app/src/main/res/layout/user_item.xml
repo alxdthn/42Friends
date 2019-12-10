@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/cvUserItem"
 	android:layout_width="match_parent"
 	android:layout_height="@dimen/home_user_item_height"
 	app:cardCornerRadius="0dp"

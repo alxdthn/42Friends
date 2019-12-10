@@ -9,6 +9,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
+import kotlin.math.absoluteValue
 
 fun reducedInterval(period: Long, reducePercent: Float, unit: TimeUnit): Observable<Long> {
 	return Observable.create<Long> { emitter ->
@@ -30,23 +31,22 @@ fun Iterable<AnimParams>.intervalAnim(
 	val viewsObservable = Observable.fromIterable(this)
 	val interpolateInterval = Observable.create<Long> { emitter ->
 		var summary = 0L
-		val size = count()    //	размер списка
-		Log.d("bestTAG", "2 * duration / (size + 1)")
-		Log.d("bestTAG", "DURATION = $duration, SIZE = $size")
-		for (counter in size - 1 downTo 0) {
+		val size = count()
+		val sleeps = mutableListOf<Long>()
+
+		for (counter in 1..size) {
 			if (emitter.isDisposed) break
 			val percent = counter.toFloat() / size.toFloat()
 			val interpolated = interpolator.getInterpolation(percent)
 			val sleepTime = (duration * interpolated - summary).toLong()
 			summary += sleepTime
-			Log.d("bestTAG", "$counter/$size IN: ${String.format("%-10f", percent)}" +
-						"OUT: ${String.format("%-10f", interpolated)}" +
-						"SLP: ${String.format("%-5d", sleepTime)}" +
-						"SUM: $summary"
-			)
-
+			sleeps.add(sleepTime)
+		}
+		for (counter in size - 1 downTo 0) {
+			val sleepTime = sleeps[counter]
 			emitter.onNext(sleepTime)
 			Thread.sleep(sleepTime)
+
 		}
 	}.subscribeOn(Schedulers.computation())
 
@@ -55,6 +55,14 @@ fun Iterable<AnimParams>.intervalAnim(
 			anim(params)
 		})
 }
+
+/*
+Log.d("bestTAG", "$counter/$size IN: ${String.format("%-10f", percent)}" +
+						"OUT: ${String.format("%-10f", interpolated)}" +
+						"SLP: ${String.format("%-5d", sleepTime)}" +
+						"SUM: $summary"
+			)
+ */
 
 /*
 	Log.d("bestTAG", "IN: ${String.format("%-10f", percent)}" +

@@ -36,7 +36,6 @@ abstract class AppDatabase : RoomDatabase() {
 		}
 
 		private fun buildDatabase(application: Application): AppDatabase {
-			Log.d("bestTAG", "building db")
 			return Room.databaseBuilder(application,
 					AppDatabase::class.java,
 					"friendlocation.db")

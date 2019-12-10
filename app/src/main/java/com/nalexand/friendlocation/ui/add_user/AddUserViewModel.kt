@@ -2,7 +2,6 @@ package com.nalexand.friendlocation.ui.add_user
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nalexand.friendlocation.base.BaseViewModel
@@ -18,10 +17,7 @@ import com.nalexand.friendlocation.utils.AppConstants.SUCCESS
 import com.nalexand.friendlocation.utils.AppConstants.USER_EXISTS
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import retrofit2.HttpException
-import java.net.UnknownHostException
 import javax.inject.Inject
 
 class AddUserViewModel @Inject constructor(
@@ -53,7 +49,7 @@ class AddUserViewModel @Inject constructor(
 	}
 
 	private fun userExists(): Boolean {
-		return repository.getUserByLogin(input.toString()) != null
+		return repository.getUserFromDatabaseByLogin(input.toString()) != null
 	}
 
 	private fun addUser() {
@@ -70,7 +66,7 @@ class AddUserViewModel @Inject constructor(
 					is UserNotFound -> onHandleInput.onNext(ERROR_USER)
 					else -> onHandleInput.onNext(ERROR_NETWORK)
 				}
-			}.addTo(composite)
+			}.addTo(getComposite())
 	}
 
 	fun removeToken() {

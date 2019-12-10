@@ -1,14 +1,15 @@
 package com.nalexand.friendlocation.base
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.nalexand.friendlocation.main.CommonViewModel
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel : ViewModel(), CompositeHolder {
 
 	private var ready = false
 
-	val composite = CompositeDisposable()
+	private val compositeDisposable = CompositeDisposable()
 
 	lateinit var commonViewModel: CommonViewModel
 
@@ -16,13 +17,20 @@ abstract class BaseViewModel : ViewModel() {
 
 	fun init() {
 		if (!ready) {
+			printInitLog()
 			initStartData()
 			ready = true
 		}
 	}
 
+	override fun getComposite() = compositeDisposable
+
 	override fun onCleared() {
 		super.onCleared()
-		composite.dispose()
+		compositeDisposable.dispose()
+	}
+
+	private fun printInitLog() {
+		Log.d("bestTAG", "${this}")
 	}
 }

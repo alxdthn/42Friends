@@ -11,7 +11,7 @@ import com.nalexand.friendlocation.utils.animator.AnimType.SCALE_Y
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.CompletableSubject
-import kotlinx.android.synthetic.main.recycler_user_item.view.*
+import java.lang.IllegalArgumentException
 
 fun View.animateScale(
 	duration: Long,
@@ -21,22 +21,21 @@ fun View.animateScale(
 ): Completable {
 
 	val animSubject = CompletableSubject.create()
-	val anim = ViewCompat.animate(this)
-		.setDuration(duration)
-		.setInterpolator(interpolator)
-		.withEndAction {
-			Log.d("bestTAG", "asd")
-			animSubject.onComplete()
-		}
 
 	return animSubject
 		.subscribeOn(AndroidSchedulers.mainThread())
 		.doOnSubscribe {
-			Log.d("bestTAG", "SCALE: ${txvUserLogin.text}")
+			val anim = ViewCompat.animate(this)
+				.setDuration(duration)
+				.setInterpolator(interpolator)
+				.withEndAction {
+					animSubject.onComplete()
+				}
 			when (type) {
 				SCALE_X -> anim.scaleX(value)
 				SCALE_Y -> anim.scaleY(value)
 				SCALE_XY -> anim.scaleX(value).scaleY(value)
+				else -> throw IllegalArgumentException("INVALID TYPE")
 			}
 		}
 }

@@ -5,7 +5,7 @@ import com.nalexand.friendlocation.di.modules.*
 import com.nalexand.friendlocation.main.MainActivity
 import com.nalexand.friendlocation.ui.add_user.AddUserFragment
 import com.nalexand.friendlocation.ui.home.HomeFragment
-import com.nalexand.friendlocation.ui.notes.NotesFragment
+import com.nalexand.friendlocation.ui.user_details.UserDetailsFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -16,7 +16,8 @@ import javax.inject.Singleton
         StorageModule::class,
         NetworkModule::class,
         IntraServiceModule::class,
-        DataBaseModule::class
+        DataBaseModule::class,
+        ViewModelModule::class
     ]
 )
 interface AppComponent {
@@ -25,7 +26,7 @@ interface AppComponent {
 
     fun inject(homeFragment: HomeFragment)
 
-    fun inject(notesFragment: NotesFragment)
+    fun inject(userDetailsFragment: UserDetailsFragment)
 
     fun inject(AddUserFragment: AddUserFragment)
 

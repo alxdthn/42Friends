@@ -39,8 +39,12 @@ class IntraRepository @Inject constructor(
 		return mapper.map(userDao.getAll())
 	}
 
-	fun getUserByLogin(login: String): User? {
+	fun getUserFromDatabaseByLogin(login: String): User? {
 		return mapper.map(userDao.getByLogin(login))
+	}
+
+	fun getUserFromDatabaseById(idUser: String): User? {
+		return mapper.map(userDao.getById(idUser))
 	}
 
 	fun findUserInApi(login: String): Single<User> {
@@ -55,7 +59,7 @@ class IntraRepository @Inject constructor(
 			}
 			.map {
 				mapper.map(it)
-				getUserByLogin(it[0].user.login)
+				getUserFromDatabaseByLogin(it[0].user.login)
 			}
 	}
 
