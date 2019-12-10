@@ -9,7 +9,7 @@ import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseAdapter
 import com.nalexand.friendlocation.model.recycler.Item
 import com.nalexand.friendlocation.model.recycler.UserItem
-import kotlinx.android.synthetic.main.recycler_user_item.view.*
+import com.nalexand.friendlocation.utils.UserBinder
 
 @Suppress("UNCHECKED_CAST")
 class UserAdapter : BaseAdapter() {
@@ -32,6 +32,7 @@ class UserAdapter : BaseAdapter() {
 		if (holder is ViewHolder) {
 			val item = getItems()[position]
 			holder.bindTo(item, itemsHandler::onItemClick)
+			(holder.itemView as CardView).cardElevation = 10f
 		}
 	}
 

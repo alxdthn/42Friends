@@ -14,7 +14,6 @@ import javax.inject.Singleton
 @Component(
     modules = [
         StorageModule::class,
-        ViewModelModule::class,
         NetworkModule::class,
         IntraServiceModule::class,
         DataBaseModule::class

@@ -3,8 +3,7 @@ package com.nalexand.friendlocation.repository.app
 import android.content.Context
 import com.nalexand.friendlocation.model.local.Token
 import com.nalexand.friendlocation.model.response.TokenResponse
-import com.nalexand.friendlocation.utils.Constants.INTERNAL_PREFS
-import java.lang.IllegalArgumentException
+import com.nalexand.friendlocation.utils.AppConstants.INTERNAL_PREFS
 
 class AppPreferences(
     private val appContext: Context

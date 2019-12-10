@@ -34,6 +34,10 @@ class LocalState() {
 		state.postValue(false)
 	}
 
+	fun cancelIfActive() {
+		if (isActive()) cancel()
+	}
+
 	fun observe(owner: LifecycleOwner, observer: Observer<Boolean>) {
 		state.observe(owner, observer)
 	}

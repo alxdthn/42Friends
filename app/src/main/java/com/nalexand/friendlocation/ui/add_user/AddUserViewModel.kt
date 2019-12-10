@@ -11,6 +11,11 @@ import com.nalexand.friendlocation.model.local.LocalState
 import com.nalexand.friendlocation.model.local.User
 import com.nalexand.friendlocation.repository.IntraRepository
 import com.nalexand.friendlocation.repository.app.AppPreferences
+import com.nalexand.friendlocation.utils.AppConstants.ERROR_INPUT
+import com.nalexand.friendlocation.utils.AppConstants.ERROR_NETWORK
+import com.nalexand.friendlocation.utils.AppConstants.ERROR_USER
+import com.nalexand.friendlocation.utils.AppConstants.SUCCESS
+import com.nalexand.friendlocation.utils.AppConstants.USER_EXISTS
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
@@ -33,22 +38,12 @@ class AddUserViewModel @Inject constructor(
 	private val _newUser = MutableLiveData<User>()
 	val newUser: LiveData<User> = _newUser
 
-	companion object {
-		const val ERROR_USER = 1
-		const val SUCCESS = 3
-		const val ERROR_INPUT = 2
-		const val ERROR_NETWORK = 4
-		const val USER_EXISTS = 5
-	}
-
 	fun handleInput() {
 		when {
 			input.isNullOrBlank() -> {
-				Log.d("bestTAG", "ERROR_INPUT")
 				onHandleInput.onNext(ERROR_INPUT)
 			}
 			userExists() -> {
-				Log.d("bestTAG", "USER_EXISTS")
 				onHandleInput.onNext(USER_EXISTS)
 			}
 			else -> {
@@ -66,7 +61,6 @@ class AddUserViewModel @Inject constructor(
 		repository.findUserInApi(input.toString())
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe ({ userResult ->
-				Log.d("bestTAG", "update ui: ${Thread.currentThread().name}")
 				onLoading.cancel()
 				onHandleInput.onNext(SUCCESS)
 				_newUser.value = userResult
@@ -76,7 +70,6 @@ class AddUserViewModel @Inject constructor(
 					is UserNotFound -> onHandleInput.onNext(ERROR_USER)
 					else -> onHandleInput.onNext(ERROR_NETWORK)
 				}
-				Log.d("bestTAG", "ERROR: $error ${error.message}")
 			}.addTo(composite)
 	}
 

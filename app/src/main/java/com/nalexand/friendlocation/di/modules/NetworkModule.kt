@@ -4,7 +4,7 @@ import com.nalexand.friendlocation.network.IntraAuthenticator
 import com.nalexand.friendlocation.network.IntraInterceptor
 import com.nalexand.friendlocation.network.service.IntraAuthService
 import com.nalexand.friendlocation.repository.app.AppPreferences
-import com.nalexand.friendlocation.utils.Constants.BASE_URL
+import com.nalexand.friendlocation.utils.AppConstants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers

@@ -9,13 +9,14 @@ import android.widget.TextView
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseFragment
 import com.nalexand.friendlocation.model.recycler.UserItem
-import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.ERROR_INPUT
-import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.ERROR_NETWORK
-import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.ERROR_USER
-import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.SUCCESS
-import com.nalexand.friendlocation.ui.add_user.AddUserViewModel.Companion.USER_EXISTS
-import com.nalexand.friendlocation.ui.home.adapter.UserBinder
-import com.nalexand.friendlocation.ui.home.adapter.UserBinder.getParams
+import com.nalexand.friendlocation.ui.add_user.animations.AddUserAnimationListener
+import com.nalexand.friendlocation.utils.UserBinder
+import com.nalexand.friendlocation.utils.UserBinder.getParams
+import com.nalexand.friendlocation.utils.AppConstants.ERROR_INPUT
+import com.nalexand.friendlocation.utils.AppConstants.ERROR_NETWORK
+import com.nalexand.friendlocation.utils.AppConstants.ERROR_USER
+import com.nalexand.friendlocation.utils.AppConstants.SUCCESS
+import com.nalexand.friendlocation.utils.AppConstants.USER_EXISTS
 import com.nalexand.friendlocation.utils.extensions.*
 import kotlinx.android.synthetic.main.fragment_add_user.*
 
@@ -92,7 +93,11 @@ class AddUserFragment : BaseFragment<AddUserViewModel>(R.layout.fragment_add_use
 			val anim = AnimationUtils.loadAnimation(context, nextAnim)
 
 			anim.setAnimationListener(
-				AddUserAnimationListener(enter, clAddUserContent)
+				AddUserAnimationListener(
+					enter,
+					clAddUserContent,
+					composite
+				)
 			)
 			return anim
 		} else {

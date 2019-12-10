@@ -54,6 +54,7 @@
 			android:layout_marginRight="16dp"
 			android:imeOptions="actionDone"
 			android:fontFamily="@font/oxygen"
+			android:inputType="text"
 			android:gravity="center"
 			android:paddingTop="0dp"
 			android:textSize="20sp"
@@ -76,11 +77,8 @@
 			android:visibility="gone" />
 
 		<TextView
-			android:clickable="true"
-			android:focusable="true"
 			android:fontFamily="@font/oxygen"
 			android:id="@+id/btnAddUser"
-			android:foreground="?selectableItemBackground"
 			android:gravity="center"
 			android:shadowColor="@color/white100"
 			android:shadowRadius="20"

@@ -1,6 +1,5 @@
 package com.nalexand.friendlocation.repository
 
-import android.util.Log
 import com.nalexand.friendlocation.base.BaseRepository
 import com.nalexand.friendlocation.errors.UserNotFound
 import com.nalexand.friendlocation.model.entity.UserEntity
@@ -10,7 +9,6 @@ import com.nalexand.friendlocation.model.response.UserResponse
 import com.nalexand.friendlocation.network.service.IntraUserService
 import com.nalexand.friendlocation.repository.data.dao.UserDao
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -29,20 +27,9 @@ class IntraRepository @Inject constructor(
 		} else {
 			val query = users.joinToString(",") { it.id }
 			service.getUserActiveLocation(query)
+				.subscribeOn(Schedulers.io())
 				.map { locations ->
-					users.forEach { user ->
-						val location = locations.find { it.user.id == user.id }
-
-						if (location != null) {
-							user.begin_at = location.begin_at
-							user.end_at = null
-							user.host = location.host
-						} else {
-							user.begin_at = null
-							user.host = null
-						}
-						userDao.update(user)
-					}
+					mapper.map(users, locations)
 					getAllUsersFromDatabase()
 				}
 		}
@@ -73,6 +60,24 @@ class IntraRepository @Inject constructor(
 	}
 
 	class DataMapper(private val userDao: UserDao) {
+
+		fun map(userEntities: List<UserEntity>, locations: Array<LocationResponse>) {
+			userEntities.forEach { user ->
+				val location = locations.find { it.user.id == user.id }
+
+				user.apply {
+					if (location != null) {
+						begin_at = location.begin_at
+						end_at = null
+						host = location.host
+					} else {
+						begin_at = null
+						host = null
+					}
+					userDao.update(this)
+				}
+			}
+		}
 
 		fun map(locations: Array<LocationResponse>) {
 			locations.forEach { location ->

@@ -5,7 +5,7 @@ import androidx.core.content.ContextCompat
 import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.di.component.AppComponent
 import com.nalexand.friendlocation.di.component.DaggerAppComponent
-import com.nalexand.friendlocation.ui.home.adapter.UserBinder
+import com.nalexand.friendlocation.utils.UserBinder
 
 class App : Application() {
 

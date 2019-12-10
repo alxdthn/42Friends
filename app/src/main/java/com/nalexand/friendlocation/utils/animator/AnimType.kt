@@ -17,4 +17,8 @@ object AnimType {
 	const val SHOW_RIGHT = SHOW or RIGHT
 	const val SHOW_TOP = SHOW or TOP
 	const val SHOW_BOTTOM = SHOW or BOTTOM
+
+	const val SCALE_X = 1
+	const val SCALE_Y = 2
+	const val SCALE_XY = 3
 }

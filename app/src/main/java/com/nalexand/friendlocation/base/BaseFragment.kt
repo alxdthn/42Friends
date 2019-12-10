@@ -34,16 +34,21 @@ abstract class BaseFragment<VM : BaseViewModel>(private val layout: Int) : Fragm
 		savedInstanceState: Bundle?
 	): View? {
 		mainActivity = activity as MainActivity
-		inject()
+		initViewModel()
+		viewModel.commonViewModel = mainActivity.commonViewModel
 		return inflater.inflate(layout, container, false)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		val viewModelFactory = ViewModelUtil.createFor(viewModel)
-		ViewModelProviders.of(this, viewModelFactory).get(viewModel.javaClass)
 		initializeUi()
 		initializeObservers()
 		viewModel.init()
+	}
+
+	private fun initViewModel() {
+		inject()
+		val viewModelFactory = ViewModelUtil.createFor(viewModel)
+		ViewModelProviders.of(this, viewModelFactory).get(viewModel.javaClass)
 	}
 
 	private fun inject() {

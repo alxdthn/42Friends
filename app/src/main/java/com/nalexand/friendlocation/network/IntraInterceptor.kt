@@ -1,7 +1,7 @@
 package com.nalexand.friendlocation.network
 
+import android.util.Log
 import com.nalexand.friendlocation.repository.app.AppPreferences
-import com.nalexand.friendlocation.utils.Constants.CLIENT_ID
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -16,6 +16,7 @@ class IntraInterceptor @Inject constructor(
         val token = preferences.getToken()
 
         newRequest.addHeader("Authorization", "Bearer ${token.value}")
+        Log.d("bestTAG", "${token.value}")
         return chain.proceed(newRequest.build())
     }
 }

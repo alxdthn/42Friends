@@ -1,6 +1,8 @@
 package com.nalexand.friendlocation.utils.animator
 
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Interpolator
 import androidx.core.view.ViewCompat
 import com.nalexand.friendlocation.utils.animator.AnimType.BOTTOM
 import com.nalexand.friendlocation.utils.animator.AnimType.HIDE
@@ -11,19 +13,25 @@ import com.nalexand.friendlocation.utils.animator.AnimType.SHOW
 import com.nalexand.friendlocation.utils.animator.AnimType.TOP
 import com.nalexand.friendlocation.utils.animator.AnimType.VERTICAL
 import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.CompletableSubject
-import java.lang.IllegalArgumentException
 
-fun View.translatePos(duration: Long, type: Int): Completable {
+fun View.animatePos(
+	duration: Long,
+	type: Int,
+	interpolator: Interpolator = AccelerateDecelerateInterpolator()
+): Completable {
 
 	val throwable = IllegalArgumentException("INVALID TYPE")
-	val animationSubject = CompletableSubject.create()
 	val metrics = context.resources.displayMetrics
 	val winWidth = metrics.widthPixels
 	val winHeight = metrics.heightPixels
 
+	val animationSubject = CompletableSubject.create()
+
 	val anim = ViewCompat.animate(this)
 		.setDuration(duration)
+		.setInterpolator(interpolator)
 		.withEndAction {
 			animationSubject.onComplete()
 		}
@@ -52,18 +60,16 @@ fun View.translatePos(duration: Long, type: Int): Completable {
 		else -> throw throwable
 	}
 
-	val preparedAnim = when {
-		type and HORIZONTAL != 0 -> {
-			anim.translationX(translateTo)
-		}
-		type and VERTICAL != 0 -> {
-			anim.translationY(translateTo)
-		}
-		else -> throw IllegalArgumentException("Unknown type")
-	}
-
 	return animationSubject
 		.doOnSubscribe {
-			preparedAnim.start()
-		}
+			when {
+				type and HORIZONTAL != 0 -> {
+					anim.translationX(translateTo)
+				}
+				type and VERTICAL != 0 -> {
+					anim.translationY(translateTo)
+				}
+				else -> throw IllegalArgumentException("Unknown type")
+			}
+		}.subscribeOn(AndroidSchedulers.mainThread())
 }

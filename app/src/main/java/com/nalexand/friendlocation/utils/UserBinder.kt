@@ -1,4 +1,4 @@
-package com.nalexand.friendlocation.ui.home.adapter
+package com.nalexand.friendlocation.utils
 
 import android.view.View
 import com.nalexand.friendlocation.model.recycler.Item
@@ -13,15 +13,19 @@ object UserBinder {
 	private var enabledShadowRad = 10f
 
 	fun init(enabledColor: Int, disabledColor: Int, enabledShadowRad: Float) {
-		this.enabledColor = enabledColor
-		this.disabledColor = disabledColor
-		this.enabledShadowRad = enabledShadowRad
+		UserBinder.enabledColor = enabledColor
+		UserBinder.disabledColor = disabledColor
+		UserBinder.enabledShadowRad = enabledShadowRad
 	}
 
 	fun bindTo(view: View, item: UserItem, onClick: ((Item, View) -> Unit)? = null) {
 		bindLogin(view, item.name)
 		bindHost(view, item.host)
-		bindColor(view, item.color, item.shadow)
+		bindColor(
+			view,
+			item.color,
+			item.shadow
+		)
 		if (onClick != null) {
 			view.setOnClickListener {
 				onClick(item, it)
@@ -55,6 +59,9 @@ object UserBinder {
 	fun getParams(host: String?) = if (host == null) {
 		UserItem.Params(disabledColor, 0f)
 	} else {
-		UserItem.Params(enabledColor, enabledShadowRad)
+		UserItem.Params(
+			enabledColor,
+			enabledShadowRad
+		)
 	}
 }

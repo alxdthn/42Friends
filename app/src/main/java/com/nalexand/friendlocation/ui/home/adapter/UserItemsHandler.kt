@@ -1,20 +1,20 @@
 package com.nalexand.friendlocation.ui.home.adapter
 
 import android.view.View
-import androidx.core.content.ContextCompat
-import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseAdapter
 import com.nalexand.friendlocation.base.BaseItemsHandler
 import com.nalexand.friendlocation.model.local.User
 import com.nalexand.friendlocation.model.recycler.Item
 import com.nalexand.friendlocation.model.recycler.UserItem
 import com.nalexand.friendlocation.ui.home.HomeFragment
-import com.nalexand.friendlocation.ui.home.adapter.UserBinder.getParams
+import com.nalexand.friendlocation.utils.UserBinder.getParams
 import com.nalexand.friendlocation.utils.AppDiffUtil
 
 @Suppress("UNCHECKED_CAST")
-class UserItemsHandler(main: HomeFragment, adapter: BaseAdapter) :
-	BaseItemsHandler(main.composite, DiffCallback(), adapter) {
+class UserItemsHandler(main: HomeFragment) :
+	BaseItemsHandler(main.composite, DiffCallback(), UserAdapter()) {
+
+	private val onClick: (Item, View) -> Unit = main::onUserClick
 
 	init {
 		(adapter as UserAdapter).itemsHandler = this
@@ -30,10 +30,9 @@ class UserItemsHandler(main: HomeFragment, adapter: BaseAdapter) :
 		}
 	}
 
-	override fun onResult(result: List<Item>) {
-	}
 
 	override fun onItemClick(item: Item, view: View) {
+		onClick(item, view)
 	}
 
 	class DiffCallback : AppDiffUtil.BaseDiffCallback() {

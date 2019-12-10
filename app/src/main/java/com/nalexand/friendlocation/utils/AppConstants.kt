@@ -1,6 +1,12 @@
 package com.nalexand.friendlocation.utils
 
-object Constants {
+object AppConstants {
+	const val ERROR_USER = 1
+	const val SUCCESS = 3
+	const val ERROR_INPUT = 2
+	const val ERROR_NETWORK = 4
+	const val USER_EXISTS = 5
+
 	const val	APP_HOST				= "friendlocation"
 	const val	INTERNAL_PREFS			= "com.nalexand.$APP_HOST.prefs"
 	const val	TOKEN_PREF_KEY			= "token_pref_key"

@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="@dimen/home_user_item_height"
 	app:cardCornerRadius="0dp"
-	app:cardBackgroundColor="@color/white10"
+	app:cardBackgroundColor="@color/white40"
 	app:cardElevation="1dp">
 
 	<androidx.constraintlayout.widget.ConstraintLayout

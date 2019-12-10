@@ -4,7 +4,8 @@ import android.view.View
 
 data class AnimParams(
 	val view: View,
-	val duration: Long,
 	val type: Int,
-	var last: Boolean = false
+	val duration: Long = 500,
+	var last: Boolean = false,
+	var pos: Int = 0
 )

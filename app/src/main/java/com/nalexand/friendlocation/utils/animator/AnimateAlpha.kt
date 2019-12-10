@@ -8,7 +8,7 @@ import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject
 import java.lang.IllegalArgumentException
 
-fun View.translateAlpha(duration: Long, type: Int): Completable {
+fun View.animateAlpha(duration: Long, type: Int): Completable {
 
 	val throwable = IllegalArgumentException("INVALID TYPE")
 	val animationSubject = CompletableSubject.create()
