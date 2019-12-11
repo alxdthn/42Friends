@@ -22,8 +22,12 @@ fun TextView.blinkedAnim(duration: Long): Completable {
 			)
 		}
 
-	return animationSubject.doOnSubscribe {
-		anim.start()
-		animationSubject.onComplete()
-	}
+	return animationSubject
+		.doOnSubscribe {
+			anim.start()
+			animationSubject.onComplete()
+		}
+		.doOnDispose {
+			anim.cancel()
+		}
 }

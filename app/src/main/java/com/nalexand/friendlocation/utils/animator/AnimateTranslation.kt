@@ -28,11 +28,11 @@ fun View.animateTranslation(
 	val winWidth = metrics.widthPixels
 	val winHeight = metrics.heightPixels
 	val animationSubject = CompletableSubject.create()
+	val anim = animate()
 
 	return animationSubject
 		.doOnSubscribe {
-			val anim = ViewCompat.animate(this)
-				.setDuration(duration)
+			anim.setDuration(duration)
 				.setInterpolator(interpolator)
 				.withEndAction {
 					animationSubject.onComplete()
@@ -71,5 +71,7 @@ fun View.animateTranslation(
 				}
 				else -> throw IllegalArgumentException("Unknown type")
 			}
+		}.doOnDispose {
+			anim.cancel()
 		}.subscribeOn(AndroidSchedulers.mainThread())
 }

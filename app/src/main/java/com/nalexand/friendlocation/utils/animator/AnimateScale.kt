@@ -21,12 +21,12 @@ fun View.animateScale(
 ): Completable {
 
 	val animSubject = CompletableSubject.create()
+	val anim = animate()
 
 	return animSubject
 		.subscribeOn(AndroidSchedulers.mainThread())
 		.doOnSubscribe {
-			val anim = ViewCompat.animate(this)
-				.setDuration(duration)
+			anim.setDuration(duration)
 				.setInterpolator(interpolator)
 				.withEndAction {
 					animSubject.onComplete()
@@ -37,5 +37,8 @@ fun View.animateScale(
 				SCALE_XY -> anim.scaleX(value).scaleY(value)
 				else -> throw IllegalArgumentException("INVALID TYPE")
 			}
+		}
+		.doOnDispose {
+			anim.cancel()
 		}
 }

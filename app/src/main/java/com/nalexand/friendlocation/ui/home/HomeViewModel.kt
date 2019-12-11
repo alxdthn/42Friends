@@ -25,6 +25,8 @@ class HomeViewModel @Inject constructor(
 
 	val refreshing = LocalState()
 
+	var selectedUser: User? = null
+
 	override fun initStartData() {
 		if (commonViewModel.appState == State.START) {
 			updateLocations()
@@ -51,5 +53,9 @@ class HomeViewModel @Inject constructor(
 
 	fun onNavigateToUserDetails(userId: String) {
 		commonViewModel.sharedData = userId
+	}
+
+	fun startRemoveUser(position: Int) {
+		selectedUser = users.value?.get(position)
 	}
 }

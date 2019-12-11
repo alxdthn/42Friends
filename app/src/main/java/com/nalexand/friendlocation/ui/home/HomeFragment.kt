@@ -29,10 +29,14 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 	private lateinit var toUserDetailsAnimation: ToUserDetailsAnimation
 	private lateinit var onUserSwipeAnimation: OnUserSwipeAnimation
 
+	private var tmpPos = 0
+
 	override fun initializeUi() {
 		initializeAnimations()
 		initializeRecycler()
 		fabAddUser.setOnClickListener(this)
+		btnAcceptRemoveUser.setOnClickListener(this)
+		btnDismissRemoveUser.setOnClickListener(this)
 		srlUsers.setOnRefreshListener {
 			viewModel.refreshing.start()
 			viewModel.updateLocations()
@@ -73,7 +77,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 		onUserSwipeAnimation = OnUserSwipeAnimation(clHomeContent, getComposite())
 	}
 
-	fun onUserClick(userItem: Item, clickedView: View) {
+	private fun navigateToUserDetails(userItem: Item, clickedView: View) {
 		toUserDetailsAnimation.startWith(clickedView) {
 			rvUsers.isLayoutFrozen = true
 			viewModel.onNavigateToUserDetails(userItem.id)
@@ -81,21 +85,40 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 		}
 	}
 
-	fun onUserSwipe(position: Int): Boolean {
+	private fun navigateToAddUser() {
+		rvUsers.isLayoutFrozen = true
+		toAddUserAnimation.start {
+			findNavController().navigate(R.id.action_nav_home_to_nav_add_user)
+		}
+	}
+
+	private fun removeUser(position: Int): Boolean {
 		val swipedView = rvUsers.findViewHolderForAdapterPosition(position)?.itemView
 			?: throw IllegalStateException()
+		tmpPos = position
+		viewModel.startRemoveUser(position)
 		onUserSwipeAnimation.startWith(swipedView)
 		return true
 	}
 
+	private fun acceptRemoveUser() {
+
+	}
+
+	private fun dismissRemoveUser() {
+		onUserSwipeAnimation.reverse()
+		itemsHandler.adapter.notifyItemChanged(tmpPos)
+	}
+
+	fun onUserClick(userItem: Item, clickedView: View) = navigateToUserDetails(userItem, clickedView)
+
+	fun onUserSwipe(position: Int) = removeUser(position)
+
 	override fun onClick(v: View?) {
 		when (v?.id) {
-			R.id.fabAddUser -> {
-				rvUsers.isLayoutFrozen = true
-				toAddUserAnimation.start {
-					findNavController().navigate(R.id.action_nav_home_to_nav_add_user)
-				}
-			}
+			R.id.fabAddUser -> navigateToAddUser()
+			R.id.btnAcceptRemoveUser -> acceptRemoveUser()
+			R.id.btnDismissRemoveUser -> dismissRemoveUser()
 		}
 	}
 }

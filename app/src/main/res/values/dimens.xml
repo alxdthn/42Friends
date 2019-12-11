@@ -15,4 +15,6 @@
 	<dimen name="add_user_header_translationY">-90dp</dimen>
 	<dimen name="add_user_input_translationY">-140dp</dimen>
 	<dimen name="add_user_button_translationY">-226dp</dimen>
+
+	<dimen name="remove_user_message">30sp</dimen>
 </resources>

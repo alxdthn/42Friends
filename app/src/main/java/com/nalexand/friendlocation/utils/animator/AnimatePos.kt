@@ -18,12 +18,12 @@ fun View.animatePos(
 ): Completable {
 
 	val animSubject = CompletableSubject.create()
+	val anim = animate()
 
 	return animSubject
 		.subscribeOn(AndroidSchedulers.mainThread())
 		.doOnSubscribe {
-			val anim = animate()
-				.setDuration(duration)
+			anim.setDuration(duration)
 				.setInterpolator(interpolator)
 				.withEndAction {
 					animSubject.onComplete()
@@ -33,5 +33,8 @@ fun View.animatePos(
 				POS_Y -> anim.y(value)
 				else -> throw IllegalArgumentException("INVALID TYPE")
 			}
+		}
+		.doOnDispose {
+			anim.cancel()
 		}
 }

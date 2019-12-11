@@ -34,4 +34,40 @@
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:srcCompat="@drawable/ic_person_add" />
+
+	<TextView
+		android:id="@+id/btnAcceptRemoveUser"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:alpha="0"
+		android:fontFamily="@font/oxygen"
+		android:gravity="center"
+		android:padding="16dp"
+		android:shadowColor="@color/white90"
+		android:shadowRadius="20"
+		android:text="YES"
+		android:textColor="@color/white90"
+		android:textSize="20sp"
+		android:elevation="-1dp"
+		android:visibility="gone"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+		android:id="@+id/btnDismissRemoveUser"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:alpha="0"
+		android:fontFamily="@font/oxygen"
+		android:gravity="center"
+		android:padding="16dp"
+		android:shadowColor="@color/white90"
+		android:shadowRadius="20"
+		android:text="NO"
+		android:textColor="@color/white90"
+		android:textSize="20sp"
+		android:elevation="-1dp"
+		android:visibility="gone"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

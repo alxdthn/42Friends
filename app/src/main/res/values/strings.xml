@@ -15,6 +15,7 @@
 	<string name="cant_find_user">Can\'t find user</string>
 	<string name="network_error">Network error</string>
 	<string name="user_added">Success!</string>
+	<string name="remove_user">Remove user?</string>
 
 	<string name="name">Name:</string>
 	<string name="level">Level:</string>
