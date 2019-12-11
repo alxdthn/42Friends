@@ -1,33 +1,34 @@
 package com.nalexand.friendlocation.ui.home.animations
 
-import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
-import androidx.recyclerview.widget.RecyclerView
 import com.nalexand.friendlocation.ui.home.adapter.UserAdapter
-import com.nalexand.friendlocation.utils.animator.AnimParams
-import com.nalexand.friendlocation.utils.animator.AnimType
-import com.nalexand.friendlocation.utils.animator.intervalAnim
-import com.nalexand.friendlocation.utils.animator.animateTranslation
+import com.nalexand.friendlocation.utils.animator.*
 import com.nalexand.friendlocation.utils.extensions.itemCount
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class ToAddUserAnimation(private val composite: CompositeDisposable) {
+class ToAddUserAnimation(
+	viewGroup: ViewGroup,
+	composite: CompositeDisposable
+) : BaseAnimation(viewGroup, composite) {
 
-	fun prepareAnim(fabAddUser: View, rvUsers: RecyclerView, onAnimationComplete: () -> Unit) {
-		fabAddUser.animateTranslation(300, AnimType.HIDE_RIGHT).mergeWith {
-			val size = rvUsers.itemCount()
+	override fun start(onAnimationComplete: (() -> Unit)?) {
+		viewGroup.fabAddUser.animateTranslation(300, AnimType.HIDE_RIGHT).mergeWith {
+			val size = viewGroup.rvUsers.itemCount()
 			if (size > 0) {
-				animate(prepareParams(rvUsers, size), onAnimationComplete)
+				animate(prepareParams(size), onAnimationComplete)
 			} else {
-				onAnimationComplete()
+				onAnimationComplete?.invoke()
 			}
 			it.onComplete()
 		}.subscribe()
 	}
 
-	private fun prepareParams(recycler: RecyclerView, size: Int): List<AnimParams> {
+	private fun prepareParams(size: Int): List<AnimParams> {
 		val viewsForAnimation = mutableListOf<AnimParams>()
+		val recycler = viewGroup.rvUsers
 
 		for (pos in 0..size) {
 			val holder = recycler.findViewHolderForAdapterPosition(pos)
@@ -45,11 +46,11 @@ class ToAddUserAnimation(private val composite: CompositeDisposable) {
 		return viewsForAnimation
 	}
 
-	private fun animate(viewsForAnimation: List<AnimParams>, onComplete: () -> Unit) {
+	private fun animate(viewsForAnimation: List<AnimParams>, onComplete: (() -> Unit)?) {
 		viewsForAnimation.intervalAnim(300, AccelerateInterpolator()) { params ->
 			params.run {
 				view.animateTranslation(duration, type)
-					.subscribe { if (last) onComplete() }
+					.subscribe { if (last) onComplete?.invoke() }
 			}
 		}.subscribe { it.addTo(composite) }.addTo(composite)
 	}

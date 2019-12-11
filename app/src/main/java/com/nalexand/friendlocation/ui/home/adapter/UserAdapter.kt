@@ -9,6 +9,7 @@ import com.nalexand.friendlocation.R
 import com.nalexand.friendlocation.base.BaseAdapter
 import com.nalexand.friendlocation.model.recycler.Item
 import com.nalexand.friendlocation.model.recycler.UserItem
+import com.nalexand.friendlocation.ui.home.adapter.touch_helper.TouchHelperViewHolder
 import com.nalexand.friendlocation.utils.UserBinder
 
 @Suppress("UNCHECKED_CAST")
@@ -32,7 +33,7 @@ class UserAdapter : BaseAdapter() {
 		if (holder is ViewHolder) {
 			val item = getItems()[position]
 			holder.bindTo(item, itemsHandler::onItemClick)
-			(holder.itemView as CardView).cardElevation = 10f
+			(holder.itemView as CardView).cardElevation = 0f
 		}
 	}
 
@@ -45,13 +46,21 @@ class UserAdapter : BaseAdapter() {
 		}
 	}
 
-	class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+	class ViewHolder(v: View) : RecyclerView.ViewHolder(v), TouchHelperViewHolder {
 		fun bindTo(userItem: UserItem, onClick: (Item, View) -> Unit) {
 			UserBinder.bindTo(itemView, userItem, onClick)
 		}
 
 		fun bindTo(payloads: MutableList<Any?>) {
 			UserBinder.bindTo(itemView, payloads)
+		}
+
+		override fun onItemSelected() {
+			(itemView as CardView).cardElevation = 0f
+		}
+
+		override fun onItemClear() {
+			(itemView as CardView).cardElevation = 0f
 		}
 	}
 }

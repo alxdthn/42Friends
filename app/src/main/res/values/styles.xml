@@ -47,4 +47,21 @@
         <item name="android:windowMinWidthMinor">100%</item>
     </style>
 
+	<style name="UserDetailsInfoTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+		<item name="android:fontFamily">@font/nunito_light</item>
+		<item name="android:textColor">@color/white90</item>
+		<item name="android:textSize">16sp</item>
+	</style>
+
+    <style name="UserDetailsInfoContent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/nunito_light</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/white90</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

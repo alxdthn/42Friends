@@ -1,20 +1,17 @@
-package com.nalexand.friendlocation.ui.add_user.animations
+package com.nalexand.friendlocation.utils.animator
 
-import android.view.ViewGroup
 import android.view.animation.Animation
-import io.reactivex.disposables.CompositeDisposable
 
-class AddUserAnimationListener(
+open class BaseAnimationListener(
 	private val enter: Boolean,
-	private val group: ViewGroup,
-	private val composite: CompositeDisposable
+	private val anim: BaseAnimation
 ) : Animation.AnimationListener {
 
 	override fun onAnimationRepeat(animation: Animation?) {}
 
 	override fun onAnimationEnd(animation: Animation?) {
 		if (enter) {
-			AddUserStartAnimation(composite).start(group)
+			anim.start()
 		}
 	}
 

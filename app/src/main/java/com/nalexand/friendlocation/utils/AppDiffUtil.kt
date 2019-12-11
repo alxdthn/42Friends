@@ -46,11 +46,11 @@ class AppDiffUtil {
 		validate()
 		return Observable.fromCallable { renderer!!(data) }
 			.subscribeOn(Schedulers.computation())
-			.observeOn(AndroidSchedulers.mainThread())
 			.map { newItems ->
 				if (onResult != null) result = newItems
 				DiffUtil.calculateDiff(callback!!.build(source!!, newItems))
 			}
+			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe { diffResult ->
 				onResult?.invoke(result!!)
 				subject?.onNext(diffResult)

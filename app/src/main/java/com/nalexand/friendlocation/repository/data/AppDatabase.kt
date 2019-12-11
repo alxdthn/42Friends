@@ -11,10 +11,11 @@ import com.nalexand.friendlocation.model.local.User
 import com.nalexand.friendlocation.model.local.Note
 import com.nalexand.friendlocation.repository.data.dao.NoteDao
 import com.nalexand.friendlocation.repository.data.dao.UserDao
+import com.nalexand.friendlocation.repository.data.migrations.MIGRATION_1_2
 
 @Database(
 	entities = [UserEntity::class, NoteEntity::class],
-	version = 1,
+	version = 2,
 	exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -37,9 +38,10 @@ abstract class AppDatabase : RoomDatabase() {
 
 		private fun buildDatabase(application: Application): AppDatabase {
 			return Room.databaseBuilder(application,
-					AppDatabase::class.java,
-					"friendlocation.db")
-					.allowMainThreadQueries().build()
+				AppDatabase::class.java,
+				"friendlocation.db")
+				.addMigrations(MIGRATION_1_2)
+				.allowMainThreadQueries().build()
 		}
 	}
 }

@@ -26,14 +26,13 @@ class HomeViewModel @Inject constructor(
 	val refreshing = LocalState()
 
 	override fun initStartData() {
-		getLocations()
 		if (commonViewModel.appState == State.START) {
 			updateLocations()
 		}
 		commonViewModel.appState = State.HOME
 	}
 
-	private fun getLocations() {
+	fun getUsers() {
 		_users.value = repository.getAllUsersFromDatabase()
 	}
 

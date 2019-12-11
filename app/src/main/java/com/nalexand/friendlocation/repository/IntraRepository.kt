@@ -14,10 +14,9 @@ import javax.inject.Inject
 
 class IntraRepository @Inject constructor(
 	private val userDao: UserDao,
-	private val service: IntraUserService
+	private val service: IntraUserService,
+	private val mapper: DataMapper
 ) : BaseRepository() {
-
-	private val mapper = DataMapper(userDao)
 
 	fun updateLocations(): Single<List<User>> {
 		val users = userDao.getAll()
@@ -61,60 +60,5 @@ class IntraRepository @Inject constructor(
 				mapper.map(it)
 				getUserFromDatabaseByLogin(it[0].user.login)
 			}
-	}
-
-	class DataMapper(private val userDao: UserDao) {
-
-		fun map(userEntities: List<UserEntity>, locations: Array<LocationResponse>) {
-			userEntities.forEach { user ->
-				val location = locations.find { it.user.id == user.id }
-
-				user.apply {
-					if (location != null) {
-						begin_at = location.begin_at
-						end_at = null
-						host = location.host
-					} else {
-						begin_at = null
-						host = null
-					}
-					userDao.update(this)
-				}
-			}
-		}
-
-		fun map(locations: Array<LocationResponse>) {
-			locations.forEach { location ->
-				val userEntity = UserEntity(
-					id = location.user.id,
-					login = location.user.login
-				)
-				if (location.end_at == null) {
-					userEntity.apply {
-						begin_at = location.begin_at
-						end_at = location.end_at
-						host = location.host
-					}
-				}
-				userDao.insert(userEntity)
-			}
-		}
-
-		fun map(userResponse: UserResponse): UserEntity {
-			return userResponse.run {
-				UserEntity(id, login)
-			}
-		}
-
-		fun map(userEntities: List<UserEntity>): List<User> {
-			return userEntities.map { map(it) ?: throw IllegalStateException() }
-		}
-
-		fun map(userEntity: UserEntity?): User? {
-			if (userEntity == null) return null
-			return userEntity.run {
-				User(id, login, host, begin_at, end_at)
-			}
-		}
 	}
 }

@@ -7,14 +7,15 @@ import com.nalexand.friendlocation.model.local.User
 import com.nalexand.friendlocation.model.recycler.Item
 import com.nalexand.friendlocation.model.recycler.UserItem
 import com.nalexand.friendlocation.ui.home.HomeFragment
+import com.nalexand.friendlocation.ui.home.adapter.touch_helper.TouchHelperCallback
+import com.nalexand.friendlocation.ui.home.adapter.touch_helper.TouchHelperInterface
 import com.nalexand.friendlocation.utils.UserBinder.getParams
 import com.nalexand.friendlocation.utils.AppDiffUtil
 
 @Suppress("UNCHECKED_CAST")
-class UserItemsHandler(main: HomeFragment) :
-	BaseItemsHandler(main.getComposite(), DiffCallback(), UserAdapter()) {
-
-	private val onClick: (Item, View) -> Unit = main::onUserClick
+class UserItemsHandler(private val main: HomeFragment) :
+	BaseItemsHandler(main.getComposite(), DiffCallback(), UserAdapter()),
+	TouchHelperInterface {
 
 	init {
 		(adapter as UserAdapter).itemsHandler = this
@@ -32,13 +33,12 @@ class UserItemsHandler(main: HomeFragment) :
 
 
 	override fun onItemClick(item: Item, view: View) {
-		onClick(item, view)
+		main.onUserClick(item, view)
 	}
 
-	class DiffCallback : AppDiffUtil.BaseDiffCallback() {
-
-		override fun getChangePayload(oldPos: Int, newPos: Int): Any? {
-			return null
-		}
+	override fun onItemSwipe(position: Int): Boolean {
+		return main.onUserSwipe(position)
 	}
+
+	class DiffCallback : AppDiffUtil.BaseDiffCallback()
 }

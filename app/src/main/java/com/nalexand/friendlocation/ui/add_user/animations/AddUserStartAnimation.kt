@@ -3,6 +3,7 @@ package com.nalexand.friendlocation.ui.add_user.animations
 import android.view.ViewGroup
 import android.widget.EditText
 import com.nalexand.friendlocation.utils.animator.AnimType
+import com.nalexand.friendlocation.utils.animator.BaseAnimation
 import com.nalexand.friendlocation.utils.animator.blinkedAnim
 import com.nalexand.friendlocation.utils.animator.animateTranslation
 import com.nalexand.friendlocation.utils.extensions.showKeyboard
@@ -12,10 +13,13 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.CompletableSubject
 import kotlinx.android.synthetic.main.fragment_add_user.view.*
 
-class AddUserStartAnimation(private val composite: CompositeDisposable) {
+class AddUserStartAnimation(
+	group: ViewGroup,
+	composite: CompositeDisposable
+) : BaseAnimation(group, composite) {
 
-	fun start(group: ViewGroup) {
-		group.apply {
+	override fun start(onAnimationComplete: (() -> Unit)?) {
+		viewGroup.apply {
 			cvAddUserHeader.animateTranslation(250, AnimType.SHOW_TOP)
 				.mergeWith(cvAddUserInput.animateTranslation(500, AnimType.SHOW_TOP))
 				.mergeWith(flAddUserButton.animateTranslation(1000, AnimType.SHOW_TOP))

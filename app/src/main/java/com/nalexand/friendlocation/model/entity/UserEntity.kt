@@ -13,5 +13,6 @@ data class UserEntity(
 	val login: String,
 	var host: String? = null,
 	var begin_at: String? = null,
-	var end_at: String? = null
+	var end_at: String? = null,
+	var name: String? = null
 )
