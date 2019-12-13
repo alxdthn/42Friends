@@ -7,7 +7,7 @@ import com.nalexand.friendlocation.ui.home.adapter.UserAdapter
 
 class TouchHelperCallback(
 	private val listener: TouchHelperInterface,
-	private val onSwipeDrawer: OnSwipeDrawer
+	private val swipeController: SwipeController
 ) : ItemTouchHelper.Callback() {
 
 	private val swipeThreshold = 0.7f
@@ -23,7 +23,7 @@ class TouchHelperCallback(
 		actionState: Int,
 		isCurrentlyActive: Boolean
 	) {
-		onSwipeDrawer.draw(viewHolder, c, dX)
+		swipeController(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
 		super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
 	}
 

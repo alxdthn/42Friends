@@ -40,5 +40,9 @@ class UserItemsHandler(private val main: HomeFragment) :
 		return main.onUserSwipe(position)
 	}
 
+	override fun onClickRight() {}
+
+	override fun onClickLeft() {}
+
 	class DiffCallback : AppDiffUtil.BaseDiffCallback()
 }

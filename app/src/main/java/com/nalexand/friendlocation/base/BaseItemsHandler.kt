@@ -41,7 +41,7 @@ abstract class BaseItemsHandler(
 
 	abstract fun renderer(data: Iterable<Any>): List<Item>
 
-	open fun onResult(result: List<Item>) {}
+	open fun onResult(result: List<Item>) = Unit
 
 	abstract fun onItemClick(item: Item, view: View)
 }
