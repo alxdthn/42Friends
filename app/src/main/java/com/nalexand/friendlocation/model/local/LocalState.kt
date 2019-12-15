@@ -22,7 +22,7 @@ class LocalState() {
 
 	fun start() {
 		if (withLog) Log.d("bestTAG", "STATE($name): start")
-		state.postValue(true)
+		state.value = true
 	}
 
 	fun isActive(): Boolean {
@@ -31,7 +31,7 @@ class LocalState() {
 
 	fun cancel() {
 		if (withLog) Log.d("bestTAG", "STATE($name): cancel")
-		state.postValue(false)
+		state.value = false
 	}
 
 	fun cancelIfActive() {

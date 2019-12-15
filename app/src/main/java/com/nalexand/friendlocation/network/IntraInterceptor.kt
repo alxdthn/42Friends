@@ -16,7 +16,7 @@ class IntraInterceptor @Inject constructor(
         val token = preferences.getToken()
 
         newRequest.addHeader("Authorization", "Bearer ${token.value}")
-        Log.d("bestTAG", "${token.value}")
+        //Log.d("bestTAG", "${token.value}")
         return chain.proceed(newRequest.build())
     }
 }

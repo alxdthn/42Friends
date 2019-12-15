@@ -2,10 +2,7 @@ package com.nalexand.friendlocation.repository
 
 import com.nalexand.friendlocation.base.BaseRepository
 import com.nalexand.friendlocation.errors.UserNotFound
-import com.nalexand.friendlocation.model.entity.UserEntity
 import com.nalexand.friendlocation.model.local.User
-import com.nalexand.friendlocation.model.response.LocationResponse
-import com.nalexand.friendlocation.model.response.UserResponse
 import com.nalexand.friendlocation.network.service.IntraUserService
 import com.nalexand.friendlocation.repository.data.dao.UserDao
 import io.reactivex.Single

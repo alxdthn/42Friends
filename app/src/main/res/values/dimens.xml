@@ -17,4 +17,5 @@
 	<dimen name="add_user_button_translationY">-226dp</dimen>
 
 	<dimen name="remove_user_message">30sp</dimen>
+	<dimen name="remove_user_button">20sp</dimen>
 </resources>

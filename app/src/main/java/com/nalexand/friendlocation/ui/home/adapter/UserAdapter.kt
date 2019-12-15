@@ -33,7 +33,10 @@ class UserAdapter : BaseAdapter() {
 		if (holder is ViewHolder) {
 			val item = getItems()[position]
 			holder.bindTo(item, itemsHandler::onItemClick)
-			(holder.itemView as CardView).cardElevation = 0f
+			(holder.itemView as CardView).apply {
+				cardElevation = 0f
+				translationX = 0f
+			}
 		}
 	}
 

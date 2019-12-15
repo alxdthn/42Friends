@@ -1,5 +1,7 @@
 package com.nalexand.friendlocation.ui.home
 
+import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -8,8 +10,8 @@ import com.nalexand.friendlocation.base.BaseFragment
 import com.nalexand.friendlocation.model.recycler.Item
 import com.nalexand.friendlocation.ui.home.adapter.UserItemsHandler
 import com.nalexand.friendlocation.ui.home.adapter.touch_helper.TouchHelperCallback
-import com.nalexand.friendlocation.ui.home.adapter.touch_helper.OnSwipeDrawer
-import com.nalexand.friendlocation.ui.home.animations.OnUserSwipeAnimation
+import com.nalexand.friendlocation.ui.home.adapter.touch_helper.SwipeDrawer
+import com.nalexand.friendlocation.ui.home.adapter.touch_helper.SwipeController
 import com.nalexand.friendlocation.ui.home.animations.ToAddUserAnimation
 import com.nalexand.friendlocation.ui.home.animations.ToUserDetailsAnimation
 import com.nalexand.friendlocation.utils.AppConstants.ERROR_NETWORK
@@ -27,7 +29,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 
 	private lateinit var toAddUserAnimation: ToAddUserAnimation
 	private lateinit var toUserDetailsAnimation: ToUserDetailsAnimation
-	private lateinit var onUserSwipeAnimation: OnUserSwipeAnimation
 
 	private var tmpPos = 0
 
@@ -35,13 +36,17 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 		initializeAnimations()
 		initializeRecycler()
 		fabAddUser.setOnClickListener(this)
-		btnAcceptRemoveUser.setOnClickListener(this)
-		btnDismissRemoveUser.setOnClickListener(this)
 		srlUsers.setOnRefreshListener {
 			viewModel.refreshing.start()
 			viewModel.updateLocations()
 		}
-		viewModel.getUsers()
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		if (savedInstanceState == null) {
+			viewModel.getUsers()
+		}
 	}
 
 	override fun initializeObservers() {
@@ -54,27 +59,28 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 			srlUsers.isRefreshing = updating
 		}
 		observe(viewModel.users) { users ->
-			itemsHandler render users
+			if (!viewModel.refreshing.isActive()) {
+				Log.d("bestTAG", "2")
+				itemsHandler render users
+			}
 		}
 	}
 
 	private fun initializeRecycler() {
 		itemsHandler = UserItemsHandler(this)
-		rvUsers.adapter = itemsHandler.adapter
-		ItemTouchHelper(
-			TouchHelperCallback(
-				itemsHandler,
-				OnSwipeDrawer(
-					mainActivity.applicationContext
-				)
-			)
-		).attachToRecyclerView(rvUsers)
+		val swipeDrawer = SwipeDrawer(mainActivity.applicationContext)
+		val swipeController = SwipeController(itemsHandler, swipeDrawer)
+		val touchHelperCallback = TouchHelperCallback(itemsHandler, swipeController)
+		ItemTouchHelper(touchHelperCallback).attachToRecyclerView(rvUsers)
+		rvUsers.apply {
+			adapter = itemsHandler.adapter
+			setOnTouchListener(swipeController)
+		}
 	}
 
 	private fun initializeAnimations() {
 		toAddUserAnimation = ToAddUserAnimation(clHomeContent, getComposite())
 		toUserDetailsAnimation = ToUserDetailsAnimation(clHomeContent, getComposite())
-		onUserSwipeAnimation = OnUserSwipeAnimation(clHomeContent, getComposite())
 	}
 
 	private fun navigateToUserDetails(userItem: Item, clickedView: View) {
@@ -93,11 +99,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 	}
 
 	private fun removeUser(position: Int): Boolean {
-		val swipedView = rvUsers.findViewHolderForAdapterPosition(position)?.itemView
-			?: throw IllegalStateException()
 		tmpPos = position
 		viewModel.startRemoveUser(position)
-		onUserSwipeAnimation.startWith(swipedView)
 		return true
 	}
 
@@ -106,7 +109,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 	}
 
 	private fun dismissRemoveUser() {
-		onUserSwipeAnimation.reverse()
 		itemsHandler.adapter.notifyItemChanged(tmpPos)
 	}
 
@@ -117,8 +119,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 	override fun onClick(v: View?) {
 		when (v?.id) {
 			R.id.fabAddUser -> navigateToAddUser()
-			R.id.btnAcceptRemoveUser -> acceptRemoveUser()
-			R.id.btnDismissRemoveUser -> dismissRemoveUser()
 		}
 	}
 }
