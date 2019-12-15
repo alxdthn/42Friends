@@ -10,4 +10,4 @@
 - Retrofit2
 - Room
 
-<img src="https://github.com/alxdthn/FriendLocation/blob/master/readmeSrc/TFSBoards.gif">
+<img src="https://github.com/alxdthn/FriendLocation/blob/master/readmeSrc/TFSBoards.gif" width="400">
