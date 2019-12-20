@@ -45,8 +45,9 @@ fun Iterable<AnimParams>.intervalAnim(
 		for (counter in size - 1 downTo 0) {
 			val sleepTime = sleeps[counter]
 			emitter.onNext(sleepTime)
-			Thread.sleep(sleepTime)
-
+			try {
+				Thread.sleep(sleepTime)
+			} catch (e: InterruptedException) { Unit }
 		}
 	}.subscribeOn(Schedulers.computation())
 

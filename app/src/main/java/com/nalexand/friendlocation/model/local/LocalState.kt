@@ -29,6 +29,10 @@ class LocalState() {
 		return state.value ?: false
 	}
 
+	fun isNotActive(): Boolean {
+		return !(state.value ?: false)
+	}
+
 	fun cancel() {
 		if (withLog) Log.d("bestTAG", "STATE($name): cancel")
 		state.value = false

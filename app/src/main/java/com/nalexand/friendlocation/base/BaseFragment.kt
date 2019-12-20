@@ -40,15 +40,19 @@ abstract class BaseFragment<VM : BaseViewModel>(
 		savedInstanceState: Bundle?
 	): View? {
 		mainActivity = activity as MainActivity
-		initViewModel()
-		viewModel.commonViewModel = mainActivity.commonViewModel
 		return inflater.inflate(layout, container, false)
 	}
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		initializeUi()
-		initializeObservers()
+	open fun onCreateViewModel(savedInstanceState: Bundle?) {
+		initViewModel()
+		viewModel.commonViewModel = mainActivity.commonViewModel
 		viewModel.init()
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		onCreateViewModel(savedInstanceState)
+		initializeObservers()
+		initializeUi()
 	}
 
 	private fun initViewModel() {

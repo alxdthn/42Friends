@@ -25,8 +25,6 @@ class HomeViewModel @Inject constructor(
 
 	val refreshing = LocalState()
 
-	var selectedUser: User? = null
-
 	override fun initStartData() {
 		if (commonViewModel.appState == State.START) {
 			updateLocations()
@@ -35,7 +33,7 @@ class HomeViewModel @Inject constructor(
 	}
 
 	fun getUsers() {
-		_users.value = repository.getAllUsersFromDatabase()
+		_users.value = repository.getAllUsersFromDatabase().sorted()
 	}
 
 	fun updateLocations() {
@@ -43,7 +41,7 @@ class HomeViewModel @Inject constructor(
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe({ users ->
 				refreshing.cancelIfActive()
-				_users.value = users
+				_users.value = users.sorted()
 			}) { error ->
 				refreshing.cancelIfActive()
 				errors.onNext(ERROR_NETWORK)
@@ -55,7 +53,14 @@ class HomeViewModel @Inject constructor(
 		commonViewModel.sharedData = userId
 	}
 
-	fun startRemoveUser(position: Int) {
-		selectedUser = users.value?.get(position)
+	fun removeUser(idUser: String) {
+		_users.value = repository.removeUser(idUser).sorted()
+	}
+
+	private fun List<User>.sorted(): List<User> {
+		return sortedWith(compareBy(
+			{ it.host == null },
+			{ it.login }
+		))
 	}
 }

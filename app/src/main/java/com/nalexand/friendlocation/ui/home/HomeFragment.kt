@@ -2,7 +2,10 @@ package com.nalexand.friendlocation.ui.home
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.nalexand.friendlocation.R
@@ -19,8 +22,8 @@ import com.nalexand.friendlocation.utils.extensions.observe
 import com.nalexand.friendlocation.utils.extensions.observeState
 import com.nalexand.friendlocation.utils.extensions.showSnackbar
 import com.nalexand.friendlocation.utils.extensions.subscribe
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.lang.IllegalStateException
 
 class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.layout.fragment_home),
 	View.OnClickListener {
@@ -30,7 +33,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 	private lateinit var toAddUserAnimation: ToAddUserAnimation
 	private lateinit var toUserDetailsAnimation: ToUserDetailsAnimation
 
-	private var tmpPos = 0
+	private var tmpIdUser: String? = null
 
 	override fun initializeUi() {
 		initializeAnimations()
@@ -42,34 +45,33 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 		}
 	}
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
+	override fun onCreateViewModel(savedInstanceState: Bundle?) {
+		super.onCreateViewModel(savedInstanceState)
 		if (savedInstanceState == null) {
 			viewModel.getUsers()
 		}
 	}
 
 	override fun initializeObservers() {
-		subscribe(viewModel.errors) { errorCode ->
+		viewModel.errors.subscribe { errorCode ->
 			if (errorCode == ERROR_NETWORK) {
 				showSnackbar(clHomeContent, R.string.network_error)
 			}
-		}
-		observeState(viewModel.refreshing) { updating ->
+		}.addTo(getComposite())
+		viewModel.refreshing.observe(viewLifecycleOwner, Observer { updating ->
 			srlUsers.isRefreshing = updating
-		}
-		observe(viewModel.users) { users ->
-			if (!viewModel.refreshing.isActive()) {
-				Log.d("bestTAG", "2")
+		})
+		viewModel.users.observe(viewLifecycleOwner, Observer { users ->
+			if (viewModel.refreshing.isNotActive()) {
 				itemsHandler render users
 			}
-		}
+		})
 	}
 
 	private fun initializeRecycler() {
 		itemsHandler = UserItemsHandler(this)
-		val swipeDrawer = SwipeDrawer(mainActivity.applicationContext)
-		val swipeController = SwipeController(itemsHandler, swipeDrawer)
+		val swipeDrawer = SwipeDrawer()
+		val swipeController = SwipeController(mainActivity.applicationContext, itemsHandler, swipeDrawer)
 		val touchHelperCallback = TouchHelperCallback(itemsHandler, swipeController)
 		ItemTouchHelper(touchHelperCallback).attachToRecyclerView(rvUsers)
 		rvUsers.apply {
@@ -84,37 +86,52 @@ class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class.java, R.la
 	}
 
 	private fun navigateToUserDetails(userItem: Item, clickedView: View) {
-		toUserDetailsAnimation.startWith(clickedView) {
+		if (!rvUsers.isLayoutFrozen) {
 			rvUsers.isLayoutFrozen = true
 			viewModel.onNavigateToUserDetails(userItem.id)
-			findNavController().navigate(R.id.action_nav_home_to_nav_user_details)
+			toUserDetailsAnimation.startWith(clickedView) {
+				findNavController().navigate(R.id.action_nav_home_to_nav_user_details)
+			}
 		}
 	}
 
 	private fun navigateToAddUser() {
-		rvUsers.isLayoutFrozen = true
-		toAddUserAnimation.start {
-			findNavController().navigate(R.id.action_nav_home_to_nav_add_user)
+		if (!rvUsers.isLayoutFrozen) {
+			rvUsers.isLayoutFrozen = true
+			dismissRemoveUser()
+			toAddUserAnimation.start {
+				findNavController().navigate(R.id.action_nav_home_to_nav_add_user)
+			}
 		}
 	}
 
-	private fun removeUser(position: Int): Boolean {
-		tmpPos = position
-		viewModel.startRemoveUser(position)
-		return true
+	fun acceptRemoveUser() {
+		if (tmpIdUser != null) {
+			viewModel.removeUser(tmpIdUser!!)
+			showSnackbar(clHomeContent, R.string.user_removed)
+			tmpIdUser = null
+		}
 	}
 
-	private fun acceptRemoveUser() {
-
+	fun dismissRemoveUser() {
+		if (tmpIdUser != null) {
+			itemsHandler.cancelRemove(tmpIdUser!!)
+			tmpIdUser = null
+		}
 	}
 
-	private fun dismissRemoveUser() {
-		itemsHandler.adapter.notifyItemChanged(tmpPos)
+	fun onItemSwipe(idUser: String): Boolean {
+		val swipePossible = !rvUsers.isLayoutFrozen
+		if (swipePossible) {
+			tmpIdUser = idUser
+		}
+		return swipePossible
 	}
 
-	fun onUserClick(userItem: Item, clickedView: View) = navigateToUserDetails(userItem, clickedView)
-
-	fun onUserSwipe(position: Int) = removeUser(position)
+	fun onUserClick(userItem: Item, clickedView: View) {
+		if (rvUsers.isLayoutFrozen) return
+		navigateToUserDetails(userItem, clickedView)
+	}
 
 	override fun onClick(v: View?) {
 		when (v?.id) {

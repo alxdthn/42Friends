@@ -22,27 +22,24 @@ class UserItemsHandler(private val main: HomeFragment) :
 	}
 
 	override fun renderer(data: Iterable<Any>): List<Item> {
-		val items = (data as List<User>).sortedWith(compareBy(
-			{ it.host == null },
-			{ it.login }
-		))
+		val items = (data as List<User>)
 		return items.map { user ->
 			UserItem().render(user, getParams(user.host))
 		}
 	}
 
-
-	override fun onItemClick(item: Item, view: View) {
-		main.onUserClick(item, view)
+	fun cancelRemove(idUser: String) {
+		val pos = items.indexOfFirst { it.id == idUser }
+		adapter.notifyItemChanged(pos)
 	}
 
-	override fun onItemSwipe(position: Int): Boolean {
-		return main.onUserSwipe(position)
-	}
+	override fun onItemClick(item: Item, view: View) = main.onUserClick(item, view)
 
-	override fun onClickRight() {}
+	override fun onItemSwipe(position: Int) = main.onItemSwipe(items[position].id)
 
-	override fun onClickLeft() {}
+	override fun onClickRight() = main.acceptRemoveUser()
+
+	override fun onClickLeft() = main.dismissRemoveUser()
 
 	class DiffCallback : AppDiffUtil.BaseDiffCallback()
 }

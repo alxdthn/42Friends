@@ -30,7 +30,5 @@ abstract class BaseViewModel : ViewModel(), CompositeHolder {
 		compositeDisposable.dispose()
 	}
 
-	private fun printInitLog() {
-		Log.d("bestTAG", "${this}")
-	}
+	private fun printInitLog() = Unit
 }

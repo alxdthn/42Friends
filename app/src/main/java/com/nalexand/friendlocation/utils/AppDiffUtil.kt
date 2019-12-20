@@ -1,5 +1,6 @@
 package com.nalexand.friendlocation.utils
 
+import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import com.nalexand.friendlocation.model.recycler.Item
 import io.reactivex.Observable
@@ -12,8 +13,8 @@ class AppDiffUtil {
 
 	private var source: List<Item>? = null
 	private var renderer: ((Iterable<Any>) -> List<Item>)? = null
-	private var callback: BaseDiffCallback? = null
-	private var subject: PublishSubject<DiffUtil.DiffResult>? = null
+	private var diffCallback: BaseDiffCallback? = null
+	private var diffSubject: PublishSubject<DiffUtil.DiffResult>? = null
 	private var result: List<Item>? = null
 	private var onResult: ((List<Item>) -> Unit)? = null
 
@@ -28,12 +29,12 @@ class AppDiffUtil {
 	}
 
 	fun setCallback(callback: BaseDiffCallback): AppDiffUtil {
-		this.callback = callback
+		this.diffCallback = callback
 		return this
 	}
 
 	fun dispatchTo(subject: PublishSubject<DiffUtil.DiffResult>): AppDiffUtil {
-		this.subject = subject
+		this.diffSubject = subject
 		return this
 	}
 
@@ -48,12 +49,12 @@ class AppDiffUtil {
 			.subscribeOn(Schedulers.computation())
 			.map { newItems ->
 				if (onResult != null) result = newItems
-				DiffUtil.calculateDiff(callback!!.build(source!!, newItems))
+				DiffUtil.calculateDiff(diffCallback!!.build(source!!, newItems), true)
 			}
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe { diffResult ->
 				onResult?.invoke(result!!)
-				subject?.onNext(diffResult)
+				diffSubject?.onNext(diffResult)
 			}
 	}
 
@@ -61,7 +62,7 @@ class AppDiffUtil {
 		when {
 			source == null -> throw IllegalArgumentException("source can be initialized")
 			renderer == null -> throw IllegalArgumentException("renderer can be initialized")
-			callback == null -> throw IllegalArgumentException("callback can be initialized")
+			diffCallback == null -> throw IllegalArgumentException("callback can be initialized")
 		}
 	}
 
@@ -90,10 +91,6 @@ class AppDiffUtil {
 			this.oldItems = oldItems
 			this.newItems = newItems
 			return this
-		}
-
-		override fun getChangePayload(oldPos: Int, newPos: Int): Any? {
-			return null
 		}
 	}
 }

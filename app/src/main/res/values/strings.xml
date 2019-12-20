@@ -16,6 +16,7 @@
 	<string name="network_error">Network error</string>
 	<string name="user_added">Success!</string>
 	<string name="remove_user">Remove user?</string>
+	<string name="user_removed">User removed</string>
 
 	<string name="name">Name:</string>
 	<string name="level">Level:</string>

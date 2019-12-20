@@ -1,34 +1,15 @@
 package com.nalexand.friendlocation.ui.home.adapter.touch_helper
 
-import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.Rect
-import android.text.TextPaint
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.RecyclerView
-import com.nalexand.friendlocation.R
+import android.util.Log
 import kotlin.math.absoluteValue
 
-class SwipeDrawer(appContext: Context) {
-
-	private val blurSize = 10f
-
-	private val messagePaint = TextPaint(TextPaint.ANTI_ALIAS_FLAG).apply {
-		color = ContextCompat.getColor(appContext, R.color.white80)
-		typeface = ResourcesCompat.getFont(appContext, R.font.nunito_light)
-		textSize = appContext.resources.getDimensionPixelOffset(R.dimen.remove_user_message).toFloat()
-		setShadowLayer(blurSize, 0f, 0f, color)
-	}
-
-	private val buttonPaint = TextPaint(TextPaint.ANTI_ALIAS_FLAG).apply {
-		color = messagePaint.color
-		typeface = messagePaint.typeface
-		textSize = appContext.resources.getDimensionPixelSize(R.dimen.remove_user_button).toFloat()
-		setShadowLayer(blurSize, 0f,0f, color)
-	}
+class SwipeDrawer {
 
 	private val maxAlpha = 255
+	private val printBounds = false
 
 	private var absX = 0f
 	private var centerY = 0f
@@ -38,14 +19,9 @@ class SwipeDrawer(appContext: Context) {
 	private var itemWidth = 0
 	private var itemHeight = 0
 
-	private val messageRect = Rect()
-	private val messageText = appContext.getString(R.string.remove_user)
 	private val messageAlphaStart = 0.3f
 	private val messageAlphaFull = 0.6f
 
-	private val buttonRect = Rect()
-	private val buttonAcceptText = "YES"
-	private val buttonDismissText = "NO"
 	private val buttonAlphaStart = 0.9f
 	private val buttonAlphaFull = 1.0f
 
@@ -59,35 +35,36 @@ class SwipeDrawer(appContext: Context) {
 		drawLeft = dX >= 0
 	}
 
-	fun drawButtons(): Boolean {
-		buttonPaint.alpha = calculateAlpha(buttonAlphaStart, buttonAlphaFull)
-		val top = centerY + buttonRect.centerY().absoluteValue
-		drawAcceptButton(top)
-		drawDismissButton(top)
+	fun drawButtons(
+		message: DrawableText,
+		acceptButton: DrawableText,
+		dismissButton: DrawableText
+	): Boolean {
+		val currentAlpha = calculateAlpha(buttonAlphaStart, buttonAlphaFull)
+		dismissButton.paint.alpha = currentAlpha
+		acceptButton.paint.alpha = currentAlpha
+		drawAcceptButton(message, acceptButton)
+		drawDismissButton(message, dismissButton)
 		return currentThreshold > buttonAlphaStart
 	}
 
-	private fun drawDismissButton(top: Float) {
-		buttonPaint.getTextBounds(buttonDismissText, 0, buttonDismissText.length, buttonRect)
-		val left = itemHeight / 2f - buttonRect.centerX()
-		canvas?.drawText(buttonDismissText, left, top, buttonPaint)
+	private fun drawDismissButton(message: DrawableText, button: DrawableText) = button.apply {
+		left = message.left / 2f - rect.centerX()
+		calcTop(centerY)
+		draw(canvas, printBounds)
 	}
 
-	private fun drawAcceptButton(top: Float) {
-		buttonPaint.getTextBounds(buttonAcceptText, 0, buttonAcceptText.length, buttonRect)
-		val left = itemWidth - itemHeight + buttonRect.centerX()
-		canvas?.drawText(buttonAcceptText, left.toFloat(), top, buttonPaint)
+	private fun drawAcceptButton(message: DrawableText, button: DrawableText) = button.apply {
+		left = itemWidth - ((itemWidth - (message.left + message.width())) / 2f + rect.centerX())
+		calcTop(centerY)
+		draw(canvas, printBounds)
 	}
 
-	fun drawMessage() {
-		messagePaint.alpha = calculateAlpha(messageAlphaStart, messageAlphaFull)
-		messagePaint.getTextBounds(messageText, 0, messageText.length, messageRect)
-
-		val halfX = absX / 2f
-		val left = (if (drawLeft) halfX else itemWidth - halfX) - messageRect.centerX()
-		val top = centerY + messageRect.centerY().absoluteValue
-
-		canvas?.drawText(messageText, left, top, messagePaint)
+	fun drawMessage(message: DrawableText) = message.apply {
+		paint.alpha = calculateAlpha(messageAlphaStart, messageAlphaFull)
+		left = (if (drawLeft) absX / 2f else itemWidth - absX / 2f) - rect.centerX()
+		calcTop(centerY)
+		draw(canvas, printBounds)
 	}
 
 	private fun calculateAlpha(

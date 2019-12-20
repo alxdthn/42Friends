@@ -7,6 +7,7 @@ import com.nalexand.friendlocation.network.service.IntraUserService
 import com.nalexand.friendlocation.repository.data.dao.UserDao
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class IntraRepository @Inject constructor(
@@ -14,6 +15,12 @@ class IntraRepository @Inject constructor(
 	private val service: IntraUserService,
 	private val mapper: DataMapper
 ) : BaseRepository() {
+
+	fun removeUser(idUser: String): List<User> {
+		val user = userDao.getById(idUser) ?: throw IllegalStateException()
+		userDao.delete(user)
+		return getAllUsersFromDatabase()
+	}
 
 	fun updateLocations(): Single<List<User>> {
 		val users = userDao.getAll()
